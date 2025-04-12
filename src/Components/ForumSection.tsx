@@ -1,26 +1,57 @@
-import forumImg from "https://source.unsplash.com/featured/?discussion,community";
-
 const ForumSection = () => {
   return (
-    <section className="py-12 px-4 md:px-16 bg-white">
-      <div className="grid md:grid-cols-2 gap-8 items-center">
+    <section className="section-bg py-16 px-6 md:px-20" id="vgok-forum">
+    <div className="max-w-4xl mx-auto text-center" data-aos="fade-up">
+      <h2 className="text-4xl font-bold text-gray-800 mb-4">
+        <span className="text-secondary">VGOK Forum </span> – Engage, Learn, and Grow
+      </h2>
+      <p className="text-lg text-gray-600">
+        The VGOK Forum is an interactive knowledge hub where professionals can:
+      </p>
+    </div>
+
+    <div className="max-w-4xl mx-auto mt-12 space-y-10">
+      <div className="flex items-start gap-4" data-aos="fade-up" data-aos-delay="100">
+        <span className="text-2xl">💬</span>
         <div>
-          <h2 className="text-3xl font-bold text-primary mb-6">VGOK Forum</h2>
-          <div className="space-y-4 text-lg">
-            <p>The VGOK Forum is designed for professionals in financial transactions. Users can:</p>
-            <ul className="list-disc pl-6">
-              <li>Ask questions</li>
-              <li>Share insights</li>
-              <li>Engage in discussions</li>
-            </ul>
-            <p>
-              We encourage transparency and direct communication between users and decision-makers to ensure efficiency.
-            </p>
-          </div>
+          <h3 className="text-xl font-semibold text-gray-800">Ask Questions</h3>
+          <p className="text-gray-600">
+            Get expert insights and financial guidance tailored to your needs.
+          </p>
         </div>
-        <img src={forumImg} alt="VGOK Forum" className="rounded-2xl shadow-md" />
       </div>
-    </section>
+
+      <hr className="border-gray-200" />
+
+      <div className="flex items-start gap-4" data-aos="fade-up" data-aos-delay="200">
+        <span className="text-2xl">📘</span>
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800">Share Knowledge</h3>
+          <p className="text-gray-600">
+            Contribute valuable information and share your experiences with peers.
+          </p>
+        </div>
+      </div>
+
+      <hr className="border-gray-200" />
+
+      <div className="flex items-start gap-4" data-aos="fade-up" data-aos-delay="300">
+        <span className="text-2xl">🌐</span>
+        <div>
+          <h3 className="text-xl font-semibold text-gray-800">Network with Industry Leaders</h3>
+          <p className="text-gray-600">
+            Engage in meaningful discussions with key decision-makers and thought leaders.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div className="mt-16 max-w-3xl mx-auto text-center" data-aos="fade-up" data-aos-delay="400">
+      <p className="text-md text-gray-700 italic">
+        We believe in open communication, transparency, and empowering users through direct engagement.
+      </p>
+    </div>
+  </section>
   );
 };
 

@@ -2,33 +2,57 @@
 
 const WhyChoose = () => {
   return (
-    <section className="bg-forumLightGray py-12 px-4 pt-8 md:px-16 md:pt-32 ">
-      <h2 className="text-3xl font-bold text-center text-secondary mb-4">
-        Why Choose VGuarantee?
+    <section className="section-bg py-16 px-6 md:px-12 lg:px-24">
+    <div className="max-w-6xl mx-auto text-center">
+      <h2 className="text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
+        Why Choose <span className="text-secondary">VGuarantee</span>?
       </h2>
-      <div className="m-auto md:max-w-[85%] text-center">
-        <p className="mb-4">
-          In today's digital environment, a significant number of deals fail due
-          to unreliable partners or fraudulent claims on social media.
-        </p>
-        <p className="mb-4">
-          Overpromising and underdelivering are common, resulting in wasted time
-          and resources. Our platform mitigates these risks by connecting genuine
-          clients and ensuring secure transactions.
-        </p>
-        <p className="mb-4">
-          For example, if you are negotiating a multi-million-dollar deal and the
-          client is unwilling to deposit a modest guarantee, it may signal a lack
-          of commitment. Similarly, upfront payment scenarios can lead to
-          providers disappearing after the payment is made.
-        </p>
-        <p>
-          Since 2018, online scams have surged. VGuarantee is dedicated to serving
-          serious professionals who are confident in their ability to deliver and
-          perform.
-        </p>
+      <p className="text-lg text-gray-700 max-w-3xl mx-auto animate-fade-in-delay">
+        In today’s digital landscape, countless transactions fail due to unreliable partners,
+        scams, and misleading promises. VGuarantee eliminates these risks by connecting
+        serious professionals and ensuring secure transactions.
+      </p>
+    </div>
+  
+    <div className="mt-16 m-auto grid gap-8 md:grid-cols-2">
+      {/* <!-- Card 1 --> */}
+      <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 animate-fade-in-scale">
+        <div className="flex items-start gap-4">
+          <div className="text-blue-600 text-3xl">💼</div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">Example 1: Commitment Check</h3>
+            <p className="text-gray-600 mt-2">
+              Negotiating a multi-million-dollar deal? If your client won't deposit a modest guarantee,
+              it might signal a lack of seriousness or reliability.
+            </p>
+          </div>
+        </div>
       </div>
-    </section>
+  
+      {/* <!-- Card 2 --> */}
+      <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 animate-fade-in-scale delay-200">
+        <div className="flex items-start gap-4">
+          <div className="text-yellow-500 text-3xl">⚠️</div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800">Example 2: Payment Risk</h3>
+            <p className="text-gray-600 mt-2">
+              Paying upfront without escrow protection? You're risking it all — some providers vanish
+              post-payment. VGuarantee ensures accountability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    {/* <!-- Final Message --> */}
+    <div className="mt-16 text-center max-w-3xl mx-auto text-gray-700 animate-fade-in-delay-2">
+      <p className="text-lg">
+        Since 2018, online scams have surged. Verifying trust and accountability is no longer optional —
+        it’s essential. VGuarantee is built for professionals who value <strong>security</strong>, <strong>transparency</strong>, and <strong>performance</strong>.
+      </p>
+    </div>
+  </section>
+  
   );
 };
 
