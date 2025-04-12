@@ -1,7 +1,4 @@
-// export default function Home() {
-//     return <h2 className="text-2xl font-bold text-secondary text-center">Home Page</h2>
-//   }
-import React from 'react';
+
 import WhyChoose from "../Components/WhyChoose";
 import Hero from '../Components/Hero';
 import AboutUs from '../Components/AboutUs';

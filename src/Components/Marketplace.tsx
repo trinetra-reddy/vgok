@@ -1,5 +1,3 @@
-// src/components/home/Marketplace.jsx
-import marketplaceImg from "https://source.unsplash.com/featured/?finance,market";
 
 const Marketplace = () => {
   return (

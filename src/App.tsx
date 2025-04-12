@@ -1,7 +1,7 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css'
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Token from "./pages/Token";
 import NEFT from "./pages/Neft";
