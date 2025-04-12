@@ -1,0 +1,11 @@
+@import "tailwindcss";
+/* #cbcbcb
+#f2f2f2
+#174d38
+#4d1717 */
+@theme {
+    --color-primary: #13ca82;
+    --color-secondary: #e85252;
+    --color-forum-gray: #cbcbcb;
+    --color-forum-light-gray: #f2f2f2;
+  }
