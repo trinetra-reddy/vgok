@@ -3,8 +3,7 @@ import {
     Users,
     Building2,
     Rocket,
-    ShieldCheck,
-    Currency
+    ShieldCheck
   } from 'lucide-react';
 
 const ReleaseSchedule = () => {

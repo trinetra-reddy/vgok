@@ -10,7 +10,7 @@ const ContactUs = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -18,7 +18,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:Event) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -40,13 +40,13 @@ const ContactUs = () => {
       </div>
 
       {/* VGuarantee Brief */}
-      <div className="max-w-4xl mx-auto bg-gray-100 p-8 rounded-xl shadow-lg mb-12">
+      {/* <div className="max-w-4xl mx-auto bg-gray-100 p-8 rounded-xl shadow-lg mb-12">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">About VGuarantee – Ensuring Secure Transactions</h3>
         <p className="text-lg text-gray-700">
           VGuarantee is a trusted platform dedicated to safeguarding digital transactions and protecting users from fraud. 
           As a secure intermediary, we facilitate safe and reliable exchanges, particularly when dealing with unknown parties.
         </p>
-      </div>
+      </div> */}
 
       {/* Contact Form */}
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-200">
@@ -92,7 +92,7 @@ const ContactUs = () => {
               value={formData.message}
               onChange={handleChange}
               required
-              rows="6"
+              rows={6}
               className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#13ca82] placeholder-gray-500" // Primary color
               placeholder="Write your message here"
             ></textarea>

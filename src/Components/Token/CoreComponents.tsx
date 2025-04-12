@@ -1,4 +1,4 @@
-import { ShieldCheck, Globe, Target, Server, Coins, Users, Blocks } from 'lucide-react';
+import { ShieldCheck,  Server, Coins, Users, Blocks } from 'lucide-react';
 const CoreComponents = () => {
   return (
     <section className="section-bg py-16 px-6 md:px-12 lg:px-24">
