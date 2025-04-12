@@ -6,7 +6,7 @@
   "homepage": "https://trinetra-reddy.github.io/vgok",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "tailwind:init": "tailwindcss init -p",
     "dev": "vite",
     "build": "tsc -b && vite build",
