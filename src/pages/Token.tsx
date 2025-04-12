@@ -1,3 +1,6 @@
+import WhitepaperPage from "./WhitepaperPage"
+
+
 export default function Token() {
-    return <h2 className="text-2xl font-bold">Token Page</h2>
+    return <WhitepaperPage/>
   }

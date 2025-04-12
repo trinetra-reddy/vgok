@@ -9,6 +9,7 @@ import Registration from "./pages/Registration";
 import ContactUs from "./pages/ContactUs";
 import Header from "./Components/Header";
 import Footer from './Components/Footer';
+import Tokenomics from './pages/Tokenomics';
 
 function App() {
   AOS.init();
@@ -20,6 +21,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/token" element={<Token />} />
+          <Route path="/tokenomics" element={<Tokenomics />} />
+          
           <Route path="/neft" element={<NEFT />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/register" element={<Registration />} />
