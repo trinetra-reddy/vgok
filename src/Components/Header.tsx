@@ -10,8 +10,8 @@ const Header = () => {
     { name: "Token", to: "/token" },
     { name: "NFT", to: "/nft" },
     { name: "Contact Us", to: "/contact" },
-    { name: "Forum", to: "/forum" },
-    { name: "Registration", to: "/register" },
+    // { name: "Forum", to: "/forum" },
+    { name: "Login", to: "/login" },
   ];
 
   return (

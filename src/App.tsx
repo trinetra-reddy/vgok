@@ -1,37 +1,50 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css'
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 import Home from "./pages/Home";
 import Token from "./pages/Token";
-import NEFT from "./pages/Neft";
-import Registration from "./pages/Registration";
+import Tokenomics from "./pages/Tokenomics";
+import NFT from "./pages/NFT";
 import ContactUs from "./pages/ContactUs";
-import Header from "./Components/Header";
-import Footer from './Components/Footer';
-import Tokenomics from './pages/Tokenomics';
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
 
-function App() {
+// A wrapper component to apply conditional layout
+const AppRoutes = () => {
+  const location = useLocation();
+
+  // Add paths where the header should be hidden
+  const hideHeaderPaths = ["/signup", "/login"];
+  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+
+  return (
+    <>
+      {!shouldHideHeader && <Header />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/token" element={<Token />} />
+        <Route path="/tokenomics" element={<Tokenomics />} />
+        <Route path="/nft" element={<NFT />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+      <Footer />
+    </>
+  );
+};
+
+const App = () => {
   AOS.init();
   return (
-    <div className="bg-forum-light-gray">
-     <Router>
-      <Header />
-      <>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/token" element={<Token />} />
-          <Route path="/tokenomics" element={<Tokenomics />} />
-          
-          <Route path="/neft" element={<NEFT />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/register" element={<Registration />} />
-        </Routes>
-      </>
-      <Footer/>
-    </Router>    
-    </div>
+    <Router>
+      <AppRoutes />
+    </Router>
   );
-}
+};
 
 export default App;

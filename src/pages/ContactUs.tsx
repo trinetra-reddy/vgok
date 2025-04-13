@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CallToAction from "../Components/CallToAction";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ const ContactUs = () => {
   };
 
   return (
+    <>
     <section className="py-16 px-6 md:px-12 lg:px-24 bg-gradient-to-b from-gray-50 to-white" data-aos="fade-up">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl font-bold text-gray-900 mb-6">Contact Us</h2>
@@ -115,6 +117,8 @@ const ContactUs = () => {
         )}
       </div>
     </section>
+    <CallToAction/>
+    </>
   );
 };
 
