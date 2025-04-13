@@ -19,7 +19,7 @@ const ContactUs = () => {
     }));
   };
 
-  const handleSubmit = async (e:Event) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setIsSubmitting(true);
 
