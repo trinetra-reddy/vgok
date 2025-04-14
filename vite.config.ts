@@ -9,6 +9,7 @@ export default defineConfig({
     tailwindcss()],
     base: '/',
     server: {
-      historyApiFallback: true, // <-- Fixes the issue for dev server
+      // Enable fallback for SPA routing
+      fs: { strict: false },
     },
 })
