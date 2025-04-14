@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss()],
-    base: '/'
+    base: '/',
+    server: {
+      historyApiFallback: true, // <-- Fixes the issue for dev server
+    },
 })
