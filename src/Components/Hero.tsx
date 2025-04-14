@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
     return (
-      <section className="py-16 md:py-20 md:min-h-[650px] bg-primary text-gray-800 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
+      <section className="py-16 md:py-20 md:min-h-[650px] bg-gradient-to-r from-primary to-secondary text-gray-800 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
         <div className="max-w-xl">
           <p className="text-sm uppercase tracking-widest text-secondary mb-4">Trusted Financial Assurance</p>
           <h1 className="text-7xl font-bold text-white mb-6">Guarantee Your Deals with Confidence</h1>

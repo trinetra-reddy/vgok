@@ -12,6 +12,8 @@ import NFT from "./pages/NFT";
 import ContactUs from "./pages/ContactUs";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import TokenRoadMap from './pages/TokenRoadMap';
+import NFTWhitepaper from './pages/NFTWhitepaper';
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -28,10 +30,13 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/token" element={<Token />} />
         <Route path="/tokenomics" element={<Tokenomics />} />
+        <Route path="/token-roadmap" element={<TokenRoadMap />} />
         <Route path="/nft" element={<NFT />} />
+        <Route path="/nft-whitepaper" element={<NFTWhitepaper />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        
       </Routes>
       <Footer />
     </>

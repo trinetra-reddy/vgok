@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import clsx from "clsx";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,79 +9,118 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", to: "/" },
-    { name: "Token", to: "/token" },
-    { name: "NFT", to: "/nft" },
+    {
+      name: "Token",
+      dropdown: [
+        { name: "VGOK Token Whitepaper", to: "/token" },
+        { name: "Tokenomics", to: "/tokenomics" },
+        { name: "VGOK Token Roadmap", to: "/token-roadmap" },
+      ],
+    },
+    {
+      name: "NFT",
+      dropdown: [
+        { name: "VGOK NFT Content", to: "/nft" },
+        { name: "NFT Whitepaper", to: "/nft-whitepaper" },
+      ],
+    },
     { name: "Contact Us", to: "/contact" },
     { name: "Login", to: "/login" },
   ];
 
+  const isActive = (to: string) => location.pathname === to;
+
   return (
     <>
-      {/* Top Banner */}
-      <div className="p-3 bg-secondary">
-        <p className="text-white text-right rotate">
-          ⚡ VGuarantee website development in progress. COMING SOON!
-        </p>
+      <div className="p-2 text-sm bg-secondary text-white text-center">
+        ⚡ VGuarantee website development in progress. COMING SOON!
       </div>
-
-      {/* Header Main */}
-      <header className="bg-primary text-white sticky top-0 z-50 shadow-md">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-secondary hover:opacity-80 transition duration-300">
+      <header className="bg-gradient-to-r from-primary to-secondary text-white sticky top-0 z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <Link to="/" className="text-2xl font-bold text-secondary">
             VGuarantee
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex gap-8 items-center">
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.to;
-              return (
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center space-x-6 relative">
+            {navLinks.map((link) =>
+              link.dropdown ? (
+                <div key={link.name} className="relative group">
+                  <div className="flex items-center gap-1 cursor-pointer hover:text-primary transition">
+                    <span>{link.name}</span>
+                    <ChevronDown size={16} />
+                  </div>
+
+                  {/* Dropdown on hover */}
+                  <div className="absolute top-full left-0 hidden group-hover:block bg-white text-gray-800 w-60 rounded-lg shadow-lg py-2 z-50">
+                    {link.dropdown.map((sublink) => (
+                      <Link
+                        key={sublink.name}
+                        to={sublink.to}
+                        className={clsx(
+                          "block px-4 py-2 hover:bg-secondary/10 hover:text-primary transition",
+                          { "text-primary font-medium": isActive(sublink.to) }
+                        )}
+                      >
+                        {sublink.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
                 <Link
                   key={link.name}
                   to={link.to}
-                  className={`text-lg transition-all font-medium relative pb-1 ${
-                    isActive
-                      ? "text-secondary border-b-2 border-secondary"
-                      : "text-white hover:text-secondary"
-                  }`}
+                  className={clsx("hover:text-primary transition", {
+                    "text-primary font-semibold": isActive(link.to),
+                  })}
                 >
                   {link.name}
                 </Link>
-              );
-            })}
+              )
+            )}
           </nav>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Nav Toggle */}
           <button
+            className="md:hidden text-white"
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white hover:text-secondary transition"
-            aria-label="Toggle menu"
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Nav */}
         {isOpen && (
-          <nav
-            className="md:hidden bg-primary px-6 pb-6 pt-2 flex flex-col gap-4"            
-          >
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.to;
-              return (
+          <nav className="md:hidden bg-gradient-to-r from-primary to-secondary px-4 pb-6 space-y-4 text-white">
+            {navLinks.map((link) =>
+              link.dropdown ? (
+                <div key={link.name}>
+                  <p className="font-semibold">{link.name}</p>
+                  <div className="ml-4 space-y-2">
+                    {link.dropdown.map((sublink) => (
+                      <Link
+                        key={sublink.name}
+                        to={sublink.to}
+                        className="block hover:text-secondary"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {sublink.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
                 <Link
                   key={link.name}
                   to={link.to}
                   onClick={() => setIsOpen(false)}
-                  className={`text-lg font-medium ${
-                    isActive ? "text-secondary" : "text-white hover:text-secondary"
-                  }`}
+                  className="block hover:text-secondary"
                 >
                   {link.name}
                 </Link>
-              );
-            })}
+              )
+            )}
           </nav>
         )}
       </header>
