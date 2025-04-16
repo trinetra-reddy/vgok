@@ -27,12 +27,12 @@ const SignUp = () => {
       <Link to="/" className="block w-fit mx-auto mb-8">
         <img
             src={Logo}
-            alt="VGuarantee Logo"
-            className="h-20 w-auto hover:opacity-80 transition-opacity duration-300"
+            alt="VGOK Logo"
+            className="h-30 w-auto hover:opacity-80 transition-opacity duration-300"
         />
         </Link>
         <h1 className="text-3xl font-bold text-gray-900 mt-4">Create Your Account</h1>
-        <p className="text-gray-600 mt-2">Join VGuarantee to protect your digital transactions.</p>
+        <p className="text-gray-600 mt-2">Join VGOK to protect your digital transactions.</p>
       </div>
 
       <form

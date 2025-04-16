@@ -6,7 +6,7 @@ const Marketplace = () => {
         {/* <!-- Title --> */}
         <div className="text-center">
           <h2 className="text-4xl font-extrabold text-gray-900 mb-4 animate-[var(--animation-fade-in)]">
-            VGuarantee Marketplace <span className="text-secondary">&</span>{" "}
+            VGOK Marketplace <span className="text-secondary">&</span>{" "}
             Guarantee Services
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -27,7 +27,7 @@ const Marketplace = () => {
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed">
               Discover financial services, list your offerings, and connect with
-              verified clients. VGuarantee ensures all deals are secure,
+              verified clients. VGOK ensures all deals are secure,
               transparent, and built on trust.
             </p>
             <div className="mt-6">
@@ -84,7 +84,7 @@ const Marketplace = () => {
               In business, time is money — and working with unreliable partners
               can cost you more than just cash.
               <span className="font-semibold text-secondary">
-                VGuarantee safeguards your investments
+                VGOK safeguards your investments
               </span>{" "}
               and creates a culture of accountability and performance.
             </p>

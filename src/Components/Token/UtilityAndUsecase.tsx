@@ -25,7 +25,7 @@ const UtilityAndUsecase = () => {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-gray-800">Marketplace Transactions</h3>
-              <p className="text-gray-600">VGOK serves as the primary currency for seamless transactions on the VGuarantee platform.</p>
+              <p className="text-gray-600">VGOK serves as the primary currency for seamless transactions on the VGOK platform.</p>
             </div>
           </div>
       

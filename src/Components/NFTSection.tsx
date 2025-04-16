@@ -46,7 +46,7 @@ const NFTSection = () => {
         <div className="bg-white/5 p-6 rounded-3xl border border-secondary shadow-lg backdrop-blur-md transform-gpu transition-transform duration-500 hover:-rotate-1 hover:scale-[1.02]" data-aos="fade-up">
           <h3 className="text-2xl font-bold text-secondary mb-3">🪙 NFT Benefits</h3>
           <ul className="list-none space-y-3 text-gray-100">
-            <li><span className="text-secondary">⚡</span> 50% Off VGuarantee service fees</li>
+            <li><span className="text-secondary">⚡</span> 50% Off VGOK service fees</li>
             <li><span className="text-secondary">🔥</span> Only 666 NFTs (rare)</li>
             <li><span className="text-secondary">🎁</span> 100 reserved for bonuses</li>
             <li><span className="text-secondary">🎉</span> 100% off first deal (referral bonus)</li>

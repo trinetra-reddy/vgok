@@ -28,7 +28,7 @@ const TokenomicsRoadMap = () => {
         ]
       },
       {
-        phase: 'Phase 2: Integration into VGuarantee Marketplace',
+        phase: 'Phase 2: Integration into VGOK Marketplace',
         color: 'text-secondary',
         icon: <Globe className="text-secondary w-6 h-6" />,
         delay: 100,

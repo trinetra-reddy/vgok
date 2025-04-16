@@ -38,8 +38,8 @@ const Tokenomics = () => {
                 VGOK.org
               </a>{" "}
               |{" "}
-              <a href="https://VGuarantee.org" className="underline">
-                VGuarantee.org
+              <a href="https://VGOK.org" className="underline">
+                VGOK.org
               </a>
             </p>
             <p className="text-lg md:text-xl text-white/90">

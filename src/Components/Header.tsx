@@ -12,15 +12,15 @@ const Header = () => {
     {
       name: "Token",
       dropdown: [
-        { name: "VGOK Token Whitepaper", to: "/token" },
+        { name: "Token Whitepaper", to: "/token" },
         { name: "Tokenomics", to: "/tokenomics" },
-        { name: "VGOK Token Roadmap", to: "/token-roadmap" },
+        { name: "Token Roadmap", to: "/token-roadmap" },
       ],
     },
     {
       name: "NFT",
       dropdown: [
-        { name: "VGOK NFT Content", to: "/nft" },
+        { name: "NFT Content", to: "/nft" },
         { name: "NFT Whitepaper", to: "/nft-whitepaper" },
       ],
     },
@@ -32,13 +32,18 @@ const Header = () => {
 
   return (
     <>
-      <div className="p-2 text-sm bg-secondary text-white text-center">
-        ⚡ VGuarantee website development in progress. COMING SOON!
+      {/* <div className="p-2  bg-secondary text-white text-center">
+        ⚡ VGuarantee.org website development in progress. Coming Soon on 14th September!!
+      </div> */}
+      <div className="p-2 bg-secondary">
+        <p className="text-white text-right rotate text-sm">
+          ⚡ VGuarantee.org website development in progress. Coming Soon on 14th September!
+        </p>
       </div>
       <header className="bg-gradient-to-r from-primary to-secondary text-white sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="text-2xl font-bold text-secondary">
-            VGuarantee
+            VGOK
           </Link>
 
           {/* Desktop Nav */}

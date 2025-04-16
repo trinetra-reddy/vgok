@@ -41,11 +41,11 @@ const ContactUs = () => {
         </p>
       </div>
 
-      {/* VGuarantee Brief */}
+      {/* VGOK Brief */}
       {/* <div className="max-w-4xl mx-auto bg-gray-100 p-8 rounded-xl shadow-lg mb-12">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">About VGuarantee – Ensuring Secure Transactions</h3>
+        <h3 className="text-2xl font-semibold text-gray-800 mb-4">About VGOK – Ensuring Secure Transactions</h3>
         <p className="text-lg text-gray-700">
-          VGuarantee is a trusted platform dedicated to safeguarding digital transactions and protecting users from fraud. 
+          VGOK is a trusted platform dedicated to safeguarding digital transactions and protecting users from fraud. 
           As a secure intermediary, we facilitate safe and reliable exchanges, particularly when dealing with unknown parties.
         </p>
       </div> */}

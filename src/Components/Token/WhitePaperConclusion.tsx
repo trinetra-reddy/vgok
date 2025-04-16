@@ -28,7 +28,7 @@ const WhitePaperConclusion = () => {
               rel="noopener noreferrer"
               className="underline"
             >
-              Explore More: VGOK.org | VGuarantee.org
+              Explore More: VGOK.org | VGOK.org
             </a>
           </p>
           <p className="text-white/90 text-lg">

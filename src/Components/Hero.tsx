@@ -8,7 +8,7 @@ const Hero = () => {
           <p className="text-sm uppercase tracking-widest text-secondary mb-4">Trusted Financial Assurance</p>
           <h1 className="text-7xl font-bold text-white mb-6">Guarantee Your Deals with Confidence</h1>
           <p className="text-lg text-white">
-            VGuarantee empowers professionals to make secure transactions with mutual trust and assurance in the digital age.
+            VGOK empowers professionals to make secure transactions with mutual trust and assurance in the digital age.
           </p>
           <Link
               key="Forum"

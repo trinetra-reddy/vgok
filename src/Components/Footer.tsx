@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'; // Importing Link from React Router
 import {
   Facebook,
   Twitter,
-  Linkedin,
+  Instagram,
   ArrowUp,
   Mail
 } from 'lucide-react';
-
+import { FaTelegramPlane, FaTiktok } from 'react-icons/fa';
 const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -94,9 +94,11 @@ const Footer: React.FC = () => {
               <div className="mb-6">
                 <h2 className="text-lg font-bold mb-4">Follow us</h2>
                 <div className="flex gap-4">
-                  <a href="#" aria-label="Facebook" className="hover:text-[#13ca82] transition"><Facebook size={20} /></a>
-                  <a href="#" aria-label="Twitter" className="hover:text-[#13ca82] transition"><Twitter size={20} /></a>
-                  <a href="#" aria-label="LinkedIn" className="hover:text-[#13ca82] transition"><Linkedin size={20} /></a>
+                  <a href="https://www.facebook.com/share/158vqcnhxt/" aria-label="Facebook" className="hover:text-[#13ca82] transition"><Facebook size={20} /></a>
+                  <a href="https://x.com/VGOK_Official" aria-label="Twitter" className="hover:text-[#13ca82] transition"><Twitter size={20} /></a>
+                  <a href="https://www.instagram.com/vgok_official?utm_source=qr&igsh=c2Jqa2hrZXltczBh" aria-label="Instagram" className="hover:text-[#13ca82] transition"><Instagram size={20} /></a>                  
+                  <a href="https://t.me/vgok_nft" aria-label="Telegram" className="hover:text-[#13ca82] transition"><FaTelegramPlane size={20} /></a>
+                  <a href="https://www.tiktok.com/@vgok_official?_t=ZS-8uyWlOfY2um&_r=1" aria-label="Tiktok" className="hover:text-[#13ca82] transition"><FaTiktok size={20} /></a>
                 </div>
               </div>
             </div>
@@ -104,7 +106,7 @@ const Footer: React.FC = () => {
 
           {/* Copyright Text */}
           <div className="mt-12 text-center text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} VGuarantee. All rights reserved.
+            &copy; {new Date().getFullYear()} VGOK. All rights reserved.
           </div>
         </div>
       </footer>

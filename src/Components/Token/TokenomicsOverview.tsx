@@ -37,7 +37,7 @@ const TokenomicsOverview = () => {
       <div className="bg-white p-6 rounded-xl border-2 border-yellow-500 shadow-md hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Token Utility</h3>
         <p className="text-gray-600">
-          VGOK serves as the primary currency within the VGOK ecosystem, providing value through secure financial transactions, digital asset exchanges, and access to exclusive services within the marketplace. VGOK powers the decentralized guarantees and financial security services offered by VGuarantee.
+          VGOK serves as the primary currency within the VGOK ecosystem, providing value through secure financial transactions, digital asset exchanges, and access to exclusive services within the marketplace. VGOK powers the decentralized guarantees and financial security services offered by VGOK.
         </p>
       </div>
     </div>
