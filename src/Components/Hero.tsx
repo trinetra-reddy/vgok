@@ -27,7 +27,7 @@ const heroData = [
     linkType: 'route'
   },
   {
-    title: "What if VGOK forum?",
+    title: "What is VGOK forum?",
     description:"Join the VGOK Forum: Connect, Learn, and Prosper",
     description2:"Discover VGOK's multi-category community—your gateway to learning, networking, and conducting transactions securely and for free. Our platform offers guaranteed services to protect you from scammers and time-wasters. User-friendly platform and accessible worldwide, VGOK is open to all. Start connecting with VGOK members today.",
     linkType: 'route',
