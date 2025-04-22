@@ -1,8 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/swiper-bundle.css';
 import HeroImage from '../assets/hero.jpg';
 import TokenImage from '../assets/Token.png';
 import ForumImage from '../assets/FORUM.jpg';
@@ -58,7 +56,7 @@ const Hero = () => {
       {/* Slides */}
       {heroData.map((hero, index) => (
         <SwiperSlide key={index}>
-            <div className="md:min-h-[650px] py-16 md:py-20 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
+            <div className="py-16 md:py-20 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
                 <div className="max-w-xl">
                   <h1 className="text-5xl font-bold text-white mb-6">{hero.title}</h1>
                   <p className="text-lg text-white">{hero.description}</p>
