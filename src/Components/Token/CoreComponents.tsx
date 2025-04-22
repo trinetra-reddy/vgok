@@ -15,7 +15,7 @@ const CoreComponents = () => {
       <div data-aos="fade-right" className="space-y-6">
         <div className="flex items-center gap-4">
           <Server className="w-8 h-8 text-primary" />
-          <h3 className="text-2xl font-semibold text-primary">VGOK Platform</h3>
+          <h3 className="text-2xl font-semibold text-primary">VGuarantee Platform</h3>
         </div>
         <div className="flex items-start gap-4">
           <ShieldCheck className="w-6 h-6 text-gray-500 mt-1" />

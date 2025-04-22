@@ -13,7 +13,7 @@ const WhitePaperIntro = () => {
            <ul className="mt-6 space-y-4">
              <li className="flex items-start gap-4">
                <ShieldCheck className="text-primary w-6 h-6 mt-1" />
-               <span className="text-gray-700"><strong>VGOK:</strong> A trust-driven marketplace offering secure transactions and smart contract-based guarantee services.</span>
+               <span className="text-gray-700"><strong>VGuarantee:</strong> A trust-driven marketplace offering secure transactions and smart contract-based guarantee services.</span>
              </li>
              <li className="flex items-start gap-4">
                <Globe className="text-secondary w-6 h-6 mt-1" />

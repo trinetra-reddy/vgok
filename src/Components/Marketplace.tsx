@@ -6,7 +6,7 @@ const Marketplace = () => {
         {/* <!-- Title --> */}
         <div className="text-center">
           <h2 className="text-4xl font-extrabold text-gray-900 mb-4 animate-[var(--animation-fade-in)]">
-            VGOK Marketplace <span className="text-secondary">&</span>{" "}
+          <span className="text-secondary">VGuarantee</span> Marketplace <span className="text-secondary">&</span>{" "}
             Guarantee Services
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">

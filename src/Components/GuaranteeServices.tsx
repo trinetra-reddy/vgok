@@ -1,4 +1,5 @@
 import { ArrowRight, ArrowBigRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const GuaranteeServices = () => {
   const features = [
@@ -49,9 +50,16 @@ const GuaranteeServices = () => {
     </div>
 
     <div className="text-center mt-20" data-aos="zoom-in">
-      <button className="inline-flex items-center gap-2 bg-primary hover:bg-green-600 text-white text-lg font-semibold px-8 py-3 rounded-full transition-all duration-300">
-        Explore Tokenomics <ArrowRight size={20} />
-      </button>
+      {/* <button className="inline-flex items-center gap-2 bg-primary hover:bg-green-600 text-white text-lg font-semibold px-8 py-3 rounded-full transition-all duration-300">
+        
+      </button> */}
+       <Link
+              key="Tokenomics"
+              to="/Tokenomics"
+              className="inline-flex items-center gap-2 bg-primary hover:bg-green-600 text-white text-lg font-semibold px-8 py-3 rounded-full transition-all duration-300"
+            >
+                Explore Tokenomics <ArrowRight size={20} />
+            </Link>
     </div>
   </div>
   );

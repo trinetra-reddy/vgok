@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const WhitePaperConclusion = () => {
   return (
     <section
@@ -22,24 +23,35 @@ const WhitePaperConclusion = () => {
         <div className="mt-8 space-y-4">
           <p className="text-white/90 text-lg">
             🔗{" "}
-            <a
-              href="https://VGOK.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              Explore More: VGOK.org | VGOK.org
-            </a>
+            <span> Explore More: </span>
+              <a
+                href="https://VGOK.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                VGOK.org
+              </a>
+              <span> | </span>
+              <a
+                href="https://VGuarantee.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                 VGuarantee.org
+              </a>
           </p>
           <p className="text-white/90 text-lg">
             🚀 Join the movement. Shape the future.
-          </p>
-          <a
-            href="#join-us"
-            className="inline-block bg-white text-primary font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-          >
-            Get Started with VGOK
-          </a>
+          </p>          
+          <Link
+              key="SignUP"
+              to="/signup"
+              className="inline-block bg-white text-primary font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+                Get Started with VGOK
+            </Link>
         </div>
       </div>
     </section>

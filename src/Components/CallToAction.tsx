@@ -10,7 +10,8 @@ const CallToAction = () => {
       </p>
       <div className="mt-8">
         <a
-          href="#get-started"
+          href="https://opensea.io/VGOK"
+          target="_blank"
           className="inline-block bg-white text-primary font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
         >
           Get Started with VGOK
