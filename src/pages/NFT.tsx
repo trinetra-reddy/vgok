@@ -1,17 +1,12 @@
-import AnunnakiSection from "../Components/NFT/AnunnakiSection"
-import NewTestamentSection from "../Components/NFT/NewTestamentSection"
-import NftContentHero from "../Components/NFT/NftContentHero"
-import OldTestamentSection from "../Components/NFT/OldTestamentSection"
-import SecretSocietiesSection from "../Components/NFT/SecretSocietiesSection"
+
+import NftContentHero from "../Components/NFT/NftContentHero";
+import VGOKNFTSections from "../Components/NFT/VGOKNFTSections";
 
 export default function NFT() {
     return (
       <main>
         <NftContentHero/>
-        <AnunnakiSection/>
-        <OldTestamentSection/>
-        <NewTestamentSection/>
-        <SecretSocietiesSection/>
+        <VGOKNFTSections/>
       </main>
     )
   }
