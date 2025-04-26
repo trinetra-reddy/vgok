@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import 'swiper/swiper-bundle.css';
-import HeroImage from '../assets/hero.jpg';
-import TokenImage from '../assets/Token.png';
-import ForumImage from '../assets/FORUM.jpg';
+import NFTImage from '../assets/nft/slide3.jpg';
+import TokenImage from '../assets/token/Slide1.png';
+import ForumImage from '../assets/forum/Slide5.jpg';
 
 import { Link } from "react-router-dom";
 const heroData = [
@@ -12,7 +12,7 @@ const heroData = [
     description:
       "Immerse yourself in the VGOK NFT Collection, where each piece is a gateway to ancient mysteries and esoteric knowledge, encompassing categories like digital art, collectibles, and utility NFTs. Beyond owning unique digital assets, you can participate in our referral program to earn rewards, including chances to win international trips, iPhones, Samsung devices, iPad Air, Seiko watches, and exclusive VGOK merchandise.",
     link: "https://t.me/vgok_nft",
-    image: HeroImage,
+    image: NFTImage,
     CTAName: "Explore More",
   },
   {

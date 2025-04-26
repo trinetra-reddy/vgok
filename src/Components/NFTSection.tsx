@@ -50,9 +50,9 @@ const NFTSection = () => {
             <li><span className="text-secondary">🔥</span> Only 666 NFTs (rare)</li>
             <li><span className="text-secondary">🎁</span> 100 reserved for bonuses</li>
             <li><span className="text-secondary">🎉</span> 100% off first deal (referral bonus)</li>
-            <li><span className="text-secondary">🌐</span> View on 
-              <a href="#" className="underline hover:text-white text-secondary">Rarible</a> & 
-              <a href="#" className="underline hover:text-white text-secondary">OpenSea</a>
+            <li className="flex gap-2">
+              <span className="text-secondary">🌐</span> View on                 
+              <a href="https://opensea.io/VGOK" target="_blank" className="underline hover:text-primary text-secondary"> OpenSea</a>
             </li>
           </ul>
         </div>

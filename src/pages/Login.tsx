@@ -67,7 +67,7 @@ const Login = () => {
                 : "text-gray-500"
             }`}
           >
-            Mobile
+            Mobile Number
           </button>
         </div>
 

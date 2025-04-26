@@ -26,9 +26,10 @@ const Marketplace = () => {
               Financial Marketplace
             </h3>
             <p className="text-gray-700 text-lg leading-relaxed">
-              Discover financial services, list your offerings, and connect with
+              {/* Discover financial services, list your offerings, and connect with
               verified clients. VGOK ensures all deals are secure,
-              transparent, and built on trust.
+              transparent, and built on trust. */}
+              Our VGuarantee Marketplace allows users to list and explore financial products and services. Buyers and sellers can connect, negotiate, and close deals with confidence.
             </p>
             <div className="mt-6">
               <a href="#" className="text-secondary font-medium hover:underline">

@@ -1,5 +1,26 @@
 
+import TheBible from '../../assets/nft/TheBible.jpg';
+import Ann from '../../assets/nft/AnunnakiNFTpage.jpg';
+import ConspiracyNFTpage from '../../assets/nft/ConspiracyNFTpage.jpg';
+import AlienNFTpage from '../../assets/nft/AlienNFTpage.jpg';
+import SecretsocietiesNFTpage from '../../assets/nft/SecretsocietiesNFTpage.jpg';
+import Beyondimage from '../../assets/nft/Beyondimage.jpg';
+
 const nftSections = [
+  
+  {
+    title: "THE BIBLE – Ancient Prophecies & Divine Laws",
+    subtitle: "Old Testament – Prophecies & Divine Laws 📜",
+    description1: "Unlock sacred mysteries and encrypted messages from ancient scrolls. The VGOK Old Testament NFTs echo the wisdom of prophets, celestial laws, and forgotten spiritual codes",
+    subtitle2: "New Testament – Light, Faith & Revelation",
+    description2:
+      "Step into a realm of enlightenment. The VGOK New Testament NFTs reflect divine teachings, spiritual rebirth, and a digital path to higher truths hidden in the blockchain.",
+    cta:
+      "👉 Only those who hold one will unlock the mysteries of creation. Are you among the chosen?",
+    emoji: "📜",
+    theme: "secondary",
+    image: TheBible
+  },
   {
     title: "The Anunnaki – The Gods Who Descended from the Stars",
     subtitle: "VGOK: The Anunnaki Gods NFTs 🔱",
@@ -10,31 +31,8 @@ const nftSections = [
     cta:
       "👉 Only NFT holders will uncover the divine connection. Will you awaken to the truth?",
     emoji: "🔱",
-    theme: "primary"
-  },
-  {
-    title: "The Old Testament – Ancient Prophecies & Divine Laws",
-    subtitle: "VGOK: The Old Testament Bible NFTs 📜",
-    description1:
-      "From the dawn of time, divine laws and sacred prophecies have guided humanity. The VGOK Old Testament NFTs hold encrypted messages from ancient texts, prophetic wisdom, and lost spiritual knowledge.",
-    description2:
-      "Could these NFTs be a bridge to ancient truths, or are they simply a digital testament of faith?",
-    cta:
-      "👉 Only those who hold one will unlock the mysteries of creation. Are you among the chosen?",
-    emoji: "📜",
-    theme: "secondary"
-  },
-  {
-    title: "The New Testament – The Path to Enlightenment",
-    subtitle: "VGOK: The New Testament Bible NFTs ✨",
-    description1:
-      "Faith, prophecy, and enlightenment—these sacred concepts are woven into the VGOK New Testament NFTs. Hidden within the blockchain lies a divine mystery waiting to be revealed.",
-    description2:
-      "Some believe these NFTs contain timeless spiritual teachings, while others see them as a modern symbol of faith in the digital age.",
-    cta:
-      "👉 Only NFT holders will discover the deeper meaning. Will you seek the truth?",
-    emoji: "✨",
-    theme: "primary"
+    theme: "primary",
+    image: Ann
   },
   {
     title: "Secret Societies – Unlock the Forbidden Chambers",
@@ -46,7 +44,8 @@ const nftSections = [
     cta:
       "👉 Only those who hold one will gain access to the unseen world. Will you remain in the shadows, or step into the light?",
     emoji: "🔑",
-    theme: "secondary"
+    theme: "secondary",
+    image: SecretsocietiesNFTpage
   },
   {
     title: "Extraterrestrial Mysteries – The Alien Artifacts",
@@ -58,7 +57,8 @@ const nftSections = [
     cta:
       "👉 First contact begins now. Will you be among the first to decode the mystery?",
     emoji: "👽🛸",
-    theme: "primary"
+    theme: "primary",
+    image: AlienNFTpage
   },
   {
     title: "Conspiracies – The Hidden Truths Revealed",
@@ -70,7 +70,17 @@ const nftSections = [
     cta:
       "👉 Only those who dare to own one will uncover the truth. Are you ready to decode the mystery?",
     emoji: "🕵️‍♂️",
-    theme: "secondary"
+    theme: "secondary",
+    image: ConspiracyNFTpage
+  },
+  {
+    title: "Beyond the Veil – More Mysteries Await",
+    subtitle: "The VGOK NFT Collection expands beyond these themes, exploring witchcraft, astrology, zodiac signs, and other hidden aspects of the universe.",
+    description1:
+      "Our NFTs are currently available on Rarible and OpenSea. Support our vision by liking, sharing, and spreading awareness about the hidden truths of the world.",        
+    emoji: "🕵️‍♂️",
+    theme: "secondary",
+    image: Beyondimage
   }
 ];
 
@@ -91,10 +101,11 @@ const VGOKNFTSections = () => {
             >
               {/* Visual Emoji */}
               <div
-                className="w-full h-72 md:h-96 bg-gray-200 rounded-3xl shadow-lg flex items-center justify-center text-6xl"
+                className="w-full overflow-hidden bg-gray-200 rounded-3xl shadow-lg flex items-center justify-center text-6xl"
                 data-aos="zoom-in"
               >
-                {section.emoji}
+                {/* {section.emoji} */}
+                {section.image && <img src={section.image} alt={section.title}/>}
               </div>
 
               {/* Text Section */}
@@ -122,10 +133,14 @@ const VGOKNFTSections = () => {
                   data-aos={isReversed ? "fade-left" : "fade-right"}
                   data-aos-delay="200"
                 >
+                  {section.subtitle2 && <>
+                   <strong className="text-primary">{section.subtitle2}</strong>
+                    <br />
+                    </>}
                   {section.description2}
                 </p>
 
-                <div
+                {section.cta && <div
                   data-aos="fade-up"
                   data-aos-delay="300"
                 >
@@ -136,7 +151,8 @@ const VGOKNFTSections = () => {
                       {section.cta.split("\n")[1] || ''}
                     </span>
                   </div>
-                </div>
+                </div>}
+
               </div>
             </div>
           </section>

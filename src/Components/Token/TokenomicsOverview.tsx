@@ -13,7 +13,7 @@ const TokenomicsOverview = () => {
       <div className="bg-white p-6 rounded-xl border-2 border-blue-500 shadow-md hover:shadow-lg transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Token Overview</h3>
         <ul className="list-disc list-inside text-gray-600 space-y-2">
-          <li><strong>Token Name:</strong> V Gates of Knowledge (VGOK)</li>
+          <li><strong>Token Name:</strong> V Gates of Knowledge</li>
           <li><strong>Token Symbol:</strong> VGOK</li>
           <li><strong>Blockchain:</strong> Solana</li>
           <li><strong>Token Type:</strong> Utility Token</li>
