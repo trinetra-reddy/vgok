@@ -64,7 +64,7 @@ const ContactUs = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#13ca82] placeholder-gray-500" // Primary color
+                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-500" // Primary color
                 placeholder="Enter your name"
               />
             </div>
@@ -79,7 +79,7 @@ const ContactUs = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#13ca82] placeholder-gray-500" // Primary color
+                className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-500" // Primary color
                 placeholder="Enter your email"
               />
             </div>
@@ -95,7 +95,7 @@ const ContactUs = () => {
               onChange={handleChange}
               required
               rows={6}
-              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#13ca82] placeholder-gray-500" // Primary color
+              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder-gray-500" // Primary color
               placeholder="Write your message here"
             ></textarea>
           </div>
@@ -105,7 +105,7 @@ const ContactUs = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-3 px-6 text-white font-semibold rounded-lg ${isSubmitting ? "bg-gray-400" : "bg-[#13ca82] hover:bg-[#0d9c66]"}`}> {/* Primary color */}
+              className={`w-full py-3 px-6 text-white font-semibold rounded-lg ${isSubmitting ? "bg-gray-400" : "bg-primary hover:bg-[#0d9c66]"}`}> {/* Primary color */}
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </div>

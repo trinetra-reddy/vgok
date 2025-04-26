@@ -24,6 +24,7 @@ const Header = () => {
         { name: "NFT Whitepaper", to: "/nft-whitepaper" },
       ],
     },
+    { name: "Forum", to: "/forum" },
     { name: "Contact Us", to: "/contact" },
     { name: "Login", to: "/login" },
   ];
@@ -37,12 +38,12 @@ const Header = () => {
       </div> */}
       <div className="p-2 bg-secondary">
         <p className="text-white text-right rotate text-sm">
-          ⚡ VGuarantee.org website development in progress. Coming Soon on 14th September!
+          ⚡ VGuarantee.org website development in progress. Coming Soon on 14th November!
         </p>
       </div>
-      <header className="bg-gradient-to-r from-primary to-secondary text-white sticky top-0 z-50 shadow-md">
+      <header className="bg-gradient-to-r from-primary to-secondary text-white sticky top-0 z-50 shadow-md text-lg">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-secondary">
+          <Link to="/" className="text-2xl font-bold text-white">
             VGOK
           </Link>
 
@@ -76,8 +77,8 @@ const Header = () => {
                 <Link
                   key={link.name}
                   to={link.to}
-                  className={clsx("hover:text-primary transition", {
-                    "text-primary font-semibold": isActive(link.to),
+                  className={clsx("hover:text-white transition border-b border-transparent hover:border-white hover:font-semibold ", {
+                    "text-white font-semibold border-white": isActive(link.to),
                   })}
                 >
                   {link.name}

@@ -14,6 +14,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import TokenRoadMap from './pages/TokenRoadMap';
 import NFTWhitepaper from './pages/NFTWhitepaper';
+import Forum from './pages/Forum';
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -36,7 +37,7 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        
+        <Route path="/forum" element={<Forum/>}/>
       </Routes>
       <Footer />
     </>

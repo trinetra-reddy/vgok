@@ -52,7 +52,7 @@ const Login = () => {
             onClick={() => setActiveTab("email")}
             className={`px-4 py-2 font-semibold cursor-pointer ${
               activeTab === "email"
-                ? "text-[#13ca82] border-b-2 border-[#13ca82]"
+                ? "text-primary border-b-2 border-primary"
                 : "text-gray-500"
             }`}
           >
@@ -63,7 +63,7 @@ const Login = () => {
             onClick={() => setActiveTab("mobile")}
             className={`px-4 py-2 font-semibold cursor-pointer ${
               activeTab === "mobile"
-                ? "text-[#13ca82] border-b-2 border-[#13ca82]"
+                ? "text-primary border-b-2 border-primary"
                 : "text-gray-500"
             }`}
           >
@@ -81,7 +81,7 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="you@example.com"
               />
             </div>
@@ -94,7 +94,7 @@ const Login = () => {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="••••••••"
               />
             </div>
@@ -113,7 +113,7 @@ const Login = () => {
                 required
                 value={formData.mobile}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter mobile number"
               />
             </div>
@@ -126,7 +126,7 @@ const Login = () => {
                 required
                 value={formData.otp}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Enter OTP"
               />
             </div>
@@ -135,7 +135,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full py-3 bg-[#13ca82] text-white font-semibold rounded-lg hover:bg-[#10b176] transition"
+          className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-teritory transition"
         >
           Log In
         </button>

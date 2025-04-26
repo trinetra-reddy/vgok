@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
       {/* Floating Back-to-Top Button */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-5 right-5 z-50 bg-[#13ca82] hover:bg-[#12b67c] text-white p-3 rounded-full shadow-lg transition"
+        className="fixed bottom-5 right-5 z-50 bg-primary hover:bg-[#12b67c] text-white p-3 rounded-full shadow-lg transition"
         aria-label="Back to Top"
       >
         <ArrowUp size={20} />
@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
             <p className="text-sm">For inquiries, please contact:</p>
             <a
               href="mailto:support@vgok.org"
-              className="text-[#13ca82] hover:text-[#12b67c] transition"
+              className="text-primary hover:text-[#12b67c] transition"
             >
               support@vgok.org
             </a>
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
                   <li key={link.to}>
                     <Link
                       to={link.to}
-                      className="hover:text-[#13ca82] transition"
+                      className="hover:text-primary transition"
                     >
                       {link.name}
                     </Link>
@@ -78,11 +78,11 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="w-full sm:w-auto px-4 py-2 rounded-md border-2 border-gray-300 dark:border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-[#13ca82] focus:border-[#13ca82]"
+                  className="w-full sm:w-auto px-4 py-2 rounded-md border-2 border-gray-300 dark:border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 <button
                   type="submit"
-                  className="bg-[#13ca82] hover:bg-[#12b67c] transition text-white px-4 py-2 rounded-md"
+                  className="bg-primary hover:bg-[#12b67c] transition text-white px-4 py-2 rounded-md"
                 >
                   Subscribe
                 </button>
@@ -94,11 +94,11 @@ const Footer: React.FC = () => {
               <div className="mb-6">
                 <h2 className="text-lg font-bold mb-4">Follow us</h2>
                 <div className="flex gap-4">
-                  <a href="https://www.facebook.com/share/158vqcnhxt/" aria-label="Facebook" className="hover:text-[#13ca82] transition"><Facebook size={20} /></a>
-                  <a href="https://x.com/VGOK_Official" aria-label="Twitter" className="hover:text-[#13ca82] transition"><Twitter size={20} /></a>
-                  <a href="https://www.instagram.com/vgok_official?utm_source=qr&igsh=c2Jqa2hrZXltczBh" aria-label="Instagram" className="hover:text-[#13ca82] transition"><Instagram size={20} /></a>                  
-                  <a href="https://t.me/vgok_nft" aria-label="Telegram" className="hover:text-[#13ca82] transition"><FaTelegramPlane size={20} /></a>
-                  <a href="https://www.tiktok.com/@vgok_official?_t=ZS-8uyWlOfY2um&_r=1" aria-label="Tiktok" className="hover:text-[#13ca82] transition"><FaTiktok size={20} /></a>
+                  <a href="https://www.facebook.com/share/158vqcnhxt/" aria-label="Facebook" className="hover:text-primary transition"><Facebook size={20} /></a>
+                  <a href="https://x.com/VGOK_Official" aria-label="Twitter" className="hover:text-primary transition"><Twitter size={20} /></a>
+                  <a href="https://www.instagram.com/vgok_official?utm_source=qr&igsh=c2Jqa2hrZXltczBh" aria-label="Instagram" className="hover:text-primary transition"><Instagram size={20} /></a>                  
+                  <a href="https://t.me/vgok_nft" aria-label="Telegram" className="hover:text-primary transition"><FaTelegramPlane size={20} /></a>
+                  <a href="https://www.tiktok.com/@vgok_official?_t=ZS-8uyWlOfY2um&_r=1" aria-label="Tiktok" className="hover:text-primary transition"><FaTiktok size={20} /></a>
                 </div>
               </div>
             </div>

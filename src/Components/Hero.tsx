@@ -3,7 +3,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import 'swiper/swiper-bundle.css';
 import NFTImage from '../assets/nft/slide3.jpg';
 import TokenImage from '../assets/token/Slide1.png';
-import ForumImage from '../assets/forum/Slide5.jpg';
+import ForumImage from '../assets/forum/slideforum3.jpg';
 
 import { Link } from "react-router-dom";
 const heroData = [
@@ -87,7 +87,7 @@ const Hero = () => {
       ))}
 
       {/* Custom arrows */}
-      <div className="custom-swiper-button-prev absolute top-1/2 -left-0 transform -translate-y-1/2 bg-[#13ca82] text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-[#10b176] z-10">
+      <div className="custom-swiper-button-prev absolute top-1/2 -left-0 transform -translate-y-1/2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -98,7 +98,7 @@ const Hero = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </div>
-      <div className="custom-swiper-button-next absolute top-1/2 -right-0 transform -translate-y-1/2 bg-[#13ca82] text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-[#10b176] z-10">
+      <div className="custom-swiper-button-next absolute top-1/2 -right-0 transform -translate-y-1/2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"

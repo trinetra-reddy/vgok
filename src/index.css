@@ -4,8 +4,20 @@
 #174d38
 #4d1717 */
 @theme {
-    --color-primary: #13ca82;
-    --color-secondary: #e85252;
+  /* Cosmic Blue / Cyan (Background & Outer Glow) */
+    --color-primary: #00BFFF;
+    --color-secondary: #1E90FF;
+    --color-teritory: #40E0D0;
+
+    /* Dark Red / Burnt Maroon (Pentagram & Outer Circle) */
+
+    /* --color-primary: #8B0000;
+    --color-secondary: #A52A2A; */
+
+    /* White / Light Blue Highlights  */
+    /* --color-primary: #FFFFFF;
+    --color-secondary: #ADD8E6; */
+
     --color-forum-gray: #cbcbcb;
     --color-forum-light-gray: #f2f2f2;
   }

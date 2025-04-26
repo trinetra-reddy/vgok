@@ -78,7 +78,7 @@ const SignUp = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
@@ -89,7 +89,7 @@ const SignUp = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
                 👁️‍🗨️
@@ -106,7 +106,7 @@ const SignUp = () => {
                   type="text"
                   value={formData.referral}
                   onChange={handleChange}
-                  className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                  className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
                 />
                 <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-green-400">
                   ✔️
@@ -126,7 +126,7 @@ const SignUp = () => {
                 placeholder="Mobile Number"
                 value={formData.mobile}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div className="mb-4">
@@ -136,7 +136,7 @@ const SignUp = () => {
                 placeholder="Enter OTP"
                 value={formData.otp}
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
           </>
@@ -160,7 +160,7 @@ const SignUp = () => {
           </a> */}
         <button
           type="submit"
-          className="w-full py-3 bg-[#13ca82] text-white font-semibold rounded-lg hover:bg-[#10b176] transition"
+          className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-teritory transition"
         >
           Get My Welcome Gifts
         </button>
