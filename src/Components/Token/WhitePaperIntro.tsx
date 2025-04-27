@@ -1,4 +1,5 @@
-import { ShieldCheck, Globe, Target } from 'lucide-react';
+import { ShieldCheck, Globe, Target, Palette } from 'lucide-react';
+
 const WhitePaperIntro = () => {
     return (
        <section className="relative text-white section-bg px-6 py-20 space-y-32">
@@ -8,16 +9,20 @@ const WhitePaperIntro = () => {
             <span className="text-secondary">Revolutionizing </span> Secure Digital Transactions
             </h1>
            <p className="text-lg text-gray-700">
-             The VGOK (V Gates of Knowledge) ecosystem is designed to transform digital transactions and financial security through blockchain technology. Our dual-platform approach provides a comprehensive solution for secure online interactions.
+           VGOK (V Gates of Knowledge) revolutionizes digital transactions, art, gaming, and financial security with blockchain technology. Our multi-service platform offers secure online interactions and network growth.
            </p>
            <ul className="mt-6 space-y-4">
              <li className="flex items-start gap-4">
-               <ShieldCheck className="text-primary w-6 h-6 mt-1" />
+               <ShieldCheck className="text-primary w-10 h-10 mt-1" />
                <span className="text-gray-700"><strong>VGuarantee:</strong> A trust-driven marketplace offering secure transactions and smart contract-based guarantee services.</span>
              </li>
              <li className="flex items-start gap-4">
-               <Globe className="text-secondary w-6 h-6 mt-1" />
+               <Globe className="text-secondary w-10 h-10 mt-1" />
                <span className="text-gray-700"><strong>VGOK:</strong> A blockchain-powered ecosystem integrating utility tokens, NFTs, and a knowledge-sharing community forum.</span>
+             </li>
+             <li className="flex items-start gap-4">
+               <Palette className="text-secondary w-10 h-10 mt-1" />
+               <span className="text-gray-700"><strong>VGOK Arts & NFTs:</strong>  A trusted marketplace empowering the art community to buy, sell, trade, gain global recognition, and expand their networks.</span>
              </li>
            </ul>
          </div>

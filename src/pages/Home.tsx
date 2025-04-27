@@ -7,7 +7,7 @@ import NFTSection from '../Components/NFTSection';
 import TokenSection from '../Components/TokenSection';
 import ForumSection from '../Components/ForumSection';
 import AboutVGOK from "../Components/AboutVGOK";
-
+import AboutVGOKArts from "../Components/AboutVGOKArts";
   const Home = () => {
     return (
       <div className="bg-white text-gray-800">
@@ -15,6 +15,7 @@ import AboutVGOK from "../Components/AboutVGOK";
         {/* About us Section */}
         <AboutVGOK/>
         <AboutUs/>
+        <AboutVGOKArts/>
         {/* Why Choose Section */}
         <WhyChoose/>      
   

@@ -23,7 +23,7 @@ const nftSections = [
   },
   {
     title: "The Anunnaki – The Gods Who Descended from the Stars",
-    subtitle: "VGOK: The Anunnaki Gods NFTs 🔱",
+    subtitle: "VGOK: The Anunnaki Gods NFTs",
     description1:
       "Legends speak of the Anunnaki, ancient deities who descended from the heavens and shaped human civilization. Their whispers echo through time, leaving behind sacred symbols, lost knowledge, and cryptic secrets.",
     description2:

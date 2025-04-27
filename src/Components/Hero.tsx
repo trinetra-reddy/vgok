@@ -9,18 +9,17 @@ import { Link } from "react-router-dom";
 const heroData = [
   {
     title: "Why Buy a VGOK NFT?",
-    description:
-      "Immerse yourself in the VGOK NFT Collection, where each piece is a gateway to ancient mysteries and esoteric knowledge, encompassing categories like digital art, collectibles, and utility NFTs. Beyond owning unique digital assets, you can participate in our referral program to earn rewards, including chances to win international trips, iPhones, Samsung devices, iPad Air, Seiko watches, and exclusive VGOK merchandise.",
+    description: "Unlock ancient mysteries through VGOK’s digital art, collectibles, and utility NFTs. Earn rewards via our referral program, including trips, top tech devices, Seiko watches, and exclusive VGOK merchandise.",
     link: "https://t.me/vgok_nft",
     image: NFTImage,
     CTAName: "Explore More",
   },
   {
-    title: "VGOK Token: Empowering the Future of Digital Finance",
+    title: "What is VGOK Token?",
     description:
-      "VGOK Token is at the forefront of a revolutionary ecosystem, seamlessly integrating finance, gaming, digital assets, and trading. Designed to provide users with unparalleled opportunities, VGOK offers a versatile platform for engaging in financial deals and exploring the dynamic world of digital assets.",
+      "VGOK Token powers a revolutionary ecosystem combining finance, gaming, digital assets, and trading.",
     description2:
-      "Key Highlights: Innovative Ecosystem, Diverse Applications, Rewarding Opportunities",
+      "Key Highlights: Innovative Ecosystem | Diverse Applications | Rewarding Opportunities",
     link: "token",
     CTAName: "Join us",
     image: TokenImage,
@@ -28,8 +27,7 @@ const heroData = [
   },
   {
     title: "What is VGOK forum?",
-    description:"Join the VGOK Forum: Connect, Learn, and Prosper",
-    description2:"Discover VGOK's multi-category community—your gateway to learning, networking, and conducting transactions securely and for free. Our platform offers guaranteed services to protect you from scammers and time-wasters. User-friendly platform and accessible worldwide, VGOK is open to all. Start connecting with VGOK members today.",
+    description:"VGOK Forum is a global, multi-category platform to learn, network, and transact securely for free, protected by guaranteed services against scams. Accessible worldwide, it’s your gateway to connect and grow with the VGOK community.",
     linkType: 'route',
     link: "forum",
     CTAName: "Join us",
@@ -39,7 +37,7 @@ const heroData = [
 
 const Hero = () => {
   return (
-    <section className="bg-[#000417] text-white flex items-center">
+    <section className="bg-white text-black flex items-center">
     <Swiper
       spaceBetween={50}
       slidesPerView={1}
@@ -58,9 +56,9 @@ const Hero = () => {
         <SwiperSlide key={index}>
             <div className="py-16 md:py-20 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
                 <div className="max-w-xl">
-                  <h1 className="text-5xl font-bold text-white mb-6">{hero.title}</h1>
-                  <p className="text-lg text-white">{hero.description}</p>
-                  {hero.description2 && <p className="text-lg text-white mt-2">{hero.description2}</p>}
+                  <h1 className="text-5xl font-bold text-black mb-6">{hero.title}</h1>
+                  <p className="text-lg text-black">{hero.description}</p>
+                  {hero.description2 && <p className="text-lg text-black mt-2">{hero.description2}</p>}
                   {hero.linkType !== 'route' && <a
                     href={hero.link}
                     target="_blank"
@@ -80,7 +78,7 @@ const Hero = () => {
                 <img
                   src={hero.image}
                   alt="Hero Illustration"
-                  className="w-full max-w-md rounded-2xl shadow-lg"
+                  className="w-full max-w-md rounded-2xl"
                 />
               </div>
         </SwiperSlide>

@@ -40,8 +40,9 @@ const WhitePaperRoadMap = () => {
                 'Enable users to purchase VGOK NFTs, supporting the project\'s fundraising and ecosystem growth.'
               ]
             },
+           
             {
-              phase: 'Phase 3: VGuarantee Platform Launch (5-10 Months)',
+              phase: 'Phase 3: VGuarantee Platform Launch (5-11 Months)',
               color: 'text-primary',
               icon: <ShieldCheck className="text-primary w-6 h-6" />,
               delay: 200,
