@@ -4,17 +4,12 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  ArrowUp,
   Mail
 } from 'lucide-react';
 import { FaTelegramPlane, FaTiktok } from 'react-icons/fa';
 import BackToTopButton from './BackToTopButton';
 
-const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
+const Footer: React.FC = () => {  
   // Define the navigation links
   const navLinks = [
     { name: "Home", to: "/" },
