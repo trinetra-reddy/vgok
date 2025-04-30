@@ -5,7 +5,7 @@ import { FaGoogle, FaApple } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 
 const SignUp = () => {
-  const [activeTab, setActiveTab] = useState<"email" | "mobile">("email");
+  const [activeTab] = useState<"email" | "mobile">("email");
   const [formData, setFormData] = useState({
     email: "",
     password: "",

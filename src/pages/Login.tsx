@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 
 const Login = () => {
-  const [activeTab, setActiveTab] = useState<"email" | "mobile">("email");
+  const [activeTab] = useState<"email" | "mobile">("email");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,11 +20,11 @@ const Login = () => {
     e.preventDefault();
     console.log("Login Data:", formData);
 
-    if (activeTab === "email") {
-      // Login with email/password
-    } else {
-      // Login with mobile/otp
-    }
+    // if (activeTab === "email") {
+    //   // Login with email/password
+    // } else {
+    //   // Login with mobile/otp
+    // }
   };
 
   return (
