@@ -33,7 +33,7 @@ const SignUp = () => {
     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-50 to-white px-4">
       <div className="w-full max-w-md text-center mb-8">
         <Link to="/" className="block w-fit mx-auto mb-6">
-          <img src={Logo} alt="VGOK Logo" className="h-12 w-auto" />
+          <img src={Logo} alt="VGOK Logo" className="h-28 w-auto" />
         </Link>
         <h1 className="text-2xl font-bold">You're invited to VGOK!</h1>
       </div>
@@ -43,7 +43,7 @@ const SignUp = () => {
         className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-200"
       >
         {/* Tabs */}
-        <div className="flex mb-6 border-b border-gray-300">
+        {/* <div className="flex mb-6 border-b border-gray-300">
           <button
             type="button"
             onClick={() => setActiveTab("email")}
@@ -66,7 +66,7 @@ const SignUp = () => {
           >
             Mobile Number
           </button>
-        </div>
+        </div> */}
 
         {/* Email Signup */}
         {activeTab === "email" && (

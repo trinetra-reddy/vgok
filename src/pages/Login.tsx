@@ -46,7 +46,7 @@ const Login = () => {
         className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-200"
       >
         {/* Tabs */}
-        <div className="flex mb-6 border-b border-gray-300">
+        {/* <div className="flex mb-6 border-b border-gray-300">
           <button
             type="button"
             onClick={() => setActiveTab("email")}
@@ -69,7 +69,7 @@ const Login = () => {
           >
             Mobile Number
           </button>
-        </div>
+        </div> */}
 
         {activeTab === "email" && (
           <>
