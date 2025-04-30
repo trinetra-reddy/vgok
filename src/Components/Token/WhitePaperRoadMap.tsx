@@ -4,7 +4,8 @@ import {
     Clock3,
     Globe2,
     Wallet,
-    TrendingUp
+    TrendingUp,
+    Globe
   } from 'lucide-react';
 const WhitePaperRoadMap = () => {
     return (
@@ -52,7 +53,19 @@ const WhitePaperRoadMap = () => {
               ]
             },
             {
-              phase: 'Phase 4: Token Launch (10-18 Months)',
+              phase: 'Phase 4: VGOK Arts & NFTs Marketplace (11–24 Months)',
+              color: 'text-secondary',
+              icon: <Globe className="text-secondary w-6 h-6" />,
+              delay: 300,
+              points: [
+                'Launch the VGOK Arts & NFTs Marketplace, providing a secure platform for art and NFT transactions (including hand-painted artworks and digital assets).',
+                'Empower the art community to buy, sell, trade, and connect with a global audience.',
+                'Offer artists a platform to showcase their profiles and promote their work to a broader market.',
+                'Each physical painting will be secured with blockchain technology and accompanied by a certificate of authenticity.'
+              ]
+            },
+            {
+              phase: 'Phase 5: Token Launch (10-18 Months)',
               color: 'text-secondary',
               icon: <Wallet className="text-secondary w-6 h-6" />,
               delay: 300,
@@ -62,7 +75,7 @@ const WhitePaperRoadMap = () => {
               ]
             },
             {
-              phase: 'Phase 5: Expansion & Growth (18-24 Months)',
+              phase: 'Phase 6: Expansion & Growth (24-36 Months)',
               color: 'text-primary',
               icon: <TrendingUp className="text-primary w-6 h-6" />,
               delay: 400,
@@ -74,7 +87,7 @@ const WhitePaperRoadMap = () => {
               ]
             },
             {
-              phase: 'Phase 6: Ecosystem Maturity (24+ Months)',
+              phase: 'Phase 7: Ecosystem Maturity (36+ Months)',
               color: 'text-secondary',
               icon: <Infinity className="text-secondary w-6 h-6" />,
               delay: 500,

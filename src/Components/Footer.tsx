@@ -6,7 +6,7 @@ import {
   Instagram,
   Mail
 } from 'lucide-react';
-import { FaTelegramPlane, FaTiktok } from 'react-icons/fa';
+import { FaTelegramPlane, FaTiktok, FaDiscord } from 'react-icons/fa';
 import BackToTopButton from './BackToTopButton';
 
 const Footer: React.FC = () => {  
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
                   <li key={link.to}>
                     <Link
                       to={link.to}
-                      className="hover:text-primary transition"
+                      className="hover:underline hover:font-semibold transition"
                     >
                       {link.name}
                     </Link>
@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="w-full sm:w-auto px-4 py-2 rounded-md border-2 border-gray-300 dark:border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  className="w-full sm:w-auto px-4 py-2 rounded-md border-2 border-white dark:border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-white focus:border-white"
                 />
                 <button
                   type="submit"
@@ -92,18 +92,19 @@ const Footer: React.FC = () => {
               <div className="mb-6">
                 <h2 className="text-lg font-bold mb-4">Follow us</h2>
                 <div className="flex gap-4">
-                  <a href="https://www.facebook.com/share/158vqcnhxt/" aria-label="Facebook" className="hover:text-primary transition"><Facebook size={20} /></a>
-                  <a href="https://x.com/VGOK_Official" aria-label="Twitter" className="hover:text-primary transition"><Twitter size={20} /></a>
-                  <a href="https://www.instagram.com/vgok_official?utm_source=qr&igsh=c2Jqa2hrZXltczBh" aria-label="Instagram" className="hover:text-primary transition"><Instagram size={20} /></a>                  
-                  <a href="https://t.me/vgok_nft" aria-label="Telegram" className="hover:text-primary transition"><FaTelegramPlane size={20} /></a>
-                  <a href="https://www.tiktok.com/@vgok_official?_t=ZS-8uyWlOfY2um&_r=1" aria-label="Tiktok" className="hover:text-primary transition"><FaTiktok size={20} /></a>
+                  <a href="https://www.facebook.com/share/158vqcnhxt/" aria-label="Facebook" className="hover:underline transition"><Facebook size={20} /></a>
+                  <a href="https://x.com/VGOK_Official" aria-label="Twitter" className="hover:underline transition"><Twitter size={20} /></a>
+                  <a href="https://www.instagram.com/vgok_official?utm_source=qr&igsh=c2Jqa2hrZXltczBh" aria-label="Instagram" className="hover:underline transition"><Instagram size={20} /></a>                  
+                  <a href="https://t.me/vgok_nft" aria-label="Telegram" className="hover:underline transition"><FaTelegramPlane size={20} /></a>
+                  <a href="https://www.tiktok.com/@vgok_official?_t=ZS-8uyWlOfY2um&_r=1" aria-label="Tiktok" className="hover:underline transition"><FaTiktok size={20} /></a>
+                  <a href="https://discord.gg/9bE9TQKp6a" aria-label="FaDiscord" className="hover:underline transition"><FaDiscord size={20} /></a>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Copyright Text */}
-          <div className="mt-12 text-center text-sm text-gray-400">
+          <div className="mt-12 text-center text-sm text-white">
             &copy; {new Date().getFullYear()} VGOK. All rights reserved.
           </div>
         </div>

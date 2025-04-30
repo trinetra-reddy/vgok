@@ -7,13 +7,10 @@ const WhitePaperConclusion = () => {
     >
       <div className="max-w-3xl mx-auto space-y-6">
         <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-          VGOK – Pioneering the Future of Secure Digital Transactions
+        VGOK — Shaping the Future of Secure Digital Transactions, Arts, and Gaming
         </h2>
         <p className="text-lg md:text-xl text-white/90">
-          VGOK is revolutionizing secure digital transactions by integrating
-          blockchain technology with real-world financial solutions. Our
-          strategic roadmap ensures a scalable, secure, and user-friendly
-          ecosystem, built on trust, innovation, and transparency.
+        At VGOK, we are redefining the landscape of digital transactions by seamlessly blending blockchain technology with real-world financial solutions. Our comprehensive, future-focused ecosystem is designed to deliver scalable, secure, and intuitive experiences across finance, art, and gaming. Built on the pillars of trust, innovation, and transparency, VGOK empowers users to engage with confidence in a rapidly evolving digital world.
         </p>
         <p className="text-lg md:text-xl text-white/90">
           This white paper serves as a comprehensive guide for stakeholders,

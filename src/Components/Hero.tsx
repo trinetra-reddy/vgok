@@ -37,7 +37,7 @@ const heroData = [
 
 const Hero = () => {
   return (
-    <section className="bg-white text-black flex items-center">
+    <section className="bg-gradient-to-r from-primary to-secondary text-white flex items-center">
     <Swiper
       spaceBetween={50}
       slidesPerView={1}
@@ -56,13 +56,14 @@ const Hero = () => {
         <SwiperSlide key={index}>
             <div className="py-16 md:py-20 px-4 md:px-16 flex flex-col md:flex-row items-center gap-10 justify-between">
                 <div className="max-w-xl">
-                  <h1 className="text-5xl font-bold text-black mb-6">{hero.title}</h1>
-                  <p className="text-lg text-black">{hero.description}</p>
-                  {hero.description2 && <p className="text-lg text-black mt-2">{hero.description2}</p>}
+                  <h1 className="text-5xl font-bold text-white mb-6">{hero.title}</h1>
+                  <p className="text-lg text-white">{hero.description}</p>
+                  {hero.description2 && <p className="text-lg text-white mt-2">{hero.description2}</p>}
+                  {/* inline-flex items-center gap-2 bg-primary hover:bg-green-600 text-white text-lg font-semibold px-8 py-3 rounded-full transition-all duration-300 */}
                   {hero.linkType !== 'route' && <a
                     href={hero.link}
                     target="_blank"
-                    className="transition-colors transition-bg border border-secondary p-4 inline-block mt-6 bg-secondary text-white min-w-[160px] text-center"
+                    className="transition-colors transition-bg border border-white p-4 inline-block mt-6 bg-white text-primary min-w-[160px] text-center rounded-full font-semibold"
                   >
                     {hero.CTAName}
                   </a>}
@@ -70,7 +71,7 @@ const Hero = () => {
                             key={hero.link}
                             to={hero.link}
                     target="_blank"
-                    className="transition-colors transition-bg border border-secondary p-4 inline-block mt-6 bg-secondary text-white min-w-[160px] text-center"
+                    className="transition-colors transition-bg border border-white p-4 inline-block mt-6 bg-white text-primary min-w-[160px] text-center rounded-full font-semibold"
                   >
                     {hero.CTAName}
                   </Link>}
@@ -85,7 +86,7 @@ const Hero = () => {
       ))}
 
       {/* Custom arrows */}
-      <div className="custom-swiper-button-prev absolute top-1/2 -left-0 transform -translate-y-1/2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
+      <div className="custom-swiper-button-prev absolute top-1/2 left-2 transform -translate-y-1/2 bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
@@ -96,7 +97,7 @@ const Hero = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </div>
-      <div className="custom-swiper-button-next absolute top-1/2 -right-0 transform -translate-y-1/2 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
+      <div className="custom-swiper-button-next absolute top-1/2 right-2 transform -translate-y-1/2 bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-teritory z-10">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
