@@ -42,7 +42,7 @@ const Login = () => {
       console.log("Logged in:", data);
 
       // Redirect to home or dashboard
-      navigate("/dashboard");
+      navigate("/forum");
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     }
