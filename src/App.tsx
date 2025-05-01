@@ -2,7 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-
+import { AuthProvider } from "./context/AuthContext";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Home from "./pages/Home";
@@ -15,6 +15,8 @@ import Login from "./pages/Login";
 import TokenRoadMap from './pages/TokenRoadMap';
 import NFTWhitepaper from './pages/NFTWhitepaper';
 import Forum from './pages/Forum';
+
+
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -48,7 +50,9 @@ const App = () => {
   AOS.init();
   return (
     <Router>
-      <AppRoutes />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </Router>
   );
 };
