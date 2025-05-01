@@ -1,0 +1,27 @@
+# // GitHub Actions workflow to trigger auto-deploy on Render
+name: Deploy Backend API to Render
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend-api/**'
+
+jobs:
+  deploy:
+    name: Trigger Render Deploy Hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Render Deploy Webhook
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+
+# // ----- How to use it -----
+# // 1. Get your Render deploy hook URL from:
+# //    Render Dashboard → Web Service → Deploy Hooks → Enable
+# // 2. Add this URL to your GitHub repo settings:
+# //    Settings → Secrets and variables → Actions → New repository secret:
+# //    Name: RENDER_DEPLOY_HOOK_URL
+# //    Value: https://api.render.com/deploy/srv-xxx?key=xxx
+# // 3. On every push to `main` inside `backend-api/`, this will auto-trigger deployment
