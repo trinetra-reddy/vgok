@@ -7,7 +7,7 @@ const adRoutes = require('./routes/ads');
 const categoryRoutes = require('./routes/categories');
 const postRoutes = require('./routes/posts');
 const replyRoutes = require('./routes/replies');
-const announcementRoutes = require('./routes/announcements');
+const forumRoutes = require('./routes/forum');
 const userRoutes = require('./routes/users');
 const profileRoutes = require('./routes/profile');
 
@@ -20,7 +20,7 @@ app.use('/api/ads', adRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/replies', replyRoutes);
-app.use('/api/announcements', announcementRoutes);
+app.use('/api/forum', forumRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/profile', profileRoutes);
 
