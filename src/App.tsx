@@ -16,6 +16,7 @@ import TokenRoadMap from './pages/TokenRoadMap';
 import NFTWhitepaper from './pages/NFTWhitepaper';
 import Forum from './pages/Forum';
 import { LandingPage } from './pages/admin/LandingPage';
+import {UserLandingPage} from './pages/user/UserLandingPage';
 
 
 
@@ -42,6 +43,7 @@ const AppRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forum" element={<Forum/>}/>
         <Route path="/admin/*" element={<LandingPage/>}/>
+        <Route path="/user/*" element={<UserLandingPage/>}/>
       </Routes>
       <Footer />
     </>
