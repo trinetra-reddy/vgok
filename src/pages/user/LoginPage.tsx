@@ -12,7 +12,7 @@ const LoginPage = () => {
 
         {/* Heading */}
         <h2 className="text-2xl font-semibold text-gray-900 mb-1">Welcome Back</h2>
-        <p className="text-sm text-gray-500 mb-6">Login to your VGOK account</p>
+        <p className="text-sm text-gray-500 mb-6 font-medium ">Login to your VGOK account</p>
 
         {/* Email */}
         <div className="mb-4 text-left">
@@ -23,7 +23,7 @@ const LoginPage = () => {
             type="email"
             id="email"
             placeholder="you@example.com"
-            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#03bfff]"
           />
         </div>
 
@@ -35,17 +35,17 @@ const LoginPage = () => {
           <input
             type="password"
             id="password"
-            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+            className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#03bfff]"
           />
         </div>
 
         {/* Login Button */}
-        <button className="w-full bg-[#13ca82] hover:bg-[#12b67c] text-white py-3 rounded font-semibold transition">
+        <button className="w-full bg-[#03bfff] hover:bg-[#03bfff] text-white py-3 rounded font-semibold transition">
           Log In
         </button>
 
         {/* Footer */}
-        <p className="text-sm text-gray-600 mt-6">
+        <p className="text-sm text-gray-600 mt-6 font-medium ">
           Don’t have an account?{" "}
           <a href="#" className="text-[#e85252] font-semibold hover:underline">
             Sign Up

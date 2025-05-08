@@ -1,10 +1,10 @@
 const ProfilePage = () => {
     return (
-        <div>
+        <div className="flex flex-col w-full">
             {/* Profile Form */}
-            <main className="flex-1 bg-white rounded-xl shadow p-6">
-                <h2 className="text-lg font-semibold mb-6">Profile Setting</h2>
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <main className="flex-1 bg-white rounded-xl shadow  ">
+                <h2 className="text-lg font-semibold mb-2 border-b border-gray-300 p-3">Profile Setting</h2>
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5 pt-2">
                     <div>
                         <label className="block text-sm font-medium mb-1">First Name<span className="text-red-500">*</span></label>
                         <input type="text" defaultValue="TrinethraReddy" className="w-full border border-gray-300 rounded px-3 py-2" />

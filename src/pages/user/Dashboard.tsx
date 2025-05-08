@@ -1,62 +1,74 @@
 import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
-
+import { CheckCircle, XCircle, Loader2, List, ArrowRight ,Frown} from "lucide-react";
+import { Link, Outlet } from 'react-router-dom';
 const Dashboard = () => {
+    const stats = [
+        {
+            label: "Total Topic",
+            value: 1,
+            icon: <List size={20} className="text-blue-500" />,
+            border: "border-blue-100",
+            text: "text-blue-500",
+            arrow: "text-blue-500",
+            iconBorder:"border border-blue-500"
+            
+        },
+        {
+            label: "Pending Topic",
+            value: 1,
+            icon: <Loader2 size={20} className="text-orange-400" />,
+            border: "border-orange-100",
+            text: "text-orange-400",
+            arrow: "text-orange-400",
+            iconBorder:"border border-orange-400"
+        },
+        {
+            label: "Approved Topic",
+            value: 0,
+            icon: <CheckCircle size={20} className="text-green-500" />,
+            border: "border-green-100",
+            text: "text-green-500",
+            arrow: "text-green-500",
+            iconBorder:"border border-green-500"
+        },
+        {
+            label: "Rejected Topic",
+            value: 0,
+            icon: <XCircle size={20} className="text-red-400" />,
+            border: "border-red-100",
+            text: "text-red-400",
+            arrow: "text-red-400",
+            iconBorder:"border border-red-400"
+        },
+    ];
     return (
-        <div className="min-h-screen bg-[#f9f9fb] flex flex-col md:flex-row p-6 gap-6">
-            {/* Left Sidebar */}
-            <aside className="w-full md:w-1/4 flex flex-col gap-6">
-                <div className="bg-[#4269c2] text-white rounded-xl p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-white rounded-full" />
-                    <h2 className="text-lg font-semibold leading-tight">TrinethraReddy<br />Alamur</h2>
-                    <div className="mt-4 space-y-2 text-sm">
-                        <div className="flex items-center justify-center gap-2">
-                            <MapPin size={16} /> India
-                        </div>
-                        <div className="flex items-center justify-center gap-2">
-                            <Mail size={16} /> trinethraalamur@gmail.com
-                        </div>
-                        <div className="flex items-center justify-center gap-2">
-                            <Phone size={16} /> 9963789858
-                        </div>
-                    </div>
-                </div>
-
-                <nav className="bg-white rounded-xl shadow p-4 space-y-4">
-                    <div className="flex items-center gap-2 font-semibold text-[#4269c2]">
-                        <LayoutDashboard size={18} /> Dashboard
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-[#4269c2]">
-                        <FileText size={18} /> My Topics
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-[#4269c2]">
-                        <HelpCircle size={18} /> Support Ticket
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-[#4269c2]">
-                        <Settings size={18} /> Profile Setting
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600 cursor-pointer hover:text-[#4269c2]">
-                        <Lock size={18} /> Change Password
-                    </div>
-                    <div className="flex items-center gap-2 text-red-500 cursor-pointer">
-                        <LogOut size={18} /> Logout
-                    </div>
-                </nav>
-            </aside>
-
+        <div className="min-h-screen bg-[#f9f9fb] flex flex-col md:flex-row p-6 gap-6 w-full">
             {/* Right Panel */}
             <main className="flex-1 space-y-6">
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <Card title="Total Topic" value="1" color="blue" />
-                    <Card title="Pending Topic" value="1" color="orange" />
-                    <Card title="Approved Topic" value="0" color="green" />
-                    <Card title="Rejected Topic" value="0" color="red" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {stats.map((stat, i) => (
+                        <div
+                            key={i}
+                            className={`flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border ${stat.border}`}
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className={`p-2 rounded bg-opacity-10 ${stat.text} ${stat.iconBorder}`} >
+                                    {stat.icon}
+                                </div>
+                                <div>
+                                    <div className="text-xl font-semibold">{stat.value}</div>
+                                    <div className="text-sm text-gray-500">{stat.label}</div>
+                                </div>
+                            </div>
+                            <ArrowRight size={18} className={`${stat.arrow} ${stat.iconBorder} rounded-full p-1`} />
+                        </div>
+                    ))}
                 </div>
-
                 {/* Latest Approved Topics Table */}
-                <div className="bg-white rounded-xl shadow overflow-hidden">
-                    <div className="px-6 py-4 font-semibold text-gray-700 border-b">Latest Approved Topics</div>
-                    <div className="overflow-x-auto">
+                <div className="">
+                    <div className="py-4 font-bold text-gray-700 border-b">Latest Approved Topics</div>
+                    <div className="overflow-x-auto bg-white rounded-xl shadow">
                         <table className="w-full text-sm text-left">
                             <thead className="bg-[#4269c2] text-white">
                                 <tr>
@@ -69,7 +81,11 @@ const Dashboard = () => {
                             <tbody>
                                 <tr className="text-center">
                                     <td colSpan={4} className="py-8 text-gray-400">
-                                        ☠ Data not found
+                                         {/* Data not found */}
+                                        <div className="flex flex-col items-center justify-center text-gray-400">
+                                            <Frown size={32} />
+                                            <p className="mt-2 text-sm">No data found</p>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -77,30 +93,8 @@ const Dashboard = () => {
                     </div>
                 </div>
             </main>
+            <Outlet />
         </div>
     );
 }
-
-
 export default Dashboard;
-
-function Card({ title, value, color }: { title: string; value: string; color: string }) {
-    const colors: any = {
-        blue: 'text-blue-600 bg-blue-100',
-        green: 'text-green-600 bg-green-100',
-        orange: 'text-orange-600 bg-orange-100',
-        red: 'text-red-600 bg-red-100',
-    };
-
-    return (
-        <div className="bg-white rounded-xl shadow p-4 flex items-center justify-between">
-            <div>
-                <div className="text-sm text-gray-500">{title}</div>
-                <div className="text-2xl font-bold">{value}</div>
-            </div>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colors[color]}`}>
-                <span className="text-xl">→</span>
-            </div>
-        </div>
-    );
-}

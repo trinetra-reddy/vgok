@@ -1,5 +1,7 @@
 import { Check, Eye } from "lucide-react";
 import { useState } from "react";
+import { Apple, Send, CircleUserRound } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // src/pages/admin/ForumPage.tsx
 const SignupPage = () => {
@@ -9,9 +11,9 @@ const SignupPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="bg-white shadow-lg rounded-xl p-8 max-w-sm w-full text-center">
         <img
-          src="/vgok-logo.png" // Replace with actual image path
+          src="/src/assets/token/Slide1.png"
           alt="VGOK Logo"
-          className="w-20 h-20 mx-auto mb-4 rounded-full"
+          className="w-40 mx-auto mb-4 rounded-full"
         />
         <h2 className="text-xl font-semibold mb-6">You're invited to VGOK!</h2>
 
@@ -19,7 +21,7 @@ const SignupPage = () => {
         <input
           type="email"
           placeholder="Email"
-          className="w-full px-4 py-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+          className="w-full px-4 py-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#03bfff]"
         />
 
         {/* Password with toggle */}
@@ -27,7 +29,7 @@ const SignupPage = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
-            className="w-full px-4 py-3 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+            className="w-full px-4 py-3 pr-10 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#03bfff]"
           />
           <button
             type="button"
@@ -44,7 +46,7 @@ const SignupPage = () => {
           <input
             type="text"
             defaultValue="BIT30K"
-            className="w-full px-4 py-3 pr-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#13ca82]"
+            className="w-full px-4 py-3 pr-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#03bfff]"
           />
           <Check size={20} className="absolute right-3 top-10 text-green-500" />
         </div>
@@ -52,7 +54,7 @@ const SignupPage = () => {
         {/* Terms Checkbox */}
         <label className="flex items-start text-sm mb-4 text-left space-x-2">
           <input type="checkbox" defaultChecked className="mt-1 mr-2 text-[#13ca82]" />
-          <span>
+          <span className="font-normal"> 
             By clicking “Get My Welcome Gifts”, you agree to our{" "}
             <a href="#" className="text-[#e85252] font-semibold">
               Terms of Service
@@ -61,32 +63,42 @@ const SignupPage = () => {
         </label>
 
         {/* CTA Button */}
-        <button className="w-full bg-[#13ca82] hover:bg-[#12b67c] text-white py-3 rounded font-semibold mb-4 transition">
+        <button className="w-full bg-[#03bfff] hover:bg-[#03bfff] text-white py-3 rounded font-semibold mb-4 transition">
           Get My Welcome Gifts
         </button>
 
         {/* Divider */}
-        <p className="text-sm text-gray-500 mb-4">Or sign up with</p>
+        <p className="text-sm text-gray-500 mb-4 font-medium ">Or sign up with</p>
 
         {/* Social Icons */}
         <div className="flex justify-center gap-4 mb-4">
           <button className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100">
-            <img src="/google.svg" alt="Google" className="w-5 h-5" />
+            {/* <img src="/google.svg" alt="Google" className="w-5 h-5" /> */}
+            <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center text-lg font-bold">
+        G
+      </div>
           </button>
           <button className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100">
-            <img src="/apple.svg" alt="Apple" className="w-5 h-5" />
+            {/* <img src="/apple.svg" alt="Apple" className="w-5 h-5" /> */}
+            <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center">
+        <Apple size={20} />
+      </div>
+
           </button>
           <button className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100">
-            <img src="/telegram.svg" alt="Telegram" className="w-5 h-5" />
+            {/* <img src="/telegram.svg" alt="Telegram" className="w-5 h-5" /> */}
+            <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center">
+        <Send size={20} />
+      </div>
           </button>
         </div>
 
         {/* Already have account */}
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 font-medium">
           Already have an account?{" "}
-          <a href="#" className="text-red-500 font-medium">
+          <Link to="/login" className="text-red-500 font-medium">
             Log In
-          </a>
+          </Link>
         </p>
       </div>
     </div>
