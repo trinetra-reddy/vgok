@@ -5,7 +5,7 @@ import { Pencil } from "lucide-react";
 import { useApi } from "@/hooks/UseApi";
 const CreateTopicPage = () => {
   const navigate = useNavigate();
-  const { request, data, loading, error } = useApi();
+  const { request, loading } = useApi();
 
   const [formData, setFormData] = useState({
     image: "",

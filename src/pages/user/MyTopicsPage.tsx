@@ -1,11 +1,11 @@
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 import { useApi } from "@/hooks/UseApi";
 import { ArrowUp, ArrowDown, Search, Plus, Monitor, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const MyTopicsPage = () => {
-    const { request, loading, error } = useApi();
+    const { request, loading } = useApi();
     const [topics, setTopics] = useState([]);
 
     useEffect(() => {

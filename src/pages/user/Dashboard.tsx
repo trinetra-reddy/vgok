@@ -1,6 +1,5 @@
-import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
 import { CheckCircle, XCircle, Loader2, List, ArrowRight ,Frown} from "lucide-react";
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 const Dashboard = () => {
     const stats = [
         {

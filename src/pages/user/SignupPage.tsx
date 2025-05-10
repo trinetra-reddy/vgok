@@ -1,6 +1,6 @@
 import { Check, Eye } from "lucide-react";
 import { useState } from "react";
-import { Apple, Send, CircleUserRound } from "lucide-react";
+import { Apple, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // src/pages/admin/ForumPage.tsx
