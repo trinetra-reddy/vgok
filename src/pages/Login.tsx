@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -19,32 +19,48 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+  
       const data = await res.json();
-      if (res.ok) login({ id: data.user.id, email: data.user.email });
-
-      // const res = await fetch("/api/auth/signin", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(formData),
-      // });
-
-      // const data = await res.json();
+  
       if (!res.ok) throw new Error(data?.error?.message || "Login failed");
-
-      // Save session/token if needed
-      console.log("Logged in:", data);
-
-      // Redirect to home or dashboard
-      navigate("/forum");
+  
+      const token = data.session.access_token;
+  
+      // temporarily login to store token
+      login({ id: data.user?.id, email: data.user?.email, token });
+  
+      await getProfile(token); // this will navigate
     } catch (err: any) {
       setError(err.message || "Something went wrong");
+    }
+  };
+  
+  const getProfile = async (token: string) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile/me`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok && data) {
+        login({ ...data, token }); // final login call with full profile
+        navigate("/forum");
+      } else {
+        navigate("/user/dashboard/profile"); // if profile is missing
+      }
+    } catch (err) {
+      setError("Profile fetch failed");
     }
   };
 
