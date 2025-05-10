@@ -3,6 +3,23 @@ import { createContext, useContext, useState } from "react";
 interface User {
   id: string;
   email: string;
+  token: string;
+  mobile?:string;
+  firstName?:string,
+  lastName?: string,
+  country?: string,
+  address?: string;
+  city?: string;
+  state?: string;
+  zipcode?: string;
+  bio?: string;
+  avatar_url?: string | null;
+  role?: 'user' | 'admin' | string;
+  verified?: boolean;
+  level?: 'New' | 'Intermediate' | 'Expert' | string;
+  reputation?: number;
+  banned?: boolean;
+  business_type?: string | null;
 }
 
 interface AuthContextProps {
