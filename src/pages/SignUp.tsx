@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
-import { FaGoogle, FaApple } from "react-icons/fa";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
+import { Facebook, Instagram } from 'lucide-react';
 
 const SignUp = () => {
   const [activeTab] = useState<"email" | "mobile">("email");
@@ -168,14 +169,14 @@ const SignUp = () => {
         <div className="text-center my-4 text-sm text-gray-500">Or sign up with</div>
 
         <div className="flex justify-center gap-4">
-          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition">
-            <FaGoogle className="text-white" />
+          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer">
+            <FaGoogle className="text-white w-[24px]" />
           </button>
-          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition">
-            <FaApple className="text-white" />
+          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer">
+            <Facebook className="text-white" />
           </button>
-          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition">
-            <FaTelegramPlane className="text-white" />
+          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer">
+            <Instagram className="text-white" />
           </button>
         </div>
         <p className="text-sm text-gray-600 mt-4 text-center">

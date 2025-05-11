@@ -65,7 +65,7 @@ const WhitePaperRoadMap = () => {
               ]
             },
             {
-              phase: 'Phase 5: Token Launch (10-18 Months)',
+              phase: 'Phase 5: Token Launch (24-30 Months)',
               color: 'text-secondary',
               icon: <Wallet className="text-secondary w-6 h-6" />,
               delay: 300,
@@ -75,7 +75,7 @@ const WhitePaperRoadMap = () => {
               ]
             },
             {
-              phase: 'Phase 6: Expansion & Growth (24-36 Months)',
+              phase: 'Phase 6: Expansion & Growth (30-36 Months)',
               color: 'text-primary',
               icon: <TrendingUp className="text-primary w-6 h-6" />,
               delay: 400,

@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
             <p className="text-sm">For inquiries, please contact:</p>
             <a
               href="mailto:support@vgok.org"
-              className="text-primary hover:text-[#12b67c] transition"
+              className="text-white hover:text-[#12b67c] transition"
             >
               support@vgok.org
             </a>
