@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
-import { FaTelegramPlane } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import { Facebook, Instagram } from 'lucide-react';
 
 const SignUp = () => {
