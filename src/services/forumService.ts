@@ -60,6 +60,12 @@ export const updateForum = async (id: string, data: ForumData, token: string) =>
 export const deleteForum = async (id: string, token: string) => {
   return fetchWithAuth(`${BASE_URL}/forum/delete/${id}`, "DELETE", token);
 };
-export const getAllForums = async (token: string) => {
-  return fetchWithAuth(`${BASE_URL}/forum`, "GET", token);
+
+export const getAllForums = async (
+  token: string,
+  limit: number = 10,
+  offset: number = 0
+) => {
+  const url = `${import.meta.env.VITE_API_BASE_URL}/forum?limit=${limit}&offset=${offset}`;
+  return fetchWithAuth(url, "GET", token);
 };

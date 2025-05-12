@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
 const authRoutes = require('./routes/auth');
 const adRoutes = require('./routes/ads');
@@ -11,7 +14,6 @@ const forumRoutes = require('./routes/forum');
 const userRoutes = require('./routes/users');
 const profileRoutes = require('./routes/profile');
 
-const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -25,3 +27,4 @@ app.use('/api/users', userRoutes);
 app.use('/api/profile', profileRoutes);
 
 app.listen(5000, () => console.log('Server started on port 5000'));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

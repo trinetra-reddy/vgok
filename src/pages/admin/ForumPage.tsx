@@ -1,27 +1,39 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import PageHeader from "@/global/PageHeader";
 import { CreateOrEditForumModal } from "@/Components/admin/CreateForumModal";
 import { getAllForums, deleteForum } from "@/services/forumService";
 import { toast } from "sonner";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
+import { useAuth } from "@/context/AuthContext";
 
 const ForumPage = () => {
+  const hasFetchedRef = useRef(false);
+  const { user } = useAuth();
   const [forums, setForums] = useState([]);
+  // const [total] = useState(0);
+  const [limit] = useState(10);
+  const [offset] = useState(0);
   const [filteredForums, setFilteredForums] = useState([]);
 
   const fetchForums = async () => {
+    if (!user?.token) return;
+
     try {
-      const data = await getAllForums();
-      setForums(data);
-      setFilteredForums(data);
+      const res = await getAllForums(user.token, limit, offset);
+      setForums(res.data || []);
+      setFilteredForums(res.data || []);
+      // setTotal(res.pagination.total || 0);
     } catch (err) {
-      toast.error("Failed to load forums");
+      console.error("Failed to fetch forums:", err);
     }
   };
 
   useEffect(() => {
-    fetchForums();
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      fetchForums();
+    }
   }, []);
 
   const handleSearch = (query: string) => {
