@@ -1,7 +1,7 @@
 import { useAuth } from '@/context/AuthContext';
 import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 const DashboardWrapper = () => {
     const { user } = useAuth();
@@ -40,18 +40,31 @@ const DashboardWrapper = () => {
                 </div>
 
                 <nav className="bg-white rounded-xl shadow p-4 space-y-4">
-                    <div className="flex items-center gap-2 font-semibold text-[#4269c2]">
+                    <NavLink to="/user/dashboard" end className={({ isActive }) =>
+                        `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-[#4269c2] text-white px-1 py-1" : "text-gray-600"
+                        } hover:bg-[#f0f0f0]`
+                    }>
                         <LayoutDashboard size={18} /> Dashboard
-                    </div>
-                    <Link to="./mytopics" className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
+                    </NavLink>
+
+                    <NavLink to="./mytopics" className={({ isActive }) =>
+                        `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-[#4269c2] text-white px-1 py-1" : "text-gray-600"
+                        } hover:bg-[#f0f0f0]`
+                    }>
                         <FileText size={18} /> My Topics
-                    </Link>
+                    </NavLink>
+
                     <div className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
                         <HelpCircle size={18} /> Support Ticket
                     </div>
-                    <Link to="./profile" className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
-                        <Settings size={18} /> Profile Setting
-                    </Link>
+                    <NavLink
+                        to="/user/dashboard/profile"
+                        className={({ isActive }) =>
+                            `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-[#4269c2] text-white px-1 py-1" : "text-gray-600"
+                            } hover:bg-[#f0f0f0]`
+                        } >
+                        <Settings size={18} />Profile Settings
+                    </NavLink>
                     <div className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
                         <Lock size={18} /> Change Password
                     </div>
