@@ -1,17 +1,24 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "sonner";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { setAuthenticatedUser } = useAuth();
+
+  //  Show toast if session expired
+  useEffect(() => {
+    if (localStorage.getItem("sessionExpired")) {
+      toast.info("Session expired, please log in again.");
+      localStorage.removeItem("sessionExpired");
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,7 +28,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-  
+
     try {
       setLoading(true);
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/signin`, {
@@ -29,26 +36,26 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
-      const data = await res.json();
-  
-      if (!res.ok) throw new Error(data?.error?.message || "Login failed");
-  
-      const token = data.session.access_token;
-  
-      // temporarily login to store token
-      login({ id: data.user?.id, email: data.user?.email, token });
-  
-      await getProfile(token); // this will navigate
-    } catch (err: any) {
 
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data?.error?.message || "Login failed");
+
+      const token = data.session.access_token;
+      const refreshToken = data.session.refresh_token;
+
+      // temporarily set token to call /me
+      setAuthenticatedUser({ id: data.user?.id, email: data.user?.email, token, refreshToken });
+
+      await getProfile(token, refreshToken);
+    } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {
-    setLoading(false);
-  }
+      setLoading(false);
+    }
   };
-  
-  const getProfile = async (token: string) => {
+
+  const getProfile = async (token: string, refreshToken: string) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile/me`, {
         headers: {
@@ -56,15 +63,20 @@ const Login = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok && data) {
-        login({ ...data, token }); // final login call with full profile
-        if(data?.role === 'admin') navigate("/admin");
+        setAuthenticatedUser({ ...data, token, refreshToken });
+
+        const redirect = localStorage.getItem("redirectAfterLogin");
+        localStorage.removeItem("redirectAfterLogin");
+
+        if (redirect) navigate(redirect);
+        else if (data?.role === "admin") navigate("/admin");
         else navigate("/user/dashboard");
       } else {
-        navigate("/user/dashboard/profile"); // if profile is missing
+        navigate("/user/dashboard/profile"); // fallback if profile not complete
       }
     } catch (err) {
       setError("Profile fetch failed");
@@ -119,7 +131,7 @@ const Login = () => {
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-           {loading ? "Submitting..." : "Login"}
+          {loading ? "Submitting..." : "Login"}
         </button>
 
         <p className="text-sm text-gray-600 mt-4 text-center">

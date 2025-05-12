@@ -18,11 +18,11 @@ type NavLink =
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, login } = useAuth();
+  const { user, setAuthenticatedUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {    
-    login(null);
+    setAuthenticatedUser(null);
     navigate("/login");
   };
 

@@ -1,13 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: string;
   email: string;
   token: string;
-  mobile?:string;
-  firstName?:string,
-  lastName?: string,
-  country?: string,
+  refreshToken?: string;
+  mobile?: string;
+  firstName?: string;
+  lastName?: string;
+  country?: string;
   address?: string;
   city?: string;
   state?: string;
@@ -24,34 +26,71 @@ interface User {
 
 interface AuthContextProps {
   user: User | null;
-  login: (user: User | null) => void;
+  setAuthenticatedUser: (user: User | null) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,
-  login: () => {},
+  setAuthenticatedUser: () => {},
   logout: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem("vgok_user");
     return stored ? JSON.parse(stored) : null;
   });
 
-  const login = (user: User) => {
-    setUser(user);
-    localStorage.setItem("vgok_user", JSON.stringify(user));
+  const setAuthenticatedUser = (user: User | null) => {
+    if (user) {
+      setUser(user);
+      localStorage.setItem("vgok_user", JSON.stringify(user));
+    } else {
+      logout();
+    }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem("vgok_user");
+    navigate("/login");
+  };
+
+  // 🔄 Automatically refresh access token using refresh token
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (user?.refreshToken) {
+        refreshAccessToken(user.refreshToken);
+      }
+    }, 4 * 60 * 1000); // refresh every 4 minutes
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  const refreshAccessToken = async (refreshToken: string) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (!res.ok) throw new Error("Refresh failed");
+
+      const data = await res.json();
+      const updatedUser = { ...user, token: data.token };
+      setAuthenticatedUser(updatedUser);
+    } catch (err) {
+      console.error("Token refresh failed:", err);
+      logout();
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setAuthenticatedUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,45 +1,114 @@
+import { useEffect, useRef, useState } from "react";
+import { Pencil, Trash2 } from "lucide-react";
 import PageHeader from "@/global/PageHeader";
-import { Monitor, Pencil, Trash2 } from "lucide-react";
-
+import { CreateOrEditForumModal } from "@/Components/admin/CreateForumModal";
+import { getAllForums, deleteForum } from "@/services/forumService";
+import { toast } from "sonner";
+import { DeleteAlert } from "@/Components/common/DeleteAlert";
+import { useAuth } from "@/context/AuthContext";
 
 const ForumPage = () => {
+  const hasFetchedRef = useRef(false);
+  const { user } = useAuth();
+  const [forums, setForums] = useState([]);
+  // const [total] = useState(0);
+  const [limit] = useState(10);
+  const [offset] = useState(0);
+  const [filteredForums, setFilteredForums] = useState([]);
+
+  const fetchForums = async () => {
+    if (!user?.token) return;
+
+    try {
+      const res = await getAllForums(user.token, limit, offset);
+      setForums(res.data || []);
+      setFilteredForums(res.data || []);
+      // setTotal(res.pagination.total || 0);
+    } catch (err) {
+      console.error("Failed to fetch forums:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      fetchForums();
+    }
+  }, []);
+
+  const handleSearch = (query: string) => {
+    const q = query.toLowerCase();
+    const results = forums.filter(
+      (forum: any) =>
+        forum?.title?.toLowerCase()?.includes(q) ||
+        forum?.content?.toLowerCase()?.includes(q)
+    );
+    setFilteredForums(results);
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="All Forums"
         searchPlaceholder="Search by forum"
-        createLabel="Create New"
-        createLink="/user/dashboard/createTopic"
-        onSearch={(val) => console.log("Searching for:", val)}
+        onSearch={handleSearch}
+        createButton={<CreateOrEditForumModal onCreateOrUpdate={fetchForums} />}
       />
 
-      <div className="overflow-x-auto bg-white rounded-xl shadow">
-        <table className="min-w-full text-sm table-fixed">
+      <div className="bg-white rounded-xl shadow overflow-hidden">
+        <table className="w-full text-sm table-auto">
           <thead className="bg-blue-950 text-white">
             <tr>
               <th className="text-left px-6 py-3 w-1/4">TITLE</th>
               <th className="text-left px-6 py-3 w-auto">DESCRIPTION</th>
-              <th className="text-left px-6 py-3 w-1 whitespace-nowrap">ACTION</th>
+              <th className="text-left px-6 py-3 whitespace-nowrap w-1/4">
+                ACTION
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-t">
-              <td className="px-6 py-4">Crypto Topic</td>
-              <td className="px-6 py-4 truncate">BTC</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <div className="flex gap-2">
-                  <button className="flex items-center gap-2 border border-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-50 text-sm">
-                    <Monitor size={16} /> Detail
-                  </button>
-                  <button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm">
-                    <Pencil size={16} /> Edit
-                  </button>
-                  <button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm">
-                    <Trash2 size={16} /> Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {filteredForums.length > 0 ? (
+              filteredForums.map((forum: any, idx: number) => (
+                <tr key={idx} className="border-t">
+                  <td className="px-6 py-4 align-top">{forum.title}</td>
+                  <td className="px-6 py-4 align-top">{forum.content}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex flex-wrap gap-2">
+                      <CreateOrEditForumModal
+                        forum={forum}
+                        onCreateOrUpdate={fetchForums}
+                        trigger={
+                          <button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm">
+                            <Pencil size={16} /> Edit
+                          </button>
+                        }
+                      />
+                      <DeleteAlert
+                        title="Delete Forum?"
+                        content="This forum will be permanently removed."
+                        confirmLabel="Remove"
+                        onConfirm={() => deleteForum(forum.id)}
+                        onSuccess={() => {
+                          fetchForums();
+                          toast.success(`"${forum.title}" has been removed.`);
+                        }}
+                        trigger={
+                          <button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm">
+                            <Trash2 size={16} /> Delete
+                          </button>
+                        }
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={3} className="text-center text-gray-500 px-6 py-6">
+                  No forums found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
