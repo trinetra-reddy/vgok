@@ -1,6 +1,7 @@
 // components/common/PageHeader.tsx
 import { Search, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ReactNode } from "react";
 
 interface PageHeaderProps {
   title: string;
@@ -8,6 +9,7 @@ interface PageHeaderProps {
   onSearch?: (value: string) => void;
   createLabel?: string;
   createLink?: string;
+  createButton?: ReactNode; // 👈 New prop for custom button
 }
 
 const PageHeader = ({
@@ -15,7 +17,8 @@ const PageHeader = ({
   searchPlaceholder = "Search...",
   onSearch,
   createLabel = "Create New",
-  createLink = "/create",
+  createLink,
+  createButton,
 }: PageHeaderProps) => {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -34,14 +37,17 @@ const PageHeader = ({
           </button>
         </div>
 
-        {createLink && (
-          <Link
-            to={createLink}
-            className="border border-[#4269c2] text-[#4269c2] px-4 py-2 rounded hover:bg-blue-950 hover:text-white transition-all flex items-center gap-2"
-          >
-            <Plus size={16} /> {createLabel}
-          </Link>
-        )}
+        {/* Use createButton if passed; else fallback to Link */}
+        {createButton
+          ? createButton
+          : createLink && (
+              <Link
+                to={createLink}
+                className="border border-[#4269c2] text-[#4269c2] px-4 py-2 rounded hover:bg-blue-950 hover:text-white transition-all flex items-center gap-2"
+              >
+                <Plus size={16} /> {createLabel}
+              </Link>
+            )}
       </div>
     </div>
   );

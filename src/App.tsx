@@ -1,6 +1,7 @@
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./App.css";
+import { Toaster } from "sonner";
 import {
   BrowserRouter as Router,
   Routes,
@@ -83,6 +84,7 @@ const App = () => {
     <Router>
       <AuthProvider>
         <AppRoutes />
+        <Toaster position="top-right" richColors />
       </AuthProvider>
     </Router>
   );
