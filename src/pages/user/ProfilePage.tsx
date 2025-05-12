@@ -6,7 +6,7 @@ import { getFieldClass, validateForm } from "./ValidateForm";
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    const { login, user } = useAuth();
+    const { setAuthenticatedUser, user } = useAuth();
 
     const [formData, setFormData] = useState({
         id: "",
@@ -115,7 +115,7 @@ const ProfilePage = () => {
         const profileData = await res.json();
         if (profileData.data.id) {
             console.log('profile updated');
-            login({ ...user,...profileData?.data });
+            setAuthenticatedUser({ ...user,...profileData?.data });
             // redirect to the forum screen
             navigate("/forum")
         }

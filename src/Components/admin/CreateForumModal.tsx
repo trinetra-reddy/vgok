@@ -20,7 +20,7 @@ import {
   
   interface CreateOrEditForumModalProps {
     onCreateOrUpdate?: () => void;
-    forum?: { id: string; title: string; description: string }; // If present = Edit mode
+    forum?: { id: string; title: string; content: string }; // If present = Edit mode
     trigger?: React.ReactNode;
   }
   
@@ -38,12 +38,12 @@ import {
       reset,
       setValue,
       formState: { errors },
-    } = useForm<{ title: string; description: string }>();
+    } = useForm<{ title: string; content: string }>();
   
     useEffect(() => {
       if (open && forum) {
         setValue("title", forum.title);
-        setValue("description", forum.description);
+        setValue("content", forum.content);
       } else {
         reset();
       }
@@ -104,13 +104,13 @@ import {
             </div>
   
             <div>
-              <Label htmlFor="description">Description <span className="text-red-500">*</span></Label>
+              <Label htmlFor="content">Description <span className="text-red-500">*</span></Label>
               <textarea
-                id="description"
-                {...register("description", { required: true })}
+                id="content"
+                {...register("content", { required: true })}
                 className="mt-1 min-h-[100px] border border-gray-300 rounded px-3 py-2 text-sm w-full resize-none focus:ring-2 focus:ring-blue-500"
               />
-              {errors.description && <p className="text-sm text-red-500 mt-1">Description is required.</p>}
+              {errors.content && <p className="text-sm text-red-500 mt-1">Description is required.</p>}
             </div>
   
             <DialogFooter className="mt-4">

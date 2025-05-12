@@ -25,6 +25,7 @@ import { LandingPage } from "./pages/admin/LandingPage";
 import { UserLandingPage } from "./pages/user/UserLandingPage";
 import AppHeader from "./components/layout/AppHeader";
 import PrivateRoute from "./Components/auth/PrivateRoute";
+import Unauthorized from "./pages/Unauthorized";
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -54,24 +55,20 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forum" element={<Forum />} />
-        {/* Protected Routes */}
-        <Route
-          path="/admin/*"
-          element={
-            <PrivateRoute>
-              <LandingPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/user/*"
-          element={
-            <PrivateRoute>
-              <UserLandingPage />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/forum" element={<Forum />} />  
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+     
+        {/* Protected: Admin */}
+          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin/*" element={<LandingPage />} />
+          </Route>
+
+          {/* Protected: User */}
+          <Route element={<PrivateRoute allowedRoles={["user", "admin"]} />}>
+            <Route path="/user/*" element={<UserLandingPage />} />
+          </Route>
+          
       </Routes>
       <Footer />
     </>

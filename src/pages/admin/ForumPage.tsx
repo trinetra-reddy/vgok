@@ -28,8 +28,8 @@ const ForumPage = () => {
     const q = query.toLowerCase();
     const results = forums.filter(
       (forum: any) =>
-        forum.title.toLowerCase().includes(q) ||
-        forum.description.toLowerCase().includes(q)
+        forum?.title?.toLowerCase()?.includes(q) ||
+        forum?.content?.toLowerCase()?.includes(q)
     );
     setFilteredForums(results);
   };
@@ -59,7 +59,7 @@ const ForumPage = () => {
               filteredForums.map((forum: any, idx: number) => (
                 <tr key={idx} className="border-t">
                   <td className="px-6 py-4 align-top">{forum.title}</td>
-                  <td className="px-6 py-4 align-top">{forum.description}</td>
+                  <td className="px-6 py-4 align-top">{forum.content}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-wrap gap-2">
                       <CreateOrEditForumModal
@@ -73,7 +73,7 @@ const ForumPage = () => {
                       />
                       <DeleteAlert
                         title="Delete Forum?"
-                        description="This forum will be permanently removed."
+                        content="This forum will be permanently removed."
                         confirmLabel="Remove"
                         onConfirm={() => deleteForum(forum.id)}
                         onSuccess={() => {

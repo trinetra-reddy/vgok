@@ -4,13 +4,13 @@ import { useAuth } from "@/context/AuthContext";
 import { useState, useRef, useEffect } from "react";
 
 const AppHeader = () => {
-  const { user, login } = useAuth();
+  const { user, setAuthenticatedUser } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
-    login(null);
+    setAuthenticatedUser(null);
     navigate("/login");
   };
 
