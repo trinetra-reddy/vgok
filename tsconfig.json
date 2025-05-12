@@ -9,6 +9,7 @@
     }
   ],
   "compilerOptions": {
+    "moduleResolution": "node16",
     "jsx": "react",
     "baseUrl": ".",
     "paths": {

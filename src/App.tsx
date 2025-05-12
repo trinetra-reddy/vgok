@@ -17,6 +17,7 @@ import NFTWhitepaper from './pages/NFTWhitepaper';
 import Forum from './pages/Forum';
 import { LandingPage } from './pages/admin/LandingPage';
 import {UserLandingPage} from './pages/user/UserLandingPage';
+import AppHeader from './components/layout/AppHeader';
 
 
 
@@ -24,13 +25,20 @@ import {UserLandingPage} from './pages/user/UserLandingPage';
 const AppRoutes = () => {
   const location = useLocation();
 
-  // Add paths where the header should be hidden
-  const hideHeaderPaths = ["/signup", "/login"];
-  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+  const isAdminOrUserPath =
+  location.pathname.startsWith("/admin") ||
+  location.pathname.startsWith("/user");
+  const hideHeaderPaths = ["/login", "/signup"];
+  const shouldHidePublicHeader = hideHeaderPaths.includes(location.pathname);
 
   return (
     <>
-      {!shouldHideHeader && <Header />}
+       {/* Show AppHeader for admin/user routes */}
+       {isAdminOrUserPath && <AppHeader />}
+
+      {/* Show public Header for all other routes except /login and /signup */}
+      {!isAdminOrUserPath && !shouldHidePublicHeader && <Header />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/token" element={<Token />} />
