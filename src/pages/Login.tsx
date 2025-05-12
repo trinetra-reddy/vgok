@@ -7,6 +7,8 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -21,6 +23,7 @@ const Login = () => {
     setError("");
   
     try {
+      setLoading(true);
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,8 +41,11 @@ const Login = () => {
   
       await getProfile(token); // this will navigate
     } catch (err: any) {
+
       setError(err.message || "Something went wrong");
-    }
+    } finally {
+    setLoading(false);
+  }
   };
   
   const getProfile = async (token: string) => {
@@ -55,7 +61,8 @@ const Login = () => {
   
       if (res.ok && data) {
         login({ ...data, token }); // final login call with full profile
-        navigate("/forum");
+        if(data?.role === 'admin') navigate("/admin");
+        else navigate("/user/dashboard");
       } else {
         navigate("/user/dashboard/profile"); // if profile is missing
       }
@@ -108,9 +115,11 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-teritory transition"
+          className={`w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-teritory transition ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          Log In
+           {loading ? "Submitting..." : "Login"}
         </button>
 
         <p className="text-sm text-gray-600 mt-4 text-center">

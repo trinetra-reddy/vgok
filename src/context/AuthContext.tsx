@@ -24,7 +24,7 @@ interface User {
 
 interface AuthContextProps {
   user: User | null;
-  login: (user: User) => void;
+  login: (user: User | null) => void;
   logout: () => void;
 }
 

@@ -2,12 +2,31 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import clsx from "clsx";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+type NavLink =
+  | { name: string; to: string; dropdown?: undefined; action?: undefined }
+  | { name: string; action: () => void; to?: undefined; dropdown?: undefined }
+  | {
+      name: string;
+      dropdown: { name: string; to: string }[];
+      to?: undefined;
+      action?: undefined;
+    };
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
 
-  const navLinks = [
+  const handleLogout = () => {    
+    login(null);
+    navigate("/login");
+  };
+
+  const navLinks: NavLink[] = [
     { name: "Home", to: "/" },
     {
       name: "Token",
@@ -26,7 +45,9 @@ const Header = () => {
     },
     { name: "Forum", to: "/forum" },
     { name: "Contact Us", to: "/contact" },
-    { name: "Login", to: "/login" },
+    ...(user?.id
+      ? [{ name: "Logout", action: handleLogout }]
+      : [{ name: "Login", to: "/login" }]),
   ];
 
   const isActive = (to: string) => location.pathname === to;
@@ -38,7 +59,8 @@ const Header = () => {
       </div> */}
       <div className="p-2 bg-secondary">
         <p className="text-white text-right rotate text-sm">
-          ⚡ VGuarantee.org website development in progress. Coming Soon on 14th November!
+          ⚡ VGuarantee.org website development in progress. Coming Soon on 14th
+          November!
         </p>
       </div>
       <header className="bg-gradient-to-r from-primary to-secondary text-white sticky top-0 z-50 shadow-md text-lg">
@@ -73,16 +95,31 @@ const Header = () => {
                     ))}
                   </div>
                 </div>
-              ) : (
+              ) : link.to ? (
+                // ✅ handle normal links
                 <Link
                   key={link.name}
                   to={link.to}
-                  className={clsx("hover:text-white transition border-b border-transparent hover:border-white hover:font-semibold ", {
-                    "text-white font-semibold border-white": isActive(link.to),
-                  })}
+                  className={clsx(
+                    "hover:text-white transition border-b border-transparent hover:border-white hover:font-semibold",
+                    {
+                      "text-white font-semibold border-white": isActive(
+                        link.to
+                      ),
+                    }
+                  )}
                 >
                   {link.name}
                 </Link>
+              ) : (
+                // ✅ handle buttons like Logout
+                <button
+                  key={link.name}
+                  onClick={link.action}
+                  className="hover:text-white transition border-b border-transparent hover:border-white hover:font-semibold"
+                >
+                  {link.name}
+                </button>
               )
             )}
           </nav>
