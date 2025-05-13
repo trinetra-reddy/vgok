@@ -98,9 +98,7 @@ const ProfilePage = () => {
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            console.log("Updated Profile Data:", formData);
             updateProfile(formData);
-            // Add your API call here
         }
     };
 
@@ -114,7 +112,6 @@ const ProfilePage = () => {
         });
         const profileData = await res.json();
         if (profileData.data.id) {
-            console.log('profile updated');
             setAuthenticatedUser({ ...user,...profileData?.data });
             // redirect to the forum screen
             navigate("/forum")

@@ -17,6 +17,7 @@ import {
     title?: string;
     description?: string;
     confirmLabel?: string;
+    content?: string;
     onConfirm: () => Promise<void>; // required async delete logic
     onSuccess?: () => void;         // optional follow-up (toast, reload, nav, etc.)
     trigger: React.ReactNode;       // button or link that opens the modal
