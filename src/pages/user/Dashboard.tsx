@@ -1,21 +1,26 @@
 import { useApi } from "@/hooks/UseApi";
-import { CheckCircle, XCircle, Loader2, List, ArrowRight, Frown } from "lucide-react";
+import { CheckCircle, XCircle, Loader2, List, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Outlet } from 'react-router-dom';
 const Dashboard = () => {
     const { request } = useApi();
+    const [loading, setLoading] = useState(true);
     const [summary, setSummary] = useState({
         totalTopics: 0,
         pendingTopics: 0,
         approvedTopics: 0,
-        rejectedTopics: 0
+        rejectedTopics: 0,
+        latestApproved: []
     });
 
     useEffect(() => {
         request({
             url: "/posts/dashboard/summary",
             method: "GET",
-            onSuccess: (data) => setSummary(data)
+            onSuccess: (data) => {
+                setSummary(data);
+                setLoading(false);
+            }
         });
     }, []);
 
@@ -97,15 +102,35 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="text-center">
-                                    <td colSpan={4} className="py-8 text-gray-400">
-                                        {/* Data not found */}
-                                        <div className="flex flex-col items-center justify-center text-gray-400">
-                                            <Frown size={32} />
-                                            <p className="mt-2 text-sm">No data found</p>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {loading ? (
+                                    <tr>
+                                        <td colSpan={4} className="text-center py-6 text-gray-500">
+                                            Loading...
+                                        </td>
+                                    </tr>
+                                ) : summary?.latestApproved?.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={4} className="text-center py-6 text-gray-500">
+                                            😞 No data found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    summary?.latestApproved?.map((topic: any) => (
+                                        <tr key={topic.id} className="border-t">
+                                            <td className="px-6 py-4">{topic.title}</td>
+                                            <td className="px-6 py-4">{topic.subcategory || "—"}</td>
+                                            <td className="px-6 py-4 flex gap-2">
+                                                <span className="text-green-600 flex items-center gap-1">
+                                                    ↑ {topic.upvotes || 0}
+                                                </span>
+                                                <span className="text-red-600 flex items-center gap-1">
+                                                    ↓ {topic.downvotes || 0}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4">...</td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>

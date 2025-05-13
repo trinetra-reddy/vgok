@@ -7,6 +7,17 @@ import { toast } from "sonner";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
 import { useAuth } from "@/context/AuthContext";
 
+
+export interface Forum {
+  id: string;
+  title: string;
+  content: string;
+  type: string | null;
+  created_by: string | null;
+  created_at: string;
+}
+
+
 const ForumPage = () => {
   const hasFetchedRef = useRef(false);
   const { user } = useAuth();

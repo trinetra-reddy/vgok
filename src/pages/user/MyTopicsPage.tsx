@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import PageHeader from "@/global/PageHeader";
 import { useApi } from "@/hooks/UseApi";
 import { createTopic, deleteTopic, updateTopic } from "@/services/userService";
-import { ArrowUp, ArrowDown, Search, Monitor, Pencil, Trash2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Monitor, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -24,7 +24,15 @@ const MyTopicsPage = () => {
     const { request, loading } = useApi();
     const [topics, setTopics] = useState([]);
     const [filteredTopics, setFilteredTopics] = useState([]);
+    const [status, setStatus] = useState("All");
     const { user } = useAuth();
+
+    const topicStatusOptions = [
+        { label: "All", value: "" },
+        { label: "Pending", value: "pending" },
+        { label: "Approved", value: "approved" },
+        { label: "Rejected", value: "rejected" },
+    ];
 
     useEffect(() => {
         getMyTopics();
@@ -47,15 +55,23 @@ const MyTopicsPage = () => {
         if (!user?.token) return Promise.resolve();
         return deleteTopic(id, user?.token)
     }
-    const createTopics = (formData: Topics) => {
+    const createTopics = async (formData: Topics) => {
         if (!user?.token) return Promise.resolve();
         const payload = {
             ...formData,
             tags: [formData.tags],
             content: formData.content
         }
-        createTopic(payload, user?.token);
-        toast.success("Topic created successfully.");
+        try {
+            await createTopic(payload, user.token);
+            toast.success("Topic created successfully!");
+        } catch (err) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            } else {
+                toast.error("Something went wrong.");
+            }
+        }
     }
 
     const updatesTopic = async (id: string, formData: Topics) => {
@@ -65,9 +81,16 @@ const MyTopicsPage = () => {
             tags: [formData.tags],
             content: formData.content
         }
-        const res = await updateTopic(id, payload, user?.token);
-        if (res) {
+
+        try {
+            await updateTopic(id, payload, user?.token);
             toast.success("Topic updated successfully.");
+        } catch (err) {
+            if (err instanceof Error) {
+                toast.error(err.message);
+            } else {
+                toast.error("Something went wrong.");
+            }
         }
     }
     const handleSearch = (query: string) => {
@@ -80,42 +103,41 @@ const MyTopicsPage = () => {
         setFilteredTopics(results);
     };
 
+    useEffect(() => {
+        handleFilter();
+    }, [status])
+
+    const handleFilter = () => {
+        const results = topics.filter(
+            (forum: any) =>
+                forum?.status?.toLowerCase()?.includes(status)
+        );
+        setFilteredTopics(results);
+    }
+
     return (
         <div className="space-y-6">
             {/* Filter Bar */}
-            <div className="flex flex-wrap gap-4 items-center">
-                {/* Status Filter */}
-                <div className="flex items-center border border-gray-300 rounded overflow-hidden">
-                    <select className="px-4 py-2 outline-none">
-                        <option>Pending</option>
-                        <option>Approved</option>
-                        <option>Rejected</option>
-                    </select>
-                    <button className="bg-blue-950 px-3 py-3 text-white">
-                        <Search size={16} />
-                    </button>
-                </div>
-
-                {/* <Link
-                    to={"/user/dashboard/createTopic"}
-                    className="border border-[#4269c2] text-[#4269c2] px-4 py-2 rounded hover:bg-blue-950 hover:text-white transition-all ml-auto flex items-center gap-2"
-                >
-                    <Plus size={16} /> Create New
-                </Link> */}
-
+            <div className="flex flex-wrap gap-4 items-center justify-between">
                 <PageHeader
-                    title="All Forums"
-                    searchPlaceholder="Search by forum"
+                    title="All Topics"
+                    searchPlaceholder="Search by topic"
                     onSearch={handleSearch}
+
+                    statusValue={status}
+                    onStatusChange={setStatus}
+                    onStatusClick={handleFilter}
+                    statusOptions={topicStatusOptions}
+
                     createButton={<CommonDialog onCreateOrUpdate={getMyTopics}
                         onCreate={async (formData) => {
                             if (!user) return Promise.resolve();
                             return await createTopics(formData);
                         }}
                         onUpdate={updatesTopic}
-                        type={'add'} />}
+                        type={'add'}
+                    />}
                 />
-
             </div>
 
             {/* Table */}
