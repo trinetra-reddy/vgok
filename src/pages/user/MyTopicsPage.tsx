@@ -163,7 +163,7 @@ const MyTopicsPage = () => {
                             filteredTopics.map((topic: any) => (
                                 <tr key={topic.id} className="border-t">
                                     <td className="px-6 py-4">{topic.title}</td>
-                                    <td className="px-6 py-4">{topic.forum}</td>
+                                    <td className="px-6 py-4">{topic.content}</td>
                                     <td className="px-6 py-4 flex items-center gap-2">
                                         <span className="text-green-500 flex items-center gap-1">
                                             <ArrowUp size={12} /> {topic.upvotes || 0}
