@@ -39,8 +39,8 @@ const { checkAuth } = require('../middleware/authMiddleware');
  *         description: Bad request
  */
 router.post('/create', checkAuth, async (req, res) => {
-  const { title, content, category_id, tags } = req.body;
-  const { data, error } = await supabase.from('posts').insert([{ title, content, category_id, tags, user_id: req.user.id }]);
+  const { title, content, category_id, tags, description, status, video_url } = req.body;
+  const { data, error } = await supabase.from('posts').insert([{ title, content, category_id, tags, user_id: req.user.id, description, status }]);
   if (error) return res.status(400).json({ error });
   res.json(data);
 });
@@ -162,7 +162,8 @@ router.put("/update/:id", checkAuth, async (req, res) => {
       content: updates.content,
       tags: updates.tags,
       status: updates.status,
-      description: updates.description
+      description: updates.description,
+      // video_url: updates.video_url 
       // add other fields as needed
     })
     .eq("id", postId)
