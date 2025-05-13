@@ -12,7 +12,6 @@ const Dashboard = () => {
     });
 
     useEffect(() => {
-        console.log('called inside use effect');
         request({
             url: "/posts/dashboard/summary",
             method: "GET",
@@ -89,7 +88,7 @@ const Dashboard = () => {
                     <div className="py-4 font-bold text-gray-700 border-b">Latest Approved Topics</div>
                     <div className="overflow-x-auto bg-white rounded-xl shadow">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-[#4269c2] text-white">
+                            <thead className="bg-blue-950 text-white">
                                 <tr>
                                     <th className="px-6 py-3">TITLE</th>
                                     <th className="px-6 py-3">SUBCATEGORY</th>
