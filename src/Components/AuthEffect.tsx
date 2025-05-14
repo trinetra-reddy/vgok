@@ -23,6 +23,7 @@ const AuthEffect = () => {
         email: user.email,
         full_name: user.user_metadata.full_name,
         avatar_url: user.user_metadata.avatar_url,
+         role: "user"
       });
 
       if (error) {
@@ -51,13 +52,13 @@ const AuthEffect = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === "SIGNED_IN" && session?.user) {
-          insertUserProfile(session.user);
           const token = session.access_token;
           const refreshToken = session.refresh_token;
-
+          session.user.role='user';
+          insertUserProfile(session.user);
           // update the token details
           if (session.user) {
-            setAuthenticatedUser({ id: session?.user?.id, email: session.user.email!, token, refreshToken });
+            setAuthenticatedUser({ id: session?.user?.id, email: session.user.email!, token, refreshToken,role:'user' });
           }
 
           navigate("/user/dashboard");

@@ -55,11 +55,26 @@ router.post('/create', checkAuth, async (req, res) => {
  *       200:
  *         description: A list of all posts
  */
-router.get('/all', async (_, res) => {
-  const { data, error } = await supabase.from('posts').select('*');
-  if (error) return res.status(400).json({ error });
-  res.json(data);
+router.get("/all", checkAuth, async (req, res) => {
+  const userId = req.user.id;
+  const { status, forum } = req.query;
+
+  let query = supabase
+    .from("posts")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (status) query = query.eq("status", status);
+  if (forum) query = query.eq("forum", forum);
+
+  const { data, error } = await query;
+
+  if (error) return res.status(400).json({ error: error.message });
+
+  return res.status(200).json({ data });
 });
+
 
 /**
  * @swagger

@@ -44,8 +44,9 @@ const MyTopicsPage = () => {
                 url: "/posts/all",
                 method: "GET",
             });
-            setTopics(res);
-            setFilteredTopics(res);
+            const records = res.data || [];
+            setTopics(records);
+            setFilteredTopics(records);
         } catch (err) {
             console.error("Failed to load topics", err);
         }
