@@ -1,12 +1,12 @@
 import { useAuth } from '@/context/AuthContext';
 import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 const DashboardWrapper = () => {
-    const { user } = useAuth();
+    const { user, setAuthenticatedUser } = useAuth();
     const [userData, setUserData] = useState({ ...user });
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (user) {
             setUserData({ ...user });
@@ -15,7 +15,8 @@ const DashboardWrapper = () => {
 
 
     const handleLogout = () => {
-        // redirect to login
+        setAuthenticatedUser(null);
+        navigate("/login");
     };
 
     return (

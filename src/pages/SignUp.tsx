@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { FaGoogle } from "react-icons/fa";
 import { Facebook, Instagram } from 'lucide-react';
+import { supabase } from "@/supabaseClient";
 
 const SignUp = () => {
   const [activeTab] = useState<"email" | "mobile">("email");
@@ -27,6 +28,21 @@ const SignUp = () => {
     e.preventDefault();
     console.log("Submitted Data:", formData);
     // API call logic here
+  };
+
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+        // redirectTo: 'http://localhost:5173/'
+      },
+    });
+
+    if (error) {
+      console.error('Google login error:', error.message);
+    }
   };
 
   return (
@@ -150,11 +166,11 @@ const SignUp = () => {
             onChange={handleChange}
             className="mr-2 mt-1"
           />
-         <span> By clicking “Get My Welcome Gifts”, you agree to our <a href="#" className="text-[#e85252] font-semibold hover:underline cursor-pointer">
+          <span> By clicking “Get My Welcome Gifts”, you agree to our <a href="#" className="text-[#e85252] font-semibold hover:underline cursor-pointer">
             Terms of Service
           </a></span>
         </label>
-{/* 
+        {/* 
         <a href="#" className="text-[#e85252] font-semibold hover:underline cursor-pointer">
             Privacy Policy
           </a> */}
@@ -168,7 +184,8 @@ const SignUp = () => {
         <div className="text-center my-4 text-sm text-gray-500">Or sign up with</div>
 
         <div className="flex justify-center gap-4">
-          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer">
+          <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer"
+            onClick={handleGoogleLogin}>
             <FaGoogle className="text-white w-[24px]" />
           </button>
           <button className="bg-[#2a2a2a] p-3 rounded-full hover:opacity-80 transition cursor-pointer">

@@ -26,6 +26,7 @@ import { UserLandingPage } from "./pages/user/UserLandingPage";
 import AppHeader from "./components/layout/AppHeader";
 import PrivateRoute from "./Components/auth/PrivateRoute";
 import Unauthorized from "./pages/Unauthorized";
+import AuthEffect from "./Components/AuthEffect";
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -45,6 +46,8 @@ const AppRoutes = () => {
       {/* Show public Header for all other routes except /login and /signup */}
       {!isAdminOrUserPath && !shouldHidePublicHeader && <Header />}
 
+      {/* it will call after the signup with google AuthEffect*/}
+      <AuthEffect />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/token" element={<Token />} />
@@ -55,20 +58,20 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/forum" element={<Forum />} />  
+        <Route path="/forum" element={<Forum />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
-     
-        {/* Protected: Admin */}
-          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
-            <Route path="/admin/*" element={<LandingPage />} />
-          </Route>
 
-          {/* Protected: User */}
-          <Route element={<PrivateRoute allowedRoles={["user", "admin"]} />}>
-            <Route path="/user/*" element={<UserLandingPage />} />
-          </Route>
-          
+        {/* Protected: Admin */}
+        <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin/*" element={<LandingPage />} />
+        </Route>
+
+        {/* Protected: User */}
+        <Route element={<PrivateRoute allowedRoles={["user", "admin"]} />}>
+          <Route path="/user/*" element={<UserLandingPage />} />
+        </Route>
+
       </Routes>
       <Footer />
     </>
