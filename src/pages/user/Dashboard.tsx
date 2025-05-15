@@ -65,7 +65,7 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#f9f9fb] flex flex-col md:flex-row p-6 gap-6 w-full">
+        <div className="min-h-screen bg-[#f9f9fb] flex flex-col md:flex-row gap-6 w-full">
             {/* Right Panel */}
             <main className="flex-1 space-y-6">
                 {/* Stats Cards */}

@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import { getProfile } from '@/services/userService';
-import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
+import { Mail, Phone, MapPin, LogOut, Settings, FileText, LayoutDashboard } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';

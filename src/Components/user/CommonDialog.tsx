@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Topics } from "@/pages/user/MyTopicsPage";
 import CreateOrEditTopicsForm from "@/pages/user/CreateOrEditTopicsForm";
+import { useAuth } from "@/context/AuthContext";
+import { getAllForums } from "@/services/forumService";
+import { Forum } from "@/pages/admin/ForumPage";
 
 
 interface CreateOrEditTopicsModalProps {
@@ -33,14 +36,11 @@ export const CommonDialog = ({
   onUpdate
 }: CreateOrEditTopicsModalProps) => {
   const [open, setOpen] = useState(false);
+  const [forums, setForums] = useState<Forum[]>([]);
+  const { user } = useAuth();
   const isEdit = !!formData;
-
   const {
-    // register,
-    // handleSubmit,
     reset,
-    // setValue,
-    // formState: { errors },
   } = useForm<Topics>();
 
   const methods = useForm<Topics>({
@@ -63,12 +63,29 @@ export const CommonDialog = ({
         description: formData.description,
         status: formData.status,
         tags: formData.tags,
-        // video_url: formData.video_url,
+        video_url: formData.video_url,
       });
     } else {
       methods.reset();
     }
-  }, [open, formData, methods]);
+  }, [open, formData, methods, forums]);
+
+  useEffect(() => {
+    if (user) {
+      fetchForums();
+    }
+  }, [user]);
+
+  const fetchForums = async () => {
+    if (!user?.token) return;
+
+    try {
+      const res = await getAllForums(user.token);
+      setForums(res.data || []);
+    } catch (err) {
+      console.error("Failed to fetch forums:", err);
+    }
+  };
 
   const onSubmit = async (data: Topics) => {
     console.log('onSubmit')
@@ -106,7 +123,7 @@ export const CommonDialog = ({
       <DialogContent className="sm:max-w-md"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}>
-        {type !== 'view' && ( <DialogHeader>
+        {type !== 'view' && (<DialogHeader>
           <DialogTitle className="text-lg font-bold text-blue-950">
             {isEdit ? "Update Topic" : "Create Topic"}
           </DialogTitle>
@@ -117,13 +134,13 @@ export const CommonDialog = ({
           </DialogDescription>
         </DialogHeader>
         )}
-        
+
         <div className="max-h-[80vh] overflow-y-auto pr-2">
-        <FormProvider {...methods}>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <CreateOrEditTopicsForm isEdit={isEdit} type={type} />
-          </form>
-        </FormProvider>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <CreateOrEditTopicsForm isEdit={isEdit} type={type} forum={forums} />
+            </form>
+          </FormProvider>
         </div>
 
       </DialogContent>
