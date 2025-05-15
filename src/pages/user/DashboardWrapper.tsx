@@ -1,18 +1,47 @@
 import { useAuth } from '@/context/AuthContext';
+import { getProfile } from '@/services/userService';
 import { Mail, Phone, MapPin, LogOut, Settings, Lock, HelpCircle, FileText, LayoutDashboard } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const DashboardWrapper = () => {
     const { user, setAuthenticatedUser } = useAuth();
-    const [userData, setUserData] = useState({ ...user });
+    const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobile: "",
+        address: "",
+        state: "",
+        zipcode: "",
+        city: "",
+        country: "",
+        avatar_url: undefined,
+        bio: "",
+    });
     const navigate = useNavigate();
-    useEffect(() => {
-        if (user) {
-            setUserData({ ...user });
-        }
-    }, [user]);
 
+    useEffect(() => {
+        getUserProfile();
+    }, []);
+
+    const getUserProfile = async () => {
+        if (user?.token) {
+            try {
+                const profileDetails = await getProfile(user?.token);
+                const userDetails = { ...user, ...profileDetails };
+                setAuthenticatedUser(userDetails);
+                setUserData(profileDetails);
+            } catch (err) {
+                if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error("Something went wrong.");
+                }
+            }
+        }
+    }
 
     const handleLogout = () => {
         setAuthenticatedUser(null);
@@ -24,7 +53,13 @@ const DashboardWrapper = () => {
             {/* Left Sidebar */}
             <aside className="w-full md:w-1/4 flex flex-col gap-6">
                 <div className="bg-blue-950 text-white rounded-xl p-6 text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-white rounded" />
+                    <div className="w-24 h-24 mx-auto mb-4 bg-white rounded">
+                        <img
+                            src={userData.avatar_url ?? undefined}
+                            alt="Square Logo"
+                            className="h-full object-cover bg-white shadow"
+                        />
+                    </div>
                     <h2 className="text-lg font-semibold">{userData?.firstName}<br />{userData?.lastName}</h2>
 
                     <div className="mt-4 space-y-2 text-sm">
@@ -42,34 +77,22 @@ const DashboardWrapper = () => {
 
                 <nav className="bg-white rounded-xl shadow p-4 space-y-4">
                     <NavLink to="/user/dashboard" end className={({ isActive }) =>
-                        `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-blue-950 text-white px-1 py-1" : "text-gray-600"
-                        } hover:bg-[#f0f0f0]`
-                    }>
+                        `flex items-center gap-2 px-3 py-2 rounded transition-colors ${isActive ? "bg-blue-950 text-white" : "text-gray-600 hover:text-[#4269c2] hover:bg-[#f0f0f0]"}`}>
                         <LayoutDashboard size={18} /> Dashboard
                     </NavLink>
 
                     <NavLink to="./mytopics" className={({ isActive }) =>
-                        `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-blue-950 text-white px-1 py-1" : "text-gray-600"
-                        } hover:bg-[#f0f0f0]`
-                    }>
+                        `flex items-center gap-2 px-3 py-2 rounded transition-colors ${isActive ? "bg-blue-950 text-white" : "text-gray-600 hover:text-[#4269c2] hover:bg-[#f0f0f0]"}`}>
                         <FileText size={18} /> My Topics
                     </NavLink>
-
-                    <div className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
-                        <HelpCircle size={18} /> Support Ticket
-                    </div>
                     <NavLink
                         to="/user/dashboard/profile"
                         className={({ isActive }) =>
-                            `flex items-center rounded gap-2 text-gray-600 hover:text-[#4269c2] ${isActive ? "bg-blue-950 text-white px-1 py-1" : "text-gray-600"
-                            } hover:bg-[#f0f0f0]`
-                        } >
+                        `flex items-center gap-2 px-3 py-2 rounded transition-colors ${isActive ? "bg-blue-950 text-white" : "text-gray-600 hover:text-[#4269c2] hover:bg-[#f0f0f0]"}`}>
                         <Settings size={18} />Profile Settings
                     </NavLink>
-                    <div className="flex items-center gap-2 text-gray-600 hover:text-[#4269c2]">
-                        <Lock size={18} /> Change Password
-                    </div>
-                    <div onClick={handleLogout} className="flex items-center gap-2 text-red-500 cursor-pointer">
+                   
+                    <div onClick={handleLogout} className="flex items-center gap-2 px-3 py-2 rounded cursor-pointer text-red-500 hover:bg-red-100 hover:text-red-600 transition-colors">
                         <LogOut size={18} /> Logout
                     </div>
                 </nav>

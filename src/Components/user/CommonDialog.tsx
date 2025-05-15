@@ -106,7 +106,7 @@ export const CommonDialog = ({
       <DialogContent className="sm:max-w-md"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}>
-        <DialogHeader>
+        {type !== 'view' && ( <DialogHeader>
           <DialogTitle className="text-lg font-bold text-blue-950">
             {isEdit ? "Update Topic" : "Create Topic"}
           </DialogTitle>
@@ -116,6 +116,7 @@ export const CommonDialog = ({
               : "Fill in the details to add a new topic."}
           </DialogDescription>
         </DialogHeader>
+        )}
         
         <div className="max-h-[80vh] overflow-y-auto pr-2">
         <FormProvider {...methods}>
