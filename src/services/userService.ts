@@ -22,6 +22,10 @@ export const deleteTopic = async (id: string, token: string) => {
   return fetchWithAuth(`${BASE_URL}/posts/delete/${id}`, "DELETE", token);
 };
 
+export const getProfile = async (token: string) => {
+  return fetchWithAuth(`${BASE_URL}/profile/me`, "GET", token);
+};
+
 export const getAllTopics = async (
   token: string,
   limit: number = 10,

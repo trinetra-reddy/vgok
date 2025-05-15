@@ -1,12 +1,16 @@
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import FormError from "../FormError";
 import { getFieldClass, validateForm } from "./ValidateForm";
+import { supabase } from "@/supabaseClient";
+import { getProfile } from "@/services/userService";
+import { toast } from "sonner";
 
 const ProfilePage = () => {
-    const navigate = useNavigate();
     const { setAuthenticatedUser, user } = useAuth();
+    const [file, setFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState("");
+    const [profile, setProfile] = useState(user);
 
     const [formData, setFormData] = useState({
         id: "",
@@ -22,26 +26,6 @@ const ProfilePage = () => {
         avatar_url: "",
         bio: "",
     });
-
-    // Update formData when user is loaded
-    useEffect(() => {
-        if (user) {
-            setFormData({
-                id: user.id,
-                firstName: user.firstName || "",
-                lastName: user.lastName || "",
-                email: user.email || "",
-                mobile: user.mobile || "",
-                address: user.address || "",
-                state: user.state || "",
-                zipcode: user.zipcode || "",
-                city: user.city || "",
-                country: user.country || "",
-                avatar_url: user.avatar_url || "",
-                bio: user.bio || "",
-            });
-        }
-    }, [user]);
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -72,6 +56,70 @@ const ProfilePage = () => {
 
     };
 
+    // Update formData when user is loaded
+    useEffect(() => {
+        if (user && profile) {
+            setFormData({
+                id: user.id,
+                firstName: profile.firstName || "",
+                lastName: profile.lastName || "",
+                email: profile.email || "",
+                mobile: profile.mobile || "",
+                address: profile.address || "",
+                state: profile.state || "",
+                zipcode: profile.zipcode || "",
+                city: profile.city || "",
+                country: profile.country || "",
+                avatar_url: profile.avatar_url || "",
+                bio: profile.bio || "",
+            });
+        }
+    }, [profile]);
+
+    useEffect(() => {
+        getUserProfile();
+    }, [])
+
+    const getUserProfile = async () => {
+        if (user?.token) {
+            try {
+                const profileDetails = await getProfile(user?.token);
+                setProfile(profileDetails);
+                setPreviewUrl(profileDetails.avatar_url);
+            } catch (err) {
+                if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error("Something went wrong.");
+                }
+            }
+        }
+    }
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selected = e.target.files?.[0];
+        if (selected) {
+            setFile(selected);
+            setPreviewUrl(URL.createObjectURL(selected));
+        }
+    };
+
+    const uploadAvatar = async () => {
+        if (!file || !user) return;
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${user.id}.${fileExt}`;
+        const filePath = `${fileName}`;
+        const { error: uploadError } = await supabase.storage
+            .from("user-profile")
+            .upload(filePath, file, { upsert: true });
+
+        if (uploadError) {
+            return;
+        }
+
+        const { data } = supabase.storage.from("user-profile").getPublicUrl(filePath);
+        const avatarUrl = data?.publicUrl;
+        return avatarUrl;
+    };
     const handleChange = (e: any) => {
         const { name, value, files } = e.target;
         const updated = { ...formData, [name]: value };
@@ -86,19 +134,26 @@ const ProfilePage = () => {
         setErrors((prev) => ({ ...prev, ...error }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const validationErrors = validateForm(formData, rules);
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
         }
-
         setErrors({});
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
         } else {
-            updateProfile(formData);
+            if (file) {
+                const url = await uploadAvatar();
+                if (url) {
+                    formData.avatar_url = url;
+                }
+                updateProfile(formData);
+            } else {
+                updateProfile(formData);
+            }
         }
     };
 
@@ -112,9 +167,8 @@ const ProfilePage = () => {
         });
         const profileData = await res.json();
         if (profileData.data.id) {
-            setAuthenticatedUser({ ...user,...profileData?.data });
-            // redirect to the forum screen
-            navigate("/forum")
+            setAuthenticatedUser({ ...user, ...profileData?.data });
+            toast.success("Profile updated successfully!");
         }
     }
 
@@ -206,11 +260,11 @@ const ProfilePage = () => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1">Image</label>
-                        <input type="file" className="w-full border border-gray-300 rounded px-3 py-2"
+                        <input type="file" accept="image/*" className="w-full border border-gray-300 rounded px-3 py-2"
                             name="avatar_url"
-                            onChange={handleChange} />
+                            onChange={handleFileChange} />
+                        {previewUrl && <img src={previewUrl} alt="Preview" className="w-24 h-24 rounded-full mt-2" />}
                     </div>
-
                     <div className="md:col-span-2">
                         <label className="block text-sm font-medium mb-1">About Yourself</label>
                         <textarea rows={5} className="w-full border border-gray-300 rounded px-3 py-2"

@@ -63,12 +63,6 @@ const PageHeader = ({
               </option>
             ))}
           </select>
-          <button
-            onClick={onStatusClick}
-            className="bg-blue-950 px-3 py-3 text-white"
-          >
-            <Search size={16} />
-          </button>
         </div>) : ''
         }
 
