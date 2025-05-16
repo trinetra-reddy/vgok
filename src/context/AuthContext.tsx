@@ -60,34 +60,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // 🔄 Automatically refresh access token using refresh token
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (user?.refreshToken) {
-        refreshAccessToken(user.refreshToken);
-      }
-    }, 4 * 60 * 1000); // refresh every 4 minutes
+  // Commenting te refresh token logic bcz refresh token API is not ready yet 13/may/2025
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (user?.refreshToken) {
+  //       refreshAccessToken(user.refreshToken);
+  //     }
+  //   }, 4 * 60 * 1000); // refresh every 4 minutes
 
-    return () => clearInterval(interval);
-  }, [user]);
+  //   return () => clearInterval(interval);
+  // }, [user]);
 
-  const refreshAccessToken = async (refreshToken: string) => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refreshToken }),
-      });
+  // const refreshAccessToken = async (refreshToken: string) => {
+  //   try {
+  //     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/refresh`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ refreshToken }),
+  //     });
 
-      if (!res.ok) throw new Error("Refresh failed");
+  //     if (!res.ok) throw new Error("Refresh failed");
 
-      const data = await res.json();
-      const updatedUser = { ...user, token: data.token };
-      setAuthenticatedUser(updatedUser);
-    } catch (err) {
-      console.error("Token refresh failed:", err);
-      logout();
-    }
-  };
+  //     const data = await res.json();
+  //     const updatedUser = { ...user, token: data.token };
+  //     setAuthenticatedUser(updatedUser);
+  //   } catch (err) {
+  //     console.error("Token refresh failed:", err);
+  //     logout();
+  //   }
+  // };
 
   return (
     <AuthContext.Provider value={{ user, setAuthenticatedUser, logout }}>
