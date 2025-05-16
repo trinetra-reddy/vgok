@@ -1,1 +1,0 @@
-import{j as s}from"./index-JUF0fiuQ.js";const r=()=>s.jsxs("div",{children:[s.jsx("h2",{className:"text-2xl font-semibold mb-4",children:"Forum"}),s.jsx("p",{className:"text-gray-700",children:"This is the main forum dashboard."})]});export{r as default};
