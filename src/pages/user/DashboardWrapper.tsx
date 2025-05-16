@@ -24,7 +24,7 @@ const DashboardWrapper = () => {
 
     useEffect(() => {
         getUserProfile();
-    }, []);
+    }, [user]);
 
     const getUserProfile = async () => {
         if (user?.token) {
