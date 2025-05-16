@@ -55,7 +55,9 @@ const CreateOrEditTopicsForm = ({ isEdit = false, type, forum = [] }: { isEdit?:
             {...register("title", { required: "Title is required" })}
             className={`w-full border rounded px-3 py-2 ${errors.title ? "border-red-500" : "border-gray-300"}`}
           />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+          {typeof errors.title?.message === "string" && (
+            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
         </div>
       </div>
       {/* Tags */}

@@ -5,8 +5,8 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { useForm, FormProvider } from "react-hook-form";
 import { toast } from "sonner";

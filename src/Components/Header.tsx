@@ -156,7 +156,7 @@ const Header = () => {
               ) : (
                 <Link
                   key={link.name}
-                  to={link.to}
+                  to={link.to ||''}
                   onClick={() => setIsOpen(false)}
                   className="block hover:text-secondary"
                 >

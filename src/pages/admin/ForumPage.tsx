@@ -22,7 +22,6 @@ const ForumPage = () => {
   const hasFetchedRef = useRef(false);
   const { user } = useAuth();
   const [forums, setForums] = useState([]);
-  // const [total] = useState(0);
   const [limit] = useState(10);
   const [offset] = useState(0);
   const [filteredForums, setFilteredForums] = useState([]);
@@ -57,6 +56,10 @@ const ForumPage = () => {
     setFilteredForums(results);
   };
 
+  const OnClickDeleteForum = async (id:string)=>{
+  if (!user?.token) return Promise.resolve();
+    await deleteForum(id,user.token)
+  }
   return (
     <div className="space-y-6">
       <PageHeader
@@ -98,7 +101,7 @@ const ForumPage = () => {
                         title="Delete Forum?"
                         content="This forum will be permanently removed."
                         confirmLabel="Remove"
-                        onConfirm={() => deleteForum(forum.id)}
+                        onConfirm={() => OnClickDeleteForum(forum.id)}
                         onSuccess={() => {
                           fetchForums();
                           toast.success(`"${forum.title}" has been removed.`);
