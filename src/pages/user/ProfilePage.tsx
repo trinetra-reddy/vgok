@@ -194,7 +194,6 @@ const ProfilePage = () => {
                             onChange={handleChange} />
                         <FormError message={errors.lastName} />
                     </div>
-
                     <div>
                         <label className="block text-sm font-medium mb-1">E-mail Address</label>
                         <input type="email" disabled className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100"
@@ -213,7 +212,6 @@ const ProfilePage = () => {
                         />
                         <FormError message={errors.mobile} />
                     </div>
-
                     <div>
                         <label className="block text-sm font-medium mb-1">Address<span className="text-red-500">*</span></label>
                         <input type="text" className="w-full border border-gray-300 rounded px-3 py-2"
@@ -224,15 +222,21 @@ const ProfilePage = () => {
                         <FormError message={errors.address} />
                     </div>
                     <div>
+                        <label className="block text-sm font-medium mb-1">City<span className="text-red-500">*</span></label>
+                        <input type="text" className="w-full border border-gray-300 rounded px-3 py-2"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleChange} />
+                        <FormError message={errors.city} />
+                    </div>
+                    <div>
                         <label className="block text-sm font-medium mb-1">State<span className="text-red-500">*</span></label>
                         <input type="text" className="w-full border border-gray-300 rounded px-3 py-2"
                             name="state"
                             value={formData.state}
                             onChange={handleChange} />
                         <FormError message={errors.state} />
-
                     </div>
-
                     <div>
                         <label className="block text-sm font-medium mb-1">Zip Code<span className="text-red-500">*</span></label>
                         <input type="text" className="w-full border border-gray-300 rounded px-3 py-2"
@@ -243,15 +247,6 @@ const ProfilePage = () => {
                         <FormError message={errors.zipcode} />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1">City<span className="text-red-500">*</span></label>
-                        <input type="text" className="w-full border border-gray-300 rounded px-3 py-2"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleChange} />
-                        <FormError message={errors.city} />
-                    </div>
-
-                    <div>
                         <label className="block text-sm font-medium mb-1">Country</label>
                         <input type="text" disabled className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100"
                             name="country"
@@ -260,7 +255,7 @@ const ProfilePage = () => {
                     </div>
                     <div>
                         <label className="block text-sm font-medium mb-1">Image</label>
-                        <input type="file" accept="image/*" className="w-full border border-gray-300 rounded px-3 py-2"
+                        <input type="file" accept="image/*" className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-sm cursor-pointer file:cursor-pointer file:mr-2 file:py-1 file:px-2 file:border-0 file:bg-[#4269c2] file:text-white hover:border-[#4269c2] hover:bg-blue-50 transition"
                             name="avatar_url"
                             onChange={handleFileChange} />
                         {previewUrl && <img src={previewUrl} alt="Preview" className="w-24 h-24 rounded-full mt-2" />}
@@ -272,7 +267,6 @@ const ProfilePage = () => {
                             value={formData.bio}
                             onChange={handleChange}></textarea>
                     </div>
-
                     <div className="md:col-span-2">
                         <button type="submit" className="w-full bg-[#4269c2] hover:bg-[#3256a3] text-white py-3 rounded font-semibold cursor-pointer">
                             Update Profile

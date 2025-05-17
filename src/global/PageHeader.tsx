@@ -29,7 +29,6 @@ const PageHeader = ({
 
   statusValue,
   onStatusChange,
-  onStatusClick,
   statusOptions,
 
 }: PageHeaderProps) => {

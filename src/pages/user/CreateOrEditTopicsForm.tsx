@@ -1,33 +1,18 @@
-import { useAuth } from "@/context/AuthContext";
-import { getAllForums } from "@/services/forumService";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Forum } from "../admin/ForumPage";
+import TagsInput from "@/Components/user/TagsInput";
 
-const CreateOrEditTopicsForm = ({ isEdit = false, type }: { isEdit?: boolean; type?: string }) => {
+const CreateOrEditTopicsForm = ({ isEdit = false, type, forum = [] }: { isEdit?: boolean; type?: string; forum?: Forum[] }) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const { user } = useAuth();
-  const [forums, setForums] = useState<Forum[]>([]);
-  const [limit] = useState(10);
-  const [offset] = useState(0);
-
-  const fetchForums = async () => {
-    if (!user?.token) return;
-
-    try {
-      const res = await getAllForums(user.token, limit, offset);
-      setForums(res.data || []);
-    } catch (err) {
-      console.error("Failed to fetch forums:", err);
-    }
-  };
+  const [forums, setForums] = useState<Forum[]>(forum || []);
 
   useEffect(() => {
-    fetchForums();
-  }, []);
+    setForums(forum || []);
+  }, [forum]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-3">
@@ -70,20 +55,13 @@ const CreateOrEditTopicsForm = ({ isEdit = false, type }: { isEdit?: boolean; ty
             {...register("title", { required: "Title is required" })}
             className={`w-full border rounded px-3 py-2 ${errors.title ? "border-red-500" : "border-gray-300"}`}
           />
-          {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
+          {typeof errors.title?.message === "string" && (
+            <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
         </div>
       </div>
-
       {/* Tags */}
-      <div className="md:col-span-2">
-        <label className="block text-sm font-medium mb-1">Tags<span className="text-red-500">*</span></label>
-        <input
-          type="text"
-          {...register("tags", { required: "Tags are required" })}
-          className={`w-full border rounded px-3 py-2 ${errors.tags ? "border-red-500" : "border-gray-300"}`}
-        />
-        {errors.tags && <p className="text-red-500 text-sm mt-1">{errors.tags.message}</p>}
-      </div>
+      <TagsInput name="tags"></TagsInput>
 
       {/* Video URL */}
       <div className="md:col-span-2">

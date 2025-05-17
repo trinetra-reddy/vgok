@@ -18,6 +18,7 @@ export interface Topics {
     created_at?: string;
     status?: "pending" | "approved" | "rejected";
     description?: string | null;
+    video_url?: string;
 }
 
 const MyTopicsPage = () => {
@@ -60,7 +61,7 @@ const MyTopicsPage = () => {
         if (!user?.token) return Promise.resolve();
         const payload = {
             ...formData,
-            tags: [formData.tags],
+            tags: formData.tags,
             content: formData.content
         }
         try {
@@ -79,7 +80,7 @@ const MyTopicsPage = () => {
         if (!user?.token) return Promise.resolve();
         const payload = {
             ...formData,
-            tags: [formData.tags],
+            tags: formData.tags,
             content: formData.content
         }
 

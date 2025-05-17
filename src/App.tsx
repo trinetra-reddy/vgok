@@ -8,25 +8,28 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import Home from "./pages/Home";
-import Token from "./pages/Token";
-import Tokenomics from "./pages/Tokenomics";
-import NFT from "./pages/NFT";
-import ContactUs from "./pages/ContactUs";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
-import TokenRoadMap from "./pages/TokenRoadMap";
-import NFTWhitepaper from "./pages/NFTWhitepaper";
-import Forum from "./pages/Forum";
-import { LandingPage } from "./pages/admin/LandingPage";
-import { UserLandingPage } from "./pages/user/UserLandingPage";
-import AppHeader from "./components/layout/AppHeader";
-import PrivateRoute from "./Components/auth/PrivateRoute";
-import Unauthorized from "./pages/Unauthorized";
-import AuthEffect from "./Components/AuthEffect";
+import { AuthProvider } from "@/context/AuthContext";
+
+import Home from "@/pages/Home";
+import Token from "@/pages/Token";
+import Tokenomics from "@/pages/Tokenomics";
+import NFT from "@/pages/NFT";
+import ContactUs from "@/pages/ContactUs";
+import SignUp from "@/pages/SignUp";
+import Login from "@/pages/Login";
+import TokenRoadMap from "@/pages/TokenRoadMap";
+import NFTWhitepaper from "@/pages/NFTWhitepaper";
+import Forum from "@/pages/Forum";
+import { LandingPage } from "@/pages/admin/LandingPage";
+import { UserLandingPage } from "@/pages/user/UserLandingPage";
+import Unauthorized from "@/pages/Unauthorized";
+
+
+import PrivateRoute from "@/Components/auth/PrivateRoute";
+import AuthEffect from "@/Components/AuthEffect";
+import AppHeader from "@/Components/layout/AppHeader";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
