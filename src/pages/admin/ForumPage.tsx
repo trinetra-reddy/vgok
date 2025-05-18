@@ -37,7 +37,7 @@ const ForumPage = () => {
   const handleSearch = (query: string) => {
     const q = query.toLowerCase();
     const results = forums.filter(
-      (forum) =>
+      (forum: Forum) =>
         forum.title?.toLowerCase().includes(q) ||
         forum.description?.toLowerCase().includes(q)
     );

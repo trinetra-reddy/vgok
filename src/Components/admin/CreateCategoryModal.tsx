@@ -159,7 +159,7 @@ export const CreateOrEditCategoryModal = ({
                   <option value="" disabled>
                     -- Select a forum --
                   </option>
-                  {forums.map((forum) => (
+                  {forums.map((forum: any) => (
                     <option key={forum.id} value={forum.id}>
                       {forum.title}
                     </option>
