@@ -1,72 +1,60 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import PageHeader from "@/global/PageHeader";
-import {getAllCategories, deleteCategory } from '@/services/categoryService';
 import { toast } from "sonner";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
-import { useAuth } from "@/context/AuthContext";
 import { CreateOrEditCategoryModal } from "@/Components/admin/CreateCategoryModal";
 import { formatDate } from "@/utils/index";
+import { useUserToken } from "@/hooks/useUserToken";
+import { useCategories } from "@/hooks/useCategories";
 
 const CategoriesPage = () => {
-    const [limit] = useState(10);
-  const [offset] = useState(0);
-  const [filteredForums, setFilteredForums] = useState([]);
-  const hasFetchedRef = useRef(false);
-  const { user } = useAuth();
-  const [forums, setForums] = useState([]);
+  const token = useUserToken();
+  const {
+    categories,
+    isLoading,
+    deleteCategory,
+    refetchCategories,
+  } = useCategories({ token, limit: 100 });
 
-  const fetchForums = async () => {
-    if (!user?.token) return;
-
-    try {
-      const res = await getAllCategories(user.token, limit, offset);
-      setForums(res.data || []);
-      setFilteredForums(res.data || []);
-      // setTotal(res.pagination.total || 0);
-    } catch (err) {
-      console.error("Failed to fetch forums:", err);
-    }
-  };
+  const [filteredCategories, setFilteredCategories] = useState(categories);
 
   useEffect(() => {
-    if (!hasFetchedRef.current) {
-      hasFetchedRef.current = true;
-      fetchForums();
-    }
-  }, []);
+    setFilteredCategories(categories);
+  }, [categories]);
 
   const handleSearch = (query: string) => {
     const q = query.toLowerCase();
-    const results = forums.filter(
+    const results = categories.filter(
       (category: any) =>
         category?.title?.toLowerCase()?.includes(q) ||
         category?.description?.toLowerCase()?.includes(q)
     );
-    setFilteredForums(results);
+    setFilteredCategories(results);
   };
 
-  const OnClickDeleteForum = async (id:string)=>{
-  if (!user?.token) return Promise.resolve();
-    await deleteCategory(id,user.token)
-  }
-  return (
+  const onClickDelete = async (id: string, title: string) => {
+    await deleteCategory(id);
+    toast.success(`"${title}" has been removed.`);
+  };
 
-    <div className="space-y-6 ">
-      {/* Filter Bar */}
+  return (
+    <div className="space-y-6">
       <PageHeader
         title="All Categories"
         searchPlaceholder="Search by Category"
         onSearch={handleSearch}
-        createButton={<CreateOrEditCategoryModal onCreateOrUpdate={fetchForums} />}
+        createButton={
+          <CreateOrEditCategoryModal onCreateOrUpdate={refetchCategories} />
+        }
       />
 
-      {/* Table */}
       <div className="bg-white rounded-xl shadow overflow-hidden">
         <table className="w-full text-sm table-auto">
           <thead className="bg-blue-950 text-white">
             <tr>
               <th className="text-left px-6 py-3 w-1/4">TITLE</th>
+              <th className="text-left px-6 py-3 w-1/4">FORUM</th>
               <th className="text-left px-6 py-3 w-auto">DESCRIPTION</th>
               <th className="text-left px-4 py-3">DATE</th>
               <th className="text-left px-6 py-3 whitespace-nowrap w-1/4">
@@ -75,10 +63,11 @@ const CategoriesPage = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredForums.length > 0 ? (
-              filteredForums.map((category: any, idx: number) => (
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((category: any, idx: number) => (
                 <tr key={idx} className="border-t">
                   <td className="px-6 py-4 align-top">{category.title}</td>
+                  <td className="px-6 py-4 align-top">{category.forum_name}</td>
                   <td className="px-4 py-3 align-top max-w-[300px]">
                     <div className="line-clamp-2 text-sm max-w-full">
                       {(category.description ?? "").length > 120
@@ -104,7 +93,7 @@ const CategoriesPage = () => {
                     <div className="flex flex-wrap gap-2">
                       <CreateOrEditCategoryModal
                         category={category}
-                        onCreateOrUpdate={fetchForums}
+                        onCreateOrUpdate={refetchCategories}
                         trigger={
                           <button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm">
                             <Pencil size={16} /> Edit
@@ -112,14 +101,11 @@ const CategoriesPage = () => {
                         }
                       />
                       <DeleteAlert
-                        title="Delete Forum?"
+                        title="Delete Category?"
                         content="This category will be permanently removed."
                         confirmLabel="Remove"
-                        onConfirm={() => OnClickDeleteForum(category.id)}
-                        onSuccess={() => {
-                          fetchForums();
-                          toast.success(`"${category.title}" has been removed.`);
-                        }}
+                        onConfirm={() => onClickDelete(category.id, category.title)}
+                        onSuccess={refetchCategories}
                         trigger={
                           <button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm">
                             <Trash2 size={16} /> Delete
@@ -132,8 +118,8 @@ const CategoriesPage = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={3} className="text-center text-gray-500 px-6 py-6">
-                  No forums found.
+                <td colSpan={5} className="text-center text-gray-500 px-6 py-6">
+                  {isLoading ? "Loading..." : "No categories found."}
                 </td>
               </tr>
             )}

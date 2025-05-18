@@ -6,6 +6,7 @@ export interface CategoryData {
   title: string;
   description?: string;
   forumId: string;
+  forum_name?:string
 }
 
 export const createCategory = async (data: CategoryData, token: string) => {

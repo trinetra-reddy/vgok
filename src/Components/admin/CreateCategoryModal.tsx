@@ -79,11 +79,13 @@ export const CreateOrEditCategoryModal = ({
 
   const onSubmit = async (formData: CategoryFormInputs) => {
     const { title, description, forum_id } = formData;
-
+    const selectedForum = forums.find((f:any) => f.id === forum_id);
+    const forum_name = selectedForum?.title || "";
     const payload: CategoryData = {
       title,
       description: description,
       forumId: forum_id,
+      forum_name
     };
 
     try {

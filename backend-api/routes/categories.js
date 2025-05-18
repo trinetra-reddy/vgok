@@ -69,9 +69,9 @@ router.get('/', async (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, forumId]
+ *             required: [title, forumId]
  *             properties:
- *               name:
+ *               title:
  *                 type: string
  *               forumId:
  *                 type: string
@@ -83,17 +83,17 @@ router.get('/', async (req, res) => {
  */
 router.post('/create', checkAuth, checkAdmin, async (req, res) => {
   try {
-    const { name, forumId, description = '' } = req.body;
+    const { title, forumId, description = '', forum_name = '' } = req.body;
 
-    if (!name || !forumId) {
+    if (!title || !forumId) {
       return res.status(400).json({ error: "Name and forumId are required" });
     }
 
-    const slug = name.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+    const slug = title.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
 
     const { data, error } = await supabase
       .from('categories')
-      .insert([{ name, description, forum_id: forumId, slug }])
+      .insert([{ title, description, forum_id: forumId, slug, forum_name }])
       .select();
 
     if (error) throw error;
@@ -122,9 +122,9 @@ router.post('/create', checkAuth, checkAdmin, async (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, forumId]
+ *             required: [title, forumId]
  *             properties:
- *               name:
+ *               title:
  *                 type: string
  *               forumId:
  *                 type: string
@@ -137,19 +137,20 @@ router.post('/create', checkAuth, checkAdmin, async (req, res) => {
 router.put('/update/:id', checkAuth, checkAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, forumId, description = '' } = req.body;
+    const { title, forumId, description = '', forum_name= '' } = req.body;
 
-    if (!name || !forumId) {
+    if (!title || !forumId) {
       return res.status(400).json({ error: "Name and forumId are required for update" });
     }
 
-    const slug = name.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
+    const slug = title.toLowerCase().trim().replace(/[\s\W-]+/g, '-').replace(/^-+|-+$/g, '');
 
     const updates = {
-      name,
+      title,
       forum_id: forumId,
       description,
-      slug
+      slug,
+      forum_name
     };
 
     const { data, error } = await supabase
