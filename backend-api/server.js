@@ -27,4 +27,13 @@ app.use('/api/users', userRoutes);
 app.use('/api/profile', profileRoutes);
 
 app.listen(5000, () => console.log('Server started on port 5000'));
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve);
+app.use('/docs', (req, res, next) => {
+  const protocol = req.protocol;
+  const host = req.get('host');
+  const baseUrl = `${protocol}://${host}/api`;
+
+  swaggerSpec.servers = [{ url: baseUrl }];
+  swaggerUi.setup(swaggerSpec)(req, res, next);
+});

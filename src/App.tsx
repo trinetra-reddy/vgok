@@ -24,12 +24,15 @@ import { LandingPage } from "@/pages/admin/LandingPage";
 import { UserLandingPage } from "@/pages/user/UserLandingPage";
 import Unauthorized from "@/pages/Unauthorized";
 
-
 import PrivateRoute from "@/Components/auth/PrivateRoute";
 import AuthEffect from "@/Components/AuthEffect";
 import AppHeader from "@/Components/layout/AppHeader";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const queryClient = new QueryClient();
 
 // A wrapper component to apply conditional layout
 const AppRoutes = () => {
@@ -43,13 +46,8 @@ const AppRoutes = () => {
 
   return (
     <>
-      {/* Show AppHeader for admin/user routes */}
       {isAdminOrUserPath && <AppHeader />}
-
-      {/* Show public Header for all other routes except /login and /signup */}
       {!isAdminOrUserPath && !shouldHidePublicHeader && <Header />}
-
-      {/* it will call after the signup with google AuthEffect*/}
       <AuthEffect />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -64,7 +62,6 @@ const AppRoutes = () => {
         <Route path="/forum" element={<Forum />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
-
         {/* Protected: Admin */}
         <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
           <Route path="/admin/*" element={<LandingPage />} />
@@ -74,7 +71,6 @@ const AppRoutes = () => {
         <Route element={<PrivateRoute allowedRoles={["user", "admin"]} />}>
           <Route path="/user/*" element={<UserLandingPage />} />
         </Route>
-
       </Routes>
       <Footer />
     </>
@@ -85,10 +81,13 @@ const App = () => {
   AOS.init();
   return (
     <Router>
-      <AuthProvider>
-        <AppRoutes />
-        <Toaster position="top-right" richColors />
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <AppRoutes />
+          <Toaster position="top-right" richColors />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </Router>
   );
 };

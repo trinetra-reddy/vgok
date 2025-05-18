@@ -1,63 +1,125 @@
-import { Search, Plus, Monitor, Pencil, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Pencil, Trash2 } from "lucide-react";
+import PageHeader from "@/global/PageHeader";
+import {getAllCategories, deleteCategory } from '@/services/categoryService';
+import { toast } from "sonner";
+import { DeleteAlert } from "@/Components/common/DeleteAlert";
+import { useAuth } from "@/context/AuthContext";
+import { CreateOrEditCategoryModal } from "@/Components/admin/CreateCategoryModal";
 
 const CategoriesPage = () => {
-    return (
-        <div className="space-y-6 ">
-            {/* Filter Bar */}
-            <div className="flex flex-wrap gap-4 items-center">
-                <div className="flex items-center border border-gray-300 rounded overflow-hidden">
-                    <input
-                        type="text"
-                        placeholder="Search by forum"
-                        className="px-4 py-2 outline-none"
-                    />
-                    <button className="bg-blue-950 px-3 py-3 text-white">
-                        <Search size={16} />
-                    </button>
-                </div>
+    const [limit] = useState(10);
+  const [offset] = useState(0);
+  const [filteredForums, setFilteredForums] = useState([]);
+  const hasFetchedRef = useRef(false);
+  const { user } = useAuth();
+  const [forums, setForums] = useState([]);
 
-                <Link  to={"/user/dashboard/createTopic"} className="border border-[#4269c2] text-[#4269c2] px-4 py-2 rounded hover:bg-blue-950 hover:text-white transition-all ml-auto flex items-center gap-2">
-                    <Plus size={16} /> Create New
-                </Link>
-            </div>
+  const fetchForums = async () => {
+    if (!user?.token) return;
 
-            {/* Table */}
-            <div className="overflow-x-auto bg-white rounded-xl shadow">
-                <table className="w-full text-sm">
-                    <thead className="bg-blue-950 text-white">
-                        <tr>
-                            <th className="text-left px-6 py-3">TITLE</th>
-                            <th className="text-left px-6 py-3">DESCRIPTION</th>
-                            <th className="text-left px-6 py-3">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr className="border-t">
-                            <td className="px-6 py-4">Crypto Topic</td>
-                            <td className="px-6 py-4 flex-1">BTC</td>
-                            <td className="px-6 py-4 flex gap-2">
-                                {/* Detail */}
-                                <button className="flex items-center gap-2 border border-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-50 text-sm">
-                                    <Monitor size={16} /> Detail
-                                </button>
+    try {
+      const res = await getAllCategories(user.token, limit, offset);
+      setForums(res.data || []);
+      setFilteredForums(res.data || []);
+      // setTotal(res.pagination.total || 0);
+    } catch (err) {
+      console.error("Failed to fetch forums:", err);
+    }
+  };
 
-                                {/* Edit */}
-                                <button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm">
-                                    <Pencil size={16} /> Edit
-                                </button>
+  useEffect(() => {
+    if (!hasFetchedRef.current) {
+      hasFetchedRef.current = true;
+      fetchForums();
+    }
+  }, []);
 
-                                {/* Delete */}
-                                <button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm">
-                                    <Trash2 size={16} /> Delete
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  const handleSearch = (query: string) => {
+    const q = query.toLowerCase();
+    const results = forums.filter(
+      (category: any) =>
+        category?.title?.toLowerCase()?.includes(q) ||
+        category?.content?.toLowerCase()?.includes(q)
     );
-}
+    setFilteredForums(results);
+  };
+
+  const OnClickDeleteForum = async (id:string)=>{
+  if (!user?.token) return Promise.resolve();
+    await deleteCategory(id,user.token)
+  }
+  return (
+
+    <div className="space-y-6 ">
+      {/* Filter Bar */}
+      <PageHeader
+        title="All Categories"
+        searchPlaceholder="Search by Category"
+        onSearch={handleSearch}
+        createButton={<CreateOrEditCategoryModal onCreateOrUpdate={fetchForums} />}
+      />
+
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow overflow-hidden">
+        <table className="w-full text-sm table-auto">
+          <thead className="bg-blue-950 text-white">
+            <tr>
+              <th className="text-left px-6 py-3 w-1/4">TITLE</th>
+              <th className="text-left px-6 py-3 w-auto">DESCRIPTION</th>
+              <th className="text-left px-6 py-3 whitespace-nowrap w-1/4">
+                ACTION
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredForums.length > 0 ? (
+              filteredForums.map((category: any, idx: number) => (
+                <tr key={idx} className="border-t">
+                  <td className="px-6 py-4 align-top">{category.title}</td>
+                  <td className="px-6 py-4 align-top">{category.content}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex flex-wrap gap-2">
+                      {/* <CreateOrEditForumModal
+                        category={category}
+                        onCreateOrUpdate={fetchForums}
+                        trigger={
+                          <button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm">
+                            <Pencil size={16} /> Edit
+                          </button>
+                        }
+                      />
+                      <DeleteAlert
+                        title="Delete Forum?"
+                        content="This category will be permanently removed."
+                        confirmLabel="Remove"
+                        onConfirm={() => OnClickDeleteForum(category.id)}
+                        onSuccess={() => {
+                          fetchForums();
+                          toast.success(`"${category.title}" has been removed.`);
+                        }}
+                        trigger={
+                          <button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm">
+                            <Trash2 size={16} /> Delete
+                          </button>
+                        }
+                      /> */}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={3} className="text-center text-gray-500 px-6 py-6">
+                  No forums found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
 
 export default CategoriesPage;

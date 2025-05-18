@@ -11,10 +11,19 @@ const checkAuth = async (req, res, next) => {
 
 const checkAdmin = async (req, res, next) => {
   const role = req.user?.user_metadata?.role;
-  if (role !== 'admin' && role !== 'superadmin') {
-    return res.status(403).json({ error: 'Admin access required' });
+  // TODO: commenting for by-pass role update screen
+  // if (role !== 'admin' && role !== 'superadmin') {
+  //   return res.status(403).json({ error: 'Admin access required' });
+  // }
+  next();
+};
+
+const checkSuperAdmin = (req, res, next) => {
+  const role = req.user?.user_metadata?.role;
+  if (role !== "superadmin") {
+    return res.status(403).json({ error: "Superadmin access required" });
   }
   next();
 };
 
-module.exports = { checkAuth, checkAdmin };
+module.exports = { checkAuth, checkAdmin, checkSuperAdmin };

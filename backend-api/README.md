@@ -27,3 +27,10 @@ cd vgok/backend-api
 | `/api/replies` | POST | Add replies to posts |
 | `/api/categories` | GET | List forum categories |
 | `/api/ads` | GET/POST | Admin ads management |
+
+---
+
+## 🗂 Swagger Documentation
+http://localhost:5000/docs/
+
+---

@@ -74,11 +74,11 @@ router.get('/', async (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required: [title, content]
+ *             required: [title, description]
  *             properties:
  *               title:
  *                 type: string
- *               content:
+ *               description:
  *                 type: string
  *               type:
  *                 type: string
@@ -88,14 +88,14 @@ router.get('/', async (req, res) => {
  */
 router.post('/create', checkAuth, checkAdmin, async (req, res) => {
   try {
-    const { title, content, type } = req.body;
-    if (!title || !content) {
-      return res.status(400).json({ error: "Title and content are required" });
+    const { title, description, type } = req.body;
+    if (!title || !description) {
+      return res.status(400).json({ error: "Title and description are required" });
     }
 
     const { data, error } = await supabase
       .from('forum')
-      .insert([{ title, content, type }])
+      .insert([{ title, description, type }])
       .select();
 
     if (error) throw error;
@@ -125,11 +125,11 @@ router.post('/create', checkAuth, checkAdmin, async (req, res) => {
  *         application/json:
  *           schema:
  *             type: object
- *             required: [title, content]
+ *             required: [title, description]
  *             properties:
  *               title:
  *                 type: string
- *               content:
+ *               description:
  *                 type: string
  *               type:
  *                 type: string
@@ -140,15 +140,15 @@ router.post('/create', checkAuth, checkAdmin, async (req, res) => {
 router.put('/update/:id', checkAuth, checkAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, content, type } = req.body;
+    const { title, description, type } = req.body;
 
-    if (!id || !title || !content) {
-      return res.status(400).json({ error: "ID, title, and content are required" });
+    if (!id || !title || !description) {
+      return res.status(400).json({ error: "ID, title, and description are required" });
     }
 
     const { data, error } = await supabase
       .from('forum')
-      .update({ title, content, type })
+      .update({ title, description, type })
       .eq('id', id)
       .select();
 
