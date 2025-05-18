@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
 import { useAuth } from "@/context/AuthContext";
 import { CreateOrEditCategoryModal } from "@/Components/admin/CreateCategoryModal";
+import { formatDate } from "@/utils/index";
 
 const CategoriesPage = () => {
     const [limit] = useState(10);
@@ -40,7 +41,7 @@ const CategoriesPage = () => {
     const results = forums.filter(
       (category: any) =>
         category?.title?.toLowerCase()?.includes(q) ||
-        category?.content?.toLowerCase()?.includes(q)
+        category?.description?.toLowerCase()?.includes(q)
     );
     setFilteredForums(results);
   };
@@ -67,6 +68,7 @@ const CategoriesPage = () => {
             <tr>
               <th className="text-left px-6 py-3 w-1/4">TITLE</th>
               <th className="text-left px-6 py-3 w-auto">DESCRIPTION</th>
+              <th className="text-left px-4 py-3">DATE</th>
               <th className="text-left px-6 py-3 whitespace-nowrap w-1/4">
                 ACTION
               </th>
@@ -77,10 +79,30 @@ const CategoriesPage = () => {
               filteredForums.map((category: any, idx: number) => (
                 <tr key={idx} className="border-t">
                   <td className="px-6 py-4 align-top">{category.title}</td>
-                  <td className="px-6 py-4 align-top">{category.content}</td>
+                  <td className="px-4 py-3 align-top max-w-[300px]">
+                    <div className="line-clamp-2 text-sm max-w-full">
+                      {(category.description ?? "").length > 120
+                        ? category.description?.slice(0, 120) + "..."
+                        : category.description || "-"}
+                    </div>
+                    {(category.description ?? "").length > 120 && (
+                      <CreateOrEditCategoryModal
+                        category={category}
+                        viewOnly
+                        trigger={
+                          <button className="text-xs text-blue-600 hover:underline mt-1 inline-block">
+                            Read more
+                          </button>
+                        }
+                      />
+                    )}
+                  </td>
+                  <td className="px-4 py-3 align-top">
+                    {formatDate(category.updated_at || category.created_at)}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-wrap gap-2">
-                      {/* <CreateOrEditForumModal
+                      <CreateOrEditCategoryModal
                         category={category}
                         onCreateOrUpdate={fetchForums}
                         trigger={
@@ -103,7 +125,7 @@ const CategoriesPage = () => {
                             <Trash2 size={16} /> Delete
                           </button>
                         }
-                      /> */}
+                      />
                     </div>
                   </td>
                 </tr>

@@ -12,7 +12,11 @@ import { Plus, Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { createCategory, updateCategory, CategoryData } from "@/services/categoryService";
+import {
+  createCategory,
+  updateCategory,
+  CategoryData,
+} from "@/services/categoryService";
 import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Label } from "../ui/label";
@@ -21,26 +25,34 @@ import { useForums } from "@/hooks/useForums";
 
 interface CreateOrEditCategoryModalProps {
   onCreateOrUpdate?: () => void;
-  category?: { id: string; title: string; content: string; forumId?: string };
+  category?: {
+    id: string;
+    title: string;
+    description: string;
+    forum_id?: string;
+  };
   trigger?: React.ReactNode;
+  viewOnly?: boolean;
 }
 
 interface CategoryFormInputs {
-  forumId: string;
+  forum_id: string;
   title: string;
-  content: string;
+  description: string;
 }
 
 export const CreateOrEditCategoryModal = ({
   onCreateOrUpdate,
   category,
   trigger,
+  viewOnly,
 }: CreateOrEditCategoryModalProps) => {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
   const token = useUserToken();
   const isEdit = !!category;
+  const isViewOnly = viewOnly;
 
   const {
     register,
@@ -50,29 +62,28 @@ export const CreateOrEditCategoryModal = ({
     formState: { errors },
   } = useForm<CategoryFormInputs>();
 
-  const {
-    forums,
-    isLoading: isForumLoading,
-  } = useForums({ token, limit: 100 });
-  
+  const { forums, isLoading: isForumLoading } = useForums({
+    token,
+    limit: 100,
+  });
 
   useEffect(() => {
     if (open && category) {
       setValue("title", category.title);
-      setValue("content", category.content);
-      if (category.forumId) setValue("forumId", category.forumId);
+      setValue("description", category.description);
+      if (category.forum_id) setValue("forum_id", category.forum_id);
     } else {
       reset();
     }
   }, [open, category, reset, setValue]);
 
   const onSubmit = async (formData: CategoryFormInputs) => {
-    const { title, content, forumId } = formData;
+    const { title, description, forum_id } = formData;
 
     const payload: CategoryData = {
-      name: title,
-      description: content,
-      forumId,
+      title,
+      description: description,
+      forumId: forum_id,
     };
 
     try {
@@ -110,10 +121,14 @@ export const CreateOrEditCategoryModal = ({
         )}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-2xl w-full">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-blue-950">
-            {isEdit ? "Update Category" : "Create Category"}
+            {isViewOnly
+              ? "View Category"
+              : isEdit
+              ? "Update Category"
+              : "Create Category"}
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
             {isEdit
@@ -125,13 +140,15 @@ export const CreateOrEditCategoryModal = ({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-2">
           {/* Forum Select */}
           <div>
-            <Label htmlFor="forum">Select Forum <span className="text-red-500">*</span></Label>
+            <Label htmlFor="forum">
+              Select Forum <span className="text-red-500">*</span>
+            </Label>
             <select
               id="forum"
-              {...register("forumId", { required: true })}
+              {...register("forum_id", { required: true })}
               className="mt-1 h-10 border border-gray-300 rounded px-3 text-sm w-full"
               defaultValue=""
-              disabled={isForumLoading}
+              disabled={isForumLoading || isViewOnly}
             >
               {isForumLoading ? (
                 <option>Loading forums...</option>
@@ -148,50 +165,68 @@ export const CreateOrEditCategoryModal = ({
                 </>
               )}
             </select>
-            {errors.forumId && (
-              <p className="text-sm text-red-500 mt-1">Forum selection is required.</p>
+            {errors.forum_id && (
+              <p className="text-sm text-red-500 mt-1">
+                Forum selection is required.
+              </p>
             )}
           </div>
 
           {/* Title Input */}
           <div>
-            <Label htmlFor="title">Title <span className="text-red-500">*</span></Label>
+            <Label htmlFor="title">
+              Title <span className="text-red-500">*</span>
+            </Label>
             <Input
+              disabled={isViewOnly}
               id="title"
               {...register("title", { required: true })}
               className="mt-1 h-10 border border-gray-300 rounded px-3 text-sm"
             />
-            {errors.title && <p className="text-sm text-red-500 mt-1">Title is required.</p>}
+            {!isViewOnly && errors.title && (
+              <p className="text-sm text-red-500 mt-1">Title is required.</p>
+            )}
           </div>
 
           {/* Description Input */}
           <div>
-            <Label htmlFor="content">Description <span className="text-red-500">*</span></Label>
+            <Label htmlFor="description">
+              Description <span className="text-red-500">*</span>
+            </Label>
             <textarea
-              id="content"
-              {...register("content", { required: true })}
+              id="description"
+              disabled={isViewOnly}
+              {...register("description", { required: true })}
               className="mt-1 min-h-[100px] border border-gray-300 rounded px-3 py-2 text-sm w-full resize-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.content && <p className="text-sm text-red-500 mt-1">Description is required.</p>}
+            {!isViewOnly && errors.description && (
+              <p className="text-sm text-red-500 mt-1">
+                Description is required.
+              </p>
+            )}
           </div>
 
           {/* Submit */}
-          <DialogFooter className="mt-4">
-            <Button
-              type="submit"
-              className="w-full bg-blue-950 hover:bg-blue-900 text-white font-semibold text-sm h-11 rounded flex items-center justify-center"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" />
-                  {isEdit ? "Updating..." : "Submitting..."}
-                </>
-              ) : (
-                isEdit ? "Update" : "Submit"
-              )}
-            </Button>
-          </DialogFooter>
+          {!isViewOnly && (
+            <DialogFooter className="mt-4">
+              <Button
+                type="submit"
+                className="w-full bg-blue-950 hover:bg-blue-900 text-white font-semibold text-sm h-11 rounded flex items-center justify-center"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                    {isEdit ? "Updating..." : "Submitting..."}
+                  </>
+                ) : isEdit ? (
+                  "Update"
+                ) : (
+                  "Submit"
+                )}
+              </Button>
+            </DialogFooter>
+          )}
         </form>
       </DialogContent>
     </Dialog>

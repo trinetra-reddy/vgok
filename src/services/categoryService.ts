@@ -3,7 +3,7 @@ import { fetchWithAuth } from "./fetchWithAuth";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export interface CategoryData {
-  name: string;
+  title: string;
   description?: string;
   forumId: string;
 }

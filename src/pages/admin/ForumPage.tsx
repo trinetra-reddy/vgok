@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
 import { useUserToken } from "@/hooks/useUserToken";
 import { useForums } from "@/hooks/useForums";
+import { formatDate } from "@/utils/index";
 
 export interface Forum {
   id: string;
@@ -48,18 +49,6 @@ const ForumPage = () => {
     toast.success(`"${title}" has been removed.`);
   };
 
-  const formatDate = (date?: string | null) =>
-    date
-      ? new Date(date).toLocaleString("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        })
-      : "-";
-
   return (
     <div className="space-y-6">
       <PageHeader
@@ -94,14 +83,14 @@ const ForumPage = () => {
                     </div>
                     {(forum.description ?? "").length > 120 && (
                       <CreateOrEditForumModal
-                      forum={forum}
-                      viewOnly
-                      trigger={
-                        <button className="text-xs text-blue-600 hover:underline mt-1 inline-block">
-                          Read more
-                        </button>
-                      }
-                    />
+                        forum={forum}
+                        viewOnly
+                        trigger={
+                          <button className="text-xs text-blue-600 hover:underline mt-1 inline-block">
+                            Read more
+                          </button>
+                        }
+                      />
                     )}
                   </td>
                   <td className="px-4 py-3 align-top">
