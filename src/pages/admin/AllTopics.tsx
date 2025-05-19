@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import PageHeader from "@/global/PageHeader";
-import { useAuth } from "@/context/AuthContext";
 import CommonDialog from "@/Components/user/CommonDialog";
 import TopicTable from "@/Components/admin/TopicTable";
 import { useTopics } from "@/hooks/useTopics";
@@ -8,7 +7,6 @@ import { useTopics } from "@/hooks/useTopics";
 const PAGE_SIZE = 10;
 
 const AllTopics = () => {
-  const { user } = useAuth();
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");

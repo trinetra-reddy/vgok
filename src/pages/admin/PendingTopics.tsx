@@ -1,13 +1,11 @@
 import { useMemo, useState } from "react";
 import PageHeader from "@/global/PageHeader";
-import { useAuth } from "@/context/AuthContext";
 import TopicTable from "@/Components/admin/TopicTable";
 import { useTopics } from "@/hooks/useTopics";
 
 const PAGE_SIZE = 10;
 
 const PendingTopics = () => {
-  const { user } = useAuth();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
 

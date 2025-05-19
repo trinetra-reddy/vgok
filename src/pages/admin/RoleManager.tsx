@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import PageHeader from "@/global/PageHeader";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 // import { toast } from "sonner";
 import { useAdminUsers } from "@/hooks/useAdminUsers";
 import { useAuth } from "@/context/AuthContext";
@@ -18,7 +18,7 @@ const RoleManager = () => {
 // TODO: holding it as supabase is not allowing the authenticated user to fetch users. will do it later
   const filteredUsers = useMemo(() => {
     const q = searchTerm.toLowerCase();
-    return users.filter((user) =>
+    return users.filter((user: any) =>
       (filter === "all" || user.role === filter) &&
       (user.email?.toLowerCase().includes(q) || user.role?.toLowerCase().includes(q))
     );
@@ -79,7 +79,7 @@ const RoleManager = () => {
                 </td>
               </tr>
             ) : (
-              filteredUsers.map((user) => (
+              filteredUsers.map((user: any) => (
                 <tr key={user.id} className="border-t">
                   <td className="px-6 py-4">{user.email}</td>
                   <td className="px-6 py-4">{roleBadge(user.role)}</td>

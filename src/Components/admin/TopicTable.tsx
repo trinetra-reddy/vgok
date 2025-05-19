@@ -1,11 +1,9 @@
-import { ArrowDown, ArrowUp, Monitor, Pencil, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Monitor } from "lucide-react";
 import { DeleteAlert } from "@/Components/common/DeleteAlert";
 import CommonDialog from "@/Components/user/CommonDialog";
-import { Topics } from "@/pages/user/AllTopics";
+import { Topics } from "./types";
 import { useAuth } from "@/context/AuthContext";
-import { toast } from "sonner";
 import { useTopicMutations } from "@/hooks/useTopics";
-import { useState } from "react";
 
 interface TopicTableProps {
   data: Topics[];
@@ -23,10 +21,6 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
   const {
     createTopic: create,
     updateTopic: update,
-    deleteTopic: remove,
-    isCreating,
-    isUpdating,
-    isDeleting
   } = useTopicMutations();
 
   const totalPages = Math.ceil(totalCount / pageSize);

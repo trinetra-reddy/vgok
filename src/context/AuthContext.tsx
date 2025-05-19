@@ -22,6 +22,7 @@ interface User {
   reputation?: number;
   banned?: boolean;
   business_type?: string | null;
+  user_metadata?: any
 }
 
 interface AuthContextProps {

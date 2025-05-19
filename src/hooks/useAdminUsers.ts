@@ -29,7 +29,7 @@ export const useAdminUsers = (token?: string | null) => {
       return { previousData };
     },
     onError: (err, _, context) => {
-      toast.error("Failed to update role");
+      toast.error("Failed to update role"+ err);
       if (context?.previousData) {
         queryClient.setQueryData(["admin-users"], context.previousData);
       }
