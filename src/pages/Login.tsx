@@ -45,7 +45,7 @@ const Login = () => {
       const refreshToken = data.session.refresh_token;
 
       // temporarily set token to call /me
-      setAuthenticatedUser({ id: data.user?.id, email: data.user?.email, token, refreshToken });
+      setAuthenticatedUser({ ...data.user, id: data.user?.id, email: data.user?.email, token, refreshToken });
 
       await getProfile(token, refreshToken);
     } catch (err: any) {

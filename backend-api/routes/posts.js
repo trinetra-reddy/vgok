@@ -177,17 +177,22 @@ router.delete('/delete/:id', async (req, res) => {
  *         description: Unauthorized
  */
 
-
 router.put("/update/:id", checkAuth, async (req, res) => {
   const postId = req.params.id;
   const updates = req.body;
-  const userId = req.user.id;
+  const user = req.user;
+  const isAdmin = user?.user_metadata?.role === "admin" || user?.user_metadata?.role === "superadmin";
 
   if (!postId) {
     return res.status(400).json({ error: "Post ID is required in the URL." });
   }
 
-  const { data, error } = await supabase
+  if (!updates.title || !updates.content) {
+    return res.status(400).json({ error: "Title and content are required." });
+  }
+
+  // Build query with conditional user restriction
+  let query = supabase
     .from("posts")
     .update({
       title: updates.title,
@@ -195,16 +200,23 @@ router.put("/update/:id", checkAuth, async (req, res) => {
       tags: updates.tags,
       status: updates.status,
       description: updates.description,
-      // video_url: updates.video_url 
-      // add other fields as needed
     })
     .eq("id", postId)
-    .eq("user_id", userId) // ✅ ensure only the owner can update
     .select()
-    .single();
+    .maybeSingle();
+
+  if (!isAdmin) {
+    query = query.eq("user_id", user.id); // restrict for regular users
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return res.status(400).json({ error: error.message || "Update failed." });
+  }
+
+  if (!data) {
+    return res.status(404).json({ error: "Post not found or not authorized." });
   }
 
   return res.status(200).json({ message: "Post updated successfully", data });

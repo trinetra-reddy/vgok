@@ -26,7 +26,7 @@ const AllTopics = () => {
     refetch,
   } = useTopics(status !== "All" ? status : undefined, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
-  const topics = useMemo(() => Array.isArray(data) ? data : [], [data]);
+  const topics = useMemo(() => Array.isArray(data?.data) ? data.data : [], [data]);
 
   const filteredTopics = useMemo(() => {
     const q = searchTerm.toLowerCase();

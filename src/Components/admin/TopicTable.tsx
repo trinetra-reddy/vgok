@@ -19,7 +19,7 @@ interface TopicTableProps {
 
 const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCount = 0, onPageChange }: TopicTableProps) => {
   const { user } = useAuth();
-  const role = user?.user_metadata?.role;
+  const role = user?.role ||  user?.user_metadata?.role;
   const {
     createTopic: create,
     updateTopic: update,
@@ -90,14 +90,14 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
                     onUpdate={(id, data) => update({ id, data }).then(onRefresh)}
                   />
 
-                  <CommonDialog
+                  {/* <CommonDialog
                     formData={topic}
                     onCreateOrUpdate={onRefresh}
                     type="edit"
                     trigger={<button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm"><Pencil size={16} /> Edit</button>}
                     onCreate={(data) => create(data).then(onRefresh)}
                     onUpdate={(id, data) => update({ id, data }).then(onRefresh)}
-                  />
+                  /> */}
 
                   {(role === "admin" || role === "superadmin") && (
                     <DeleteAlert
@@ -121,14 +121,14 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
                     />
                   )}
 
-                  <DeleteAlert
+                  {/* <DeleteAlert
                     title="Delete Topic?"
                     content="This topic will be permanently removed."
                     confirmLabel="Remove"
                     onConfirm={() => remove(topic.id).then(onRefresh)}
                     onSuccess={onRefresh}
                     trigger={<button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm"><Trash2 size={16} /> Delete</button>}
-                  />
+                  /> */}
                 </td>
               </tr>
             ))

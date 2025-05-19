@@ -88,7 +88,6 @@ export const CommonDialog = ({
   };
 
   const onSubmit = async (data: Topics) => {
-    console.log('onSubmit')
     try {
       if (isEdit && formData?.id && onUpdate) {
         await onUpdate(formData.id, data); // Call injected handler

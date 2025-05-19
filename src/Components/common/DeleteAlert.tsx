@@ -61,7 +61,7 @@ import {
             <AlertDialogAction
               onClick={handleConfirm}
               disabled={loading}
-              className="bg-red-600 hover:bg-red-700"
+              className={`${confirmLabel === 'Approve' ?'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
             >
               {loading ? "Processing..." : confirmLabel}
             </AlertDialogAction>
