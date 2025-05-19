@@ -9,7 +9,7 @@ interface PageHeaderProps {
   onSearch?: (value: string) => void;
   createLabel?: string;
   createLink?: string;
-  createButton?: ReactNode; // 👈 New prop for custom button
+  createButton?: ReactNode; 
 
 
   statusValue?: string;
@@ -54,7 +54,7 @@ const PageHeader = ({
           <select
             value={statusValue}
             onChange={(e) => onStatusChange?.(e.target.value)}
-            className="px-3 py-2 text-sm outline-none"
+            className="px-3 py-2 text-sm outline-none min-h-[42px] px-2"
           >
             {statusOptions?.map((opt) => (
               <option key={opt.value} value={opt.value}>
