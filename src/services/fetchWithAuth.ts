@@ -3,7 +3,7 @@
 export const fetchWithAuth = async (
     url: string,
     method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
-    token: string,
+    token?: string,
     body?: any
   ) => {
     const res = await fetch(url, {

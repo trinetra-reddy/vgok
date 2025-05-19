@@ -51,19 +51,35 @@ router.post('/create', checkAuth, async (req, res) => {
  *   get:
  *     summary: Get all posts
  *     tags: [Posts]
+ *     parameters:
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *         description: Filter by post status
+ *       - in: query
+ *         name: forum
+ *         schema:
+ *           type: string
+ *         description: Filter by forum ID
  *     responses:
  *       200:
- *         description: A list of all posts
+ *         description: A list of posts
  */
 router.get("/all", checkAuth, async (req, res) => {
   const userId = req.user.id;
+  const role = req.user.user_metadata?.role;
   const { status, forum } = req.query;
 
   let query = supabase
     .from("posts")
     .select("*")
-    .eq("user_id", userId)
     .order("created_at", { ascending: false });
+
+  // If not admin/superadmin, limit to their own posts
+  if (role !== "admin" && role !== "superadmin") {
+    query = query.eq("user_id", userId);
+  }
 
   if (status) query = query.eq("status", status);
   if (forum) query = query.eq("forum", forum);
@@ -74,6 +90,7 @@ router.get("/all", checkAuth, async (req, res) => {
 
   return res.status(200).json({ data });
 });
+
 
 
 /**
