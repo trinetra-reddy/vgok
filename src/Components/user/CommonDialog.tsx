@@ -11,10 +11,9 @@ import { Plus } from "lucide-react";
 import { useForm, FormProvider } from "react-hook-form";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Topics } from "@/pages/user/MyTopicsPage";
+import { Topics } from "@/types/index";
 import CreateOrEditTopicsForm from "@/pages/user/CreateOrEditTopicsForm";
-import { useAuth } from "@/context/AuthContext";
-import { Category } from "@/types/category";
+import { Category } from "@/types/index";
 
 interface CreateOrEditTopicsModalProps {
   onCreateOrUpdate?: () => void;
@@ -22,8 +21,8 @@ interface CreateOrEditTopicsModalProps {
   trigger?: React.ReactNode;
   onCreate?: (data: Topics) => Promise<any>;
   onUpdate?: (id: string, data: Topics) => Promise<any>;
-  categories: Category[];                // ✅ new prop
-  isCategoryLoading?: boolean;          // ✅ new prop
+  categories: Category[];
+  isCategoryLoading?: boolean;
   type?: string;
 }
 
@@ -48,6 +47,7 @@ export const CommonDialog = ({
       status: formData?.status || "pending",
       tags: formData?.tags || "",
       video_url: formData?.video_url || "",
+      category_id: formData?.category_id || "",
     },
   });
 
@@ -62,6 +62,7 @@ export const CommonDialog = ({
         status: formData.status,
         tags: formData.tags,
         video_url: formData.video_url,
+        category_id: formData.category_id || "",
       });
     } else {
       methods.reset();
@@ -70,10 +71,26 @@ export const CommonDialog = ({
 
   const onSubmit = async (data: Topics) => {
     try {
+      const selectedCategory = categories.find(
+        (cat) => cat.id === data.category_id
+      );
+
+      if (!selectedCategory) {
+        toast.error("Invalid category selection.");
+        return;
+      }
+
+      const enrichedData = {
+        ...data,
+        forum_id: selectedCategory.forum_id,
+        forum_name: selectedCategory.forum_name,
+        category_name: selectedCategory.title,
+      };
+
       if (isEdit && formData?.id && onUpdate) {
-        await onUpdate(formData.id, data);
+        await onUpdate(formData.id, enrichedData);
       } else if (onCreate) {
-        await onCreate(data);
+        await onCreate(enrichedData);
       }
 
       onCreateOrUpdate?.();
@@ -99,22 +116,26 @@ export const CommonDialog = ({
       </DialogTrigger>
 
       <DialogContent
-        className="md:max-w-md"
+        className="sm:max-w-2xl w-full"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
-        {type !== "view" && (
-          <DialogHeader>
-            <DialogTitle className="text-lg font-bold text-blue-950">
-              {isEdit ? "Update Topic" : "Create Topic"}
-            </DialogTitle>
+        <DialogHeader>
+          <DialogTitle className="text-lg font-bold text-blue-950">
+            {type === "view"
+              ? "View Topic"
+              : isEdit
+              ? "Update Topic"
+              : "Create Topic"}
+          </DialogTitle>
+          {type !== "view" && (
             <DialogDescription className="text-sm text-gray-500">
               {isEdit
                 ? "Edit the details and click update."
                 : "Fill in the details to add a new topic."}
             </DialogDescription>
-          </DialogHeader>
-        )}
+          )}
+        </DialogHeader>
 
         <div className="max-h-[80vh] overflow-y-auto pr-2">
           <FormProvider {...methods}>
@@ -122,7 +143,7 @@ export const CommonDialog = ({
               <CreateOrEditTopicsForm
                 isEdit={isEdit}
                 type={type}
-                categories={categories}             //  pass categories
+                categories={categories}
                 isCategoryLoading={isCategoryLoading}
               />
             </form>

@@ -5,6 +5,13 @@ const { checkAuth } = require('../middleware/authMiddleware');
 
 /**
  * @swagger
+ * tags:
+ *   name: Posts
+ *   description: Post management
+ */
+
+/**
+ * @swagger
  * /posts/create:
  *   post:
  *     summary: Create a new post
@@ -17,32 +24,64 @@ const { checkAuth } = require('../middleware/authMiddleware');
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - title
- *               - content
- *               - category_id
+ *             required: [title, content, category_id]
  *             properties:
  *               title:
  *                 type: string
  *               content:
  *                 type: string
  *               category_id:
- *                 type: integer
+ *                 type: string
+ *               category_name:
+ *                 type: string
+ *               forum_id:
+ *                 type: string
+ *               forum_name:
+ *                 type: string
  *               tags:
  *                 type: array
  *                 items:
  *                   type: string
+ *               description:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *               video_url:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Post created successfully
- *       400:
- *         description: Bad request
  */
 router.post('/create', checkAuth, async (req, res) => {
-  const { title, content, category_id, tags, description, status, video_url } = req.body;
-  const { data, error } = await supabase.from('posts').insert([{ title, content, category_id, tags, user_id: req.user.id, description, status }]);
+  const {
+    title,
+    content,
+    category_id,
+    category_name,
+    forum_id,
+    forum_name,
+    tags,
+    description,
+    status,
+    video_url
+  } = req.body;
+
+  const { data, error } = await supabase.from('posts').insert([{
+    title,
+    content,
+    category_id,
+    category_name,
+    forum_id,
+    forum_name,
+    tags,
+    description,
+    status,
+    video_url,
+    user_id: req.user.id,
+  }]).select();
+
   if (error) return res.status(400).json({ error });
-  res.json(data);
+  res.json(data[0]);
 });
 
 /**
@@ -51,96 +90,56 @@ router.post('/create', checkAuth, async (req, res) => {
  *   get:
  *     summary: Get all posts
  *     tags: [Posts]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: status
  *         schema:
  *           type: string
- *         description: Filter by post status
  *       - in: query
  *         name: forum
  *         schema:
  *           type: string
- *         description: Filter by forum ID
  *     responses:
  *       200:
- *         description: A list of posts
+ *         description: List of posts
  */
 router.get("/all", checkAuth, async (req, res) => {
   const userId = req.user.id;
   const role = req.user.user_metadata?.role;
   const { status, forum } = req.query;
 
-  let query = supabase
-    .from("posts")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let query = supabase.from("posts").select("*").order("created_at", { ascending: false });
 
-  // If not admin/superadmin, limit to their own posts
   if (role !== "admin" && role !== "superadmin") {
     query = query.eq("user_id", userId);
   }
 
   if (status) query = query.eq("status", status);
-  if (forum) query = query.eq("forum", forum);
+  if (forum) query = query.eq("forum_id", forum);
 
   const { data, error } = await query;
-
   if (error) return res.status(400).json({ error: error.message });
 
   return res.status(200).json({ data });
-});
-
-
-
-/**
- * @swagger
- * /posts/posts/{id}:
- *   delete:
- *     summary: Delete a post by ID
- *     tags: [Posts]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Post deleted successfully
- *       400:
- *         description: Bad request
- *       500:
- *         description: Server error
- */
-router.delete('/delete/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const { error } = await supabase.from('posts').delete().eq('id', id);
-    if (error) return res.status(400).json({ error });
-    return res.status(200).json({ message: "Post deleted successfully." });
-  } catch (err) {
-    return res.status(500).json({ error: "Failed to delete post." });
-  }
 });
 
 /**
  * @swagger
  * /posts/update/{id}:
  *   put:
- *     summary: Update a post by ID
+ *     summary: Update a post
  *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
- *         description: ID of the post to update
  *         schema:
  *           type: string
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
@@ -150,48 +149,37 @@ router.delete('/delete/:id', async (req, res) => {
  *                 type: string
  *               content:
  *                 type: string
+ *               category_id:
+ *                 type: string
+ *               category_name:
+ *                 type: string
+ *               forum_id:
+ *                 type: string
+ *               forum_name:
+ *                 type: string
  *               tags:
  *                 type: array
  *                 items:
  *                   type: string
+ *               description:
+ *                 type: string
  *               status:
  *                 type: string
- *                 enum: [pending, approved, rejected]
- *               description:
+ *               video_url:
  *                 type: string
  *     responses:
  *       200:
- *         description: Post updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 data:
- *                   $ref: '#/components/schemas/Post'
- *       400:
- *         description: Bad request
- *       401:
- *         description: Unauthorized
+ *         description: Post updated
  */
-
 router.put("/update/:id", checkAuth, async (req, res) => {
   const postId = req.params.id;
   const updates = req.body;
   const user = req.user;
-  const isAdmin = user?.user_metadata?.role === "admin" || user?.user_metadata?.role === "superadmin";
+  const isAdmin = user.user_metadata?.role === "admin" || user.user_metadata?.role === "superadmin";
 
-  if (!postId) {
-    return res.status(400).json({ error: "Post ID is required in the URL." });
-  }
+  if (!postId) return res.status(400).json({ error: "Post ID is required" });
+  if (!updates.title || !updates.content) return res.status(400).json({ error: "Title and content are required" });
 
-  if (!updates.title || !updates.content) {
-    return res.status(400).json({ error: "Title and content are required." });
-  }
-
-  // Build query with conditional user restriction
   let query = supabase
     .from("posts")
     .update({
@@ -200,42 +188,61 @@ router.put("/update/:id", checkAuth, async (req, res) => {
       tags: updates.tags,
       status: updates.status,
       description: updates.description,
+      forum_id: updates.forum_id,
+      forum_name: updates.forum_name,
+      category_id: updates.category_id,
+      category_name: updates.category_name,
+      video_url: updates.video_url,
     })
     .eq("id", postId)
     .select()
     .maybeSingle();
 
   if (!isAdmin) {
-    query = query.eq("user_id", user.id); // restrict for regular users
+    query = query.eq("user_id", user.id);
   }
 
   const { data, error } = await query;
-
-  if (error) {
-    return res.status(400).json({ error: error.message || "Update failed." });
-  }
-
-  if (!data) {
-    return res.status(404).json({ error: "Post not found or not authorized." });
-  }
+  if (error) return res.status(400).json({ error: error.message });
+  if (!data) return res.status(404).json({ error: "Post not found or unauthorized" });
 
   return res.status(200).json({ message: "Post updated successfully", data });
 });
 
+/**
+ * @swagger
+ * /posts/delete/{id}:
+ *   delete:
+ *     summary: Delete a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Post deleted
+ */
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  const { error } = await supabase.from('posts').delete().eq('id', id);
+  if (error) return res.status(400).json({ error });
+  return res.status(200).json({ message: "Post deleted successfully." });
+});
 
 /**
  * @swagger
  * /posts/dashboard/summary:
  *   get:
- *     summary: Get post summary for dashboard
+ *     summary: Post dashboard summary
  *     tags: [Posts]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Summary fetched
- *       500:
- *         description: Server error
+ *         description: Summary data
  */
 router.get('/dashboard/summary', checkAuth, async (req, res) => {
   const userId = req.user.id;
@@ -251,6 +258,7 @@ router.get('/dashboard/summary', checkAuth, async (req, res) => {
         .order('created_at', { ascending: false })
         .limit(5),
     ]);
+
     return res.json({
       totalTopics: all.data.length,
       approvedTopics: approved.data.length,
@@ -258,8 +266,8 @@ router.get('/dashboard/summary', checkAuth, async (req, res) => {
       rejectedTopics: rejected.data.length,
       latestApproved: latest.data,
     });
-  } catch (error) {
-    return res.status(500).json({ error: 'Failed to load dashboard data' });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to load dashboard data" });
   }
 });
 

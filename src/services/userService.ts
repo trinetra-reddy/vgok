@@ -1,5 +1,5 @@
 
-import { Topics } from "@/pages/user/MyTopicsPage";
+import { Topics } from "@/types/index";
 import { fetchWithAuth } from "./fetchWithAuth";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;

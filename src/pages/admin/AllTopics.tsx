@@ -5,6 +5,8 @@ import TopicTable from "@/Components/admin/TopicTable";
 import { useTopics } from "@/hooks/useTopics";
 import { useUserToken } from "@/hooks/useUserToken";
 import { useCategories } from "@/hooks/useCategories";
+import { createTopic, updateTopic } from "@/services/userService";
+import { toast } from "sonner";
 
 const PAGE_SIZE = 10;
 
@@ -39,6 +41,28 @@ const AllTopics = () => {
     setSearchTerm(query);
   };
 
+  const handleCreate = async (data: any) => {
+    if (!token) return;
+    try {
+      await createTopic(data, token);
+      toast.success("Topic created successfully.");
+      refetchTopics();
+    } catch (error) {
+      toast.error("Failed to create topic.");
+    }
+  };
+
+  const handleUpdate = async (id: string, data: any) => {
+    if (!token) return;
+    try {
+      await updateTopic(id, data, token);
+      toast.success("Topic updated successfully.");
+      refetchTopics();
+    } catch (error) {
+      toast.error("Failed to update topic.");
+    }
+  };
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -60,8 +84,8 @@ const AllTopics = () => {
             isCategoryLoading={isCategoriesLoading}
             onCreateOrUpdate={() => refetchTopics()}
             type="add"
-            onCreate={async () => Promise.resolve()}
-            onUpdate={async () => Promise.resolve()}
+            onCreate={handleCreate}
+            onUpdate={handleUpdate}
           />
         }
       />

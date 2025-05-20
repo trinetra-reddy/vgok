@@ -23,25 +23,32 @@ const DashboardWrapper = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getUserProfile();
-    }, [user]);
+        if (user?.token && user.user_metadata?.email) {
+          getUserProfile();
+        }
+    }, [user?.token]);
+      
 
     const getUserProfile = async () => {
         if (user?.token) {
-            try {
-                const profileDetails = await getProfile(user?.token);
-                const userDetails = { ...user, ...profileDetails };
-                setAuthenticatedUser(userDetails);
-                setUserData(profileDetails);
-            } catch (err) {
-                if (err instanceof Error) {
-                    toast.error(err.message);
-                } else {
-                    toast.error("Something went wrong.");
-                }
+          try {
+            const profileDetails = await getProfile(user.token);
+      
+            // Only update user if metadata differs (prevents loop)
+            const hasChanges = JSON.stringify(user.user_metadata) !== JSON.stringify(profileDetails);
+      
+            if (hasChanges) {
+              const userDetails = { ...user, user_metadata: profileDetails };
+              setAuthenticatedUser(userDetails);
             }
+      
+            setUserData(profileDetails);
+          } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Something went wrong.");
+          }
         }
-    }
+      };
+      
 
     const handleLogout = () => {
         setAuthenticatedUser(null);
