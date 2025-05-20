@@ -68,7 +68,7 @@ const AppRoutes = () => {
         </Route>
 
         {/* Protected: User */}
-        <Route element={<PrivateRoute allowedRoles={["user", "admin"]} />}>
+        <Route element={<PrivateRoute allowedRoles={["user", "admin", "authenticated"]} />}>
           <Route path="/user/*" element={<UserLandingPage />} />
         </Route>
       </Routes>
