@@ -14,17 +14,17 @@ import { useEffect, useState } from "react";
 import { Topics } from "@/pages/user/MyTopicsPage";
 import CreateOrEditTopicsForm from "@/pages/user/CreateOrEditTopicsForm";
 import { useAuth } from "@/context/AuthContext";
-import { getAllForums } from "@/services/forumService";
-import { Forum } from "@/pages/admin/ForumPage";
-
+import { Category } from "@/types/category";
 
 interface CreateOrEditTopicsModalProps {
   onCreateOrUpdate?: () => void;
-  formData?: Topics; // If present = Edit mode
+  formData?: Topics;
   trigger?: React.ReactNode;
   onCreate?: (data: Topics) => Promise<any>;
   onUpdate?: (id: string, data: Topics) => Promise<any>;
-  type?: string
+  categories: Category[];                // ✅ new prop
+  isCategoryLoading?: boolean;          // ✅ new prop
+  type?: string;
 }
 
 export const CommonDialog = ({
@@ -33,15 +33,12 @@ export const CommonDialog = ({
   trigger,
   type,
   onCreate,
-  onUpdate
+  onUpdate,
+  categories,
+  isCategoryLoading = false,
 }: CreateOrEditTopicsModalProps) => {
   const [open, setOpen] = useState(false);
-  const [forums, setForums] = useState<Forum[]>([]);
-  const { user } = useAuth();
   const isEdit = !!formData;
-  const {
-    reset,
-  } = useForm<Topics>();
 
   const methods = useForm<Topics>({
     defaultValues: {
@@ -50,10 +47,11 @@ export const CommonDialog = ({
       description: formData?.description || "",
       status: formData?.status || "pending",
       tags: formData?.tags || "",
-      // video_url: formData?.video_url || "",
+      video_url: formData?.video_url || "",
     },
   });
 
+  const { reset } = methods;
 
   useEffect(() => {
     if (open && formData) {
@@ -68,34 +66,14 @@ export const CommonDialog = ({
     } else {
       methods.reset();
     }
-  }, [open, formData, methods, forums]);
-
-  useEffect(() => {
-    if (user) {
-      fetchForums();
-    }
-  }, [user]);
-
-  const fetchForums = async () => {
-    if (!user?.token) return;
-
-    try {
-      const res = await getAllForums(user.token);
-      setForums(res.data || []);
-    } catch (err) {
-      console.error("Failed to fetch forums:", err);
-    }
-  };
+  }, [open, formData, methods]);
 
   const onSubmit = async (data: Topics) => {
     try {
       if (isEdit && formData?.id && onUpdate) {
-        await onUpdate(formData.id, data); // Call injected handler
-      } else {
-        if (data && onCreate) {
-          await onCreate(data); // Call injected handler
-        }
-
+        await onUpdate(formData.id, data);
+      } else if (onCreate) {
+        await onCreate(data);
       }
 
       onCreateOrUpdate?.();
@@ -106,6 +84,7 @@ export const CommonDialog = ({
       console.error(error);
     }
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -119,33 +98,39 @@ export const CommonDialog = ({
         )}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-md"
+      <DialogContent
+        className="md:max-w-md"
         onInteractOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(e) => e.preventDefault()}>
-        {type !== 'view' && (<DialogHeader>
-          <DialogTitle className="text-lg font-bold text-blue-950">
-            {isEdit ? "Update Topic" : "Create Topic"}
-          </DialogTitle>
-          <DialogDescription className="text-sm text-gray-500">
-            {isEdit
-              ? "Edit the details and click update."
-              : "Fill in the details to add a new topic."}
-          </DialogDescription>
-        </DialogHeader>
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
+        {type !== "view" && (
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold text-blue-950">
+              {isEdit ? "Update Topic" : "Create Topic"}
+            </DialogTitle>
+            <DialogDescription className="text-sm text-gray-500">
+              {isEdit
+                ? "Edit the details and click update."
+                : "Fill in the details to add a new topic."}
+            </DialogDescription>
+          </DialogHeader>
         )}
 
         <div className="max-h-[80vh] overflow-y-auto pr-2">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-              <CreateOrEditTopicsForm isEdit={isEdit} type={type} forum={forums} />
+              <CreateOrEditTopicsForm
+                isEdit={isEdit}
+                type={type}
+                categories={categories}             //  pass categories
+                isCategoryLoading={isCategoryLoading}
+              />
             </form>
           </FormProvider>
         </div>
-
       </DialogContent>
     </Dialog>
   );
 };
-
 
 export default CommonDialog;

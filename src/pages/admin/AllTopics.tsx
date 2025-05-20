@@ -3,6 +3,8 @@ import PageHeader from "@/global/PageHeader";
 import CommonDialog from "@/Components/user/CommonDialog";
 import TopicTable from "@/Components/admin/TopicTable";
 import { useTopics } from "@/hooks/useTopics";
+import { useUserToken } from "@/hooks/useUserToken";
+import { useCategories } from "@/hooks/useCategories";
 
 const PAGE_SIZE = 10;
 
@@ -10,21 +12,20 @@ const AllTopics = () => {
   const [status, setStatus] = useState("All");
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const topicStatusOptions = [
-    { label: "All", value: "" },
-    { label: "Pending", value: "pending" },
-    { label: "Approved", value: "approved" },
-    { label: "Rejected", value: "rejected" },
-  ];
+  const token = useUserToken();
 
   const {
-    data,
-    isLoading,
-    refetch,
+    data: topicData,
+    isLoading: isTopicsLoading,
+    refetch: refetchTopics,
   } = useTopics(status !== "All" ? status : undefined, PAGE_SIZE, (page - 1) * PAGE_SIZE);
 
-  const topics = useMemo(() => Array.isArray(data?.data) ? data.data : [], [data]);
+  const {
+    categories,
+    isLoading: isCategoriesLoading
+  } = useCategories({ token, limit: 100, offset: 0 });
+
+  const topics = useMemo(() => Array.isArray(topicData?.data) ? topicData.data : [], [topicData]);
 
   const filteredTopics = useMemo(() => {
     const q = searchTerm.toLowerCase();
@@ -46,11 +47,18 @@ const AllTopics = () => {
         onSearch={handleSearch}
         statusValue={status}
         onStatusChange={setStatus}
-        onStatusClick={() => refetch()}
-        statusOptions={topicStatusOptions}
+        onStatusClick={() => refetchTopics()}
+        statusOptions={[
+          { label: "All", value: "" },
+          { label: "Pending", value: "pending" },
+          { label: "Approved", value: "approved" },
+          { label: "Rejected", value: "rejected" },
+        ]}
         createButton={
           <CommonDialog
-            onCreateOrUpdate={() => refetch()}
+            categories={categories}
+            isCategoryLoading={isCategoriesLoading}
+            onCreateOrUpdate={() => refetchTopics()}
             type="add"
             onCreate={async () => Promise.resolve()}
             onUpdate={async () => Promise.resolve()}
@@ -60,8 +68,10 @@ const AllTopics = () => {
 
       <TopicTable
         data={filteredTopics}
-        loading={isLoading}
-        onRefresh={() => refetch()}
+        loading={isTopicsLoading}
+        categories={categories}
+        isCategoryLoading={isCategoriesLoading}
+        onRefresh={() => refetchTopics()}
         page={page}
         pageSize={PAGE_SIZE}
         totalCount={topics.length}

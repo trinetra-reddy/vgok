@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Forum } from "../admin/ForumPage";
 import TagsInput from "@/Components/user/TagsInput";
 
-const CreateOrEditTopicsForm = ({ isEdit = false, type, forum = [] }: { isEdit?: boolean; type?: string; forum?: Forum[] }) => {
+interface Category {
+  id: string;
+  title: string;
+}
+
+const CreateOrEditTopicsForm = ({
+  isEdit = false,
+  type,
+  categories = [],
+  isCategoryLoading = false,
+}: {
+  isEdit?: boolean;
+  type?: string;
+  categories?: Category[];
+  isCategoryLoading?: boolean;
+}) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const [forums, setForums] = useState<Forum[]>(forum || []);
-
-  useEffect(() => {
-    setForums(forum || []);
-  }, [forum]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-3">
@@ -24,26 +33,35 @@ const CreateOrEditTopicsForm = ({ isEdit = false, type, forum = [] }: { isEdit?:
           alt="Preview"
           className="rounded border border-gray-300 min-h-[85%]"
         />
-        <button type="button" className="absolute bottom-2 right-2 bg-[#4269c2] text-white p-2 rounded-full shadow">
+        <button
+          type="button"
+          className="absolute bottom-2 right-2 bg-[#4269c2] text-white p-2 rounded-full shadow"
+        >
           🖊️
         </button>
       </div>
 
-      {/* Forum + Title */}
+      {/* Category Select + Title */}
       <div className="grid grid-cols-1 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Forum</label>
+          <label className="block text-sm font-medium mb-1">
+            Select Category <span className="text-red-500">*</span>
+          </label>
           <select
-            {...register("content")}
-            className={`w-full border rounded px-3 py-2 ${errors.content ? "border-red-500" : "border-gray-300"}`}
+            {...register("category_id", { required: true })}
+            className={`w-full border rounded px-3 py-2 ${errors.category_id ? "border-red-500" : "border-gray-300"}`}
+            disabled={isCategoryLoading}
           >
-            <option value="">Select One</option>
-            {forums.map((forum) => (
-              <option key={forum.id} value={forum.title}>
-                {forum.title}
+            <option value="">-- Select Category --</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.title} - {cat.forum_name}
               </option>
             ))}
           </select>
+          {errors.category_id && (
+            <p className="text-red-500 text-sm mt-1">Category is required</p>
+          )}
         </div>
 
         <div>
@@ -60,23 +78,32 @@ const CreateOrEditTopicsForm = ({ isEdit = false, type, forum = [] }: { isEdit?:
           )}
         </div>
       </div>
+
       {/* Tags */}
-      <TagsInput name="tags"></TagsInput>
+      <TagsInput name="tags" />
 
       {/* Video URL */}
       <div className="md:col-span-2">
         <label className="block text-sm font-medium mb-1">Video URL</label>
-        <input type="text" {...register("video_url")} className="w-full border border-gray-300 rounded px-3 py-2" />
+        <input
+          type="text"
+          {...register("video_url")}
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
       </div>
 
       {/* Description */}
       <div className="md:col-span-2">
         <label className="block text-sm font-medium mb-1">Description</label>
-        <textarea {...register("description")} rows={6} className="w-full border border-gray-300 rounded px-3 py-2" />
+        <textarea
+          {...register("description")}
+          rows={6}
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
       </div>
 
       {/* Submit */}
-      {type !== 'view' && (
+      {type !== "view" && (
         <div className="md:col-span-2">
           <button
             type="submit"

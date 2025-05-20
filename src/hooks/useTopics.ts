@@ -8,8 +8,7 @@ export const useTopics = (status?: string, limit = 10, offset = 0) => {
   return useQuery({
     queryKey: ["topics", status, limit, offset],
     queryFn: () => getAllTopics(token || "", status),
-    enabled: !!token,
-    staleTime: 1000 * 60 * 5,
+    enabled: !!token
   });
 };
 

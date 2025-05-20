@@ -21,7 +21,8 @@ import { Button } from "../ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { Label } from "../ui/label";
 import { useUserToken } from "@/hooks/useUserToken";
-import { useForums } from "@/hooks/useForums";
+import { useLazyForums } from "@/hooks/useLazyForums";
+
 
 interface CreateOrEditCategoryModalProps {
   onCreateOrUpdate?: () => void;
@@ -62,11 +63,15 @@ export const CreateOrEditCategoryModal = ({
     formState: { errors },
   } = useForm<CategoryFormInputs>();
 
-  const { forums, isLoading: isForumLoading } = useForums({
-    token,
-    limit: 100,
-  });
-
+  const { forums, isLoading: isForumLoading, refetch, isFetched } = useLazyForums(token);
+  
+  useEffect(() => {
+    if (open && !isFetched && token) {
+      // refetch forums data 
+      refetch();
+    }
+  }, [open, token, isFetched, refetch]);
+  
   useEffect(() => {
     if (open && category) {
       setValue("title", category.title);

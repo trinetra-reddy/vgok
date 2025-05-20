@@ -19,7 +19,7 @@ export const useForums = ({
     queryFn: () =>
       getAllForums(token || "", limit, offset).then((res) => res.data || []),
     enabled: !!token,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    // staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const deleteForumMutation = useMutation({

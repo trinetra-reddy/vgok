@@ -4,6 +4,8 @@ import CommonDialog from "@/Components/user/CommonDialog";
 import { Topics } from "./types";
 import { useAuth } from "@/context/AuthContext";
 import { useTopicMutations } from "@/hooks/useTopics";
+import { useEffect } from "react";
+import { Category } from "@/types/category";
 
 interface TopicTableProps {
   data: Topics[];
@@ -13,17 +15,31 @@ interface TopicTableProps {
   pageSize?: number;
   totalCount?: number;
   onPageChange?: (newPage: number) => void;
+  categories: Category[];
+  isCategoryLoading?: boolean;
 }
 
-const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCount = 0, onPageChange }: TopicTableProps) => {
+const TopicTable = ({
+  data,
+  loading,
+  onRefresh,
+  page = 1,
+  pageSize = 10,
+  totalCount = 0,
+  onPageChange,
+  categories,
+  isCategoryLoading = false,
+}: TopicTableProps) => {
   const { user } = useAuth();
-  const role = user?.role ||  user?.user_metadata?.role;
-  const {
-    createTopic: create,
-    updateTopic: update,
-  } = useTopicMutations();
+  const role = user?.role || user?.user_metadata?.role;
+
+  const { createTopic: create, updateTopic: update } = useTopicMutations();
 
   const totalPages = Math.ceil(totalCount / pageSize);
+
+  useEffect(() => {
+    console.log("Topic table rendered...");
+  }, []);
 
   return (
     <div className="overflow-x-auto bg-white rounded-xl shadow">
@@ -64,13 +80,15 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    topic.status === "approved"
-                      ? "bg-green-100 text-green-600"
-                      : topic.status === "rejected"
-                      ? "bg-red-100 text-red-600"
-                      : "bg-orange-100 text-orange-600"
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      topic.status === "approved"
+                        ? "bg-green-100 text-green-600"
+                        : topic.status === "rejected"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-orange-100 text-orange-600"
+                    }`}
+                  >
                     {topic.status || "Pending"}
                   </span>
                 </td>
@@ -79,50 +97,58 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
                     formData={topic}
                     onCreateOrUpdate={onRefresh}
                     type="view"
-                    trigger={<button className="flex items-center gap-2 border border-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-50 text-sm"><Monitor size={16} /> Detail</button>}
+                    categories={categories}
+                    isCategoryLoading={isCategoryLoading}
+                    trigger={
+                      <button className="flex items-center gap-2 border border-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-50 text-sm">
+                        <Monitor size={16} /> Detail
+                      </button>
+                    }
                     onCreate={(data) => create(data).then(onRefresh)}
                     onUpdate={(id, data) => update({ id, data }).then(onRefresh)}
                   />
 
-                  {/* <CommonDialog
-                    formData={topic}
-                    onCreateOrUpdate={onRefresh}
-                    type="edit"
-                    trigger={<button className="flex items-center gap-2 border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-50 text-sm"><Pencil size={16} /> Edit</button>}
-                    onCreate={(data) => create(data).then(onRefresh)}
-                    onUpdate={(id, data) => update({ id, data }).then(onRefresh)}
-                  /> */}
-
                   {(role === "admin" || role === "superadmin") && (
-                    <DeleteAlert
-                      title="Approve Topic?"
-                      content="Are you sure you want to approve this topic?"
-                      confirmLabel="Approve"
-                      onConfirm={() => update({ id: topic.id, data: { ...topic, status: "approved" } })}
-                      onSuccess={onRefresh}
-                      trigger={<button className="flex items-center gap-2 border border-green-600 text-green-600 px-3 py-1 rounded hover:bg-green-50 text-sm disabled:opacity-50" disabled={topic.status === "approved"} title={topic.status === "approved" ? "Already approved" : ""}>Approve</button>}
-                    />
-                  )}
+                    <>
+                      <DeleteAlert
+                        title="Approve Topic?"
+                        content="Are you sure you want to approve this topic?"
+                        confirmLabel="Approve"
+                        onConfirm={() =>
+                          update({ id: topic.id, data: { ...topic, status: "approved" } })
+                        }
+                        onSuccess={onRefresh}
+                        trigger={
+                          <button
+                            className="flex items-center gap-2 border border-green-600 text-green-600 px-3 py-1 rounded hover:bg-green-50 text-sm disabled:opacity-50"
+                            disabled={topic.status === "approved"}
+                            title={topic.status === "approved" ? "Already approved" : ""}
+                          >
+                            Approve
+                          </button>
+                        }
+                      />
 
-                  {(role === "admin" || role === "superadmin") && (
-                    <DeleteAlert
-                      title="Reject Topic?"
-                      content="Are you sure you want to reject this topic?"
-                      confirmLabel="Reject"
-                      onConfirm={() => update({ id: topic.id, data: { ...topic, status: "rejected" } })}
-                      onSuccess={onRefresh}
-                      trigger={<button className="flex items-center gap-2 border border-red-600 text-red-600 px-3 py-1 rounded hover:bg-red-50 text-sm disabled:opacity-50" disabled={topic.status === "rejected"} title={topic.status === "rejected" ? "Already rejected" : ""}>Reject</button>}
-                    />
+                      <DeleteAlert
+                        title="Reject Topic?"
+                        content="Are you sure you want to reject this topic?"
+                        confirmLabel="Reject"
+                        onConfirm={() =>
+                          update({ id: topic.id, data: { ...topic, status: "rejected" } })
+                        }
+                        onSuccess={onRefresh}
+                        trigger={
+                          <button
+                            className="flex items-center gap-2 border border-red-600 text-red-600 px-3 py-1 rounded hover:bg-red-50 text-sm disabled:opacity-50"
+                            disabled={topic.status === "rejected"}
+                            title={topic.status === "rejected" ? "Already rejected" : ""}
+                          >
+                            Reject
+                          </button>
+                        }
+                      />
+                    </>
                   )}
-
-                  {/* <DeleteAlert
-                    title="Delete Topic?"
-                    content="This topic will be permanently removed."
-                    confirmLabel="Remove"
-                    onConfirm={() => remove(topic.id).then(onRefresh)}
-                    onSuccess={onRefresh}
-                    trigger={<button className="flex items-center gap-2 border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-50 text-sm"><Trash2 size={16} /> Delete</button>}
-                  /> */}
                 </td>
               </tr>
             ))
@@ -139,7 +165,9 @@ const TopicTable = ({ data, loading, onRefresh, page = 1, pageSize = 10, totalCo
           >
             Previous
           </button>
-          <span className="text-sm">Page {page} of {totalPages}</span>
+          <span className="text-sm">
+            Page {page} of {totalPages}
+          </span>
           <button
             className="text-sm px-3 py-1 border rounded disabled:opacity-50"
             onClick={() => onPageChange?.(page + 1)}
