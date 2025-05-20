@@ -23,7 +23,7 @@ const DashboardWrapper = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user?.token && user.user_metadata?.email) {
+        if (user?.token && user?.email) {
           getUserProfile();
         }
     }, [user?.token]);
