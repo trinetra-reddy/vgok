@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTopic, deleteTopic, getAllTopics, updateTopic } from "@/services/topicService";
 import { useUserToken } from "@/hooks/useUserToken";
+import { toast } from "sonner";
 
 export const useTopics = (status?: string, limit = 10, offset = 0) => {
   const token = useUserToken();
@@ -18,17 +19,35 @@ export const useTopicMutations = () => {
 
   const create = useMutation({
     mutationFn: (data: any) => createTopic(data, token || ""),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["topics"] }),
+    onSuccess: () => {
+      toast.success("Topic created successfully");
+      queryClient.invalidateQueries({ queryKey: ["topics"] });
+    },
+    onError: () => {
+      toast.error("Failed to create topic");
+    },
   });
 
   const update = useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) => updateTopic(id, data, token || ""),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["topics"] }),
+    onSuccess: () => {
+      toast.success("Topic updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["topics"] });
+    },
+    onError: () => {
+      toast.error("Failed to update topic");
+    },
   });
 
   const remove = useMutation({
     mutationFn: (id: string) => deleteTopic(id, token || ""),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["topics"] }),
+    onSuccess: () => {
+      toast.success("Topic deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["topics"] });
+    },
+    onError: () => {
+      toast.error("Failed to delete topic");
+    },
   });
 
   return {
