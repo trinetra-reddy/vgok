@@ -178,7 +178,7 @@ router.put("/update/:id", checkAuth, async (req, res) => {
   const isAdmin = user.user_metadata?.role === "admin" || user.user_metadata?.role === "superadmin";
 
   if (!postId) return res.status(400).json({ error: "Post ID is required" });
-  if (!updates.title || !updates.content) return res.status(400).json({ error: "Title and content are required" });
+  if (!updates.title || !updates.category_id) return res.status(400).json({ error: "Title and category are required" });
 
   let query = supabase
     .from("posts")

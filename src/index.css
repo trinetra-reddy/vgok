@@ -8,56 +8,72 @@
 #4d1717 */
 @theme {
   /* Cosmic Blue / Cyan (Background & Outer Glow) */
-    --color-primary: #00BFFF;
-    --color-secondary: #1E90FF;
-    --color-teritory: #40E0D0;
+  --color-primary: #00BFFF;
+  --color-secondary: #1E90FF;
+  --color-teritory: #40E0D0;
 
-    /* Dark Red / Burnt Maroon (Pentagram & Outer Circle) */
+  /* Dark Red / Burnt Maroon (Pentagram & Outer Circle) */
 
-    /* --color-primary: #8B0000;
+  /* --color-primary: #8B0000;
     --color-secondary: #A52A2A; */
 
-    /* White / Light Blue Highlights  */
-    /* --color-primary: #FFFFFF;
+  /* White / Light Blue Highlights  */
+  /* --color-primary: #FFFFFF;
     --color-secondary: #ADD8E6; */
 
-    --color-forum-gray: #cbcbcb;
-    --color-forum-light-gray: #f2f2f2;
-  }
+  --color-forum-gray: #cbcbcb;
+  --color-forum-light-gray: #f2f2f2;
+}
 
 @theme {
-    --animation-fade-in: fade-in 0.5s ease-out forwards;
-    --animation-fade-in-delay: fade-in 0.5s ease-out 0.3s forwards;
-    --animation-fade-in-scale: fade-in-scale 0.4s ease-out forwards;
+  --animation-fade-in: fade-in 0.5s ease-out forwards;
+  --animation-fade-in-delay: fade-in 0.5s ease-out 0.3s forwards;
+  --animation-fade-in-scale: fade-in-scale 0.4s ease-out forwards;
 
-    @keyframes fade-in {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
     }
 
-    @keyframes fade-in-scale {
-      0% { opacity: 0; transform: scale(0.95); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-  }
-
-  .rotate {
-    animation: infinite-rotate 10s linear infinite;
-  }
-  @keyframes infinite-rotate {
-    from {
-      transform: translateX(0)
-    }
-    to {
-      transform: translateX(-100%)
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  .section-bg {
-    @apply bg-gradient-to-b from-gray-50 to-white;
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.rotate {
+  animation: infinite-rotate 10s linear infinite;
+}
+
+@keyframes infinite-rotate {
+  from {
+    transform: translateX(0)
   }
 
-  @theme inline {
+  to {
+    transform: translateX(-100%)
+  }
+}
+
+.section-bg {
+  @apply bg-gradient-to-b from-gray-50 to-white;
+}
+
+@theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -95,7 +111,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-  :root {
+:root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -130,7 +146,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-  .dark {
+.dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -164,14 +180,79 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-  @layer base {
+@layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
 button {
   cursor: pointer;
+}
+
+/* === Base ProseMirror Styling === */
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #111827;
+}
+
+.tiptap.ProseMirror {
+  min-height: 200px;
+}
+
+/* === Tailwind Layer Utilities === */
+@layer base {
+  .ProseMirror ul {
+    @apply list-disc pl-5 my-2 text-gray-900;
+  }
+
+  .ProseMirror ol {
+    @apply list-decimal pl-5 my-2 text-gray-900;
+  }
+
+  .ProseMirror li {
+    @apply mb-1;
+  }
+
+  .ProseMirror span[style*="font-size"] {
+    font-size: inherit;
+  }
+
+  .ProseMirror span[style*="font-family"] {
+    font-family: inherit;
+  }
+
+}
+
+@layer components {
+  .editor-btn {
+    @apply px-2 py-1 text-sm border border-gray-300 rounded bg-white hover:bg-gray-100 cursor-pointer;
+  }
+
+  .editor-dropdown {
+    @apply px-2 py-1 text-sm border border-gray-300 rounded bg-white;
+  }
+}
+
+/* === Standalone Button Styling === */
+.btn {
+  @apply px-2 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 dark:hover:bg-gray-700;
 }

@@ -49,7 +49,7 @@ const TopicTable = ({
             <th className="text-left px-6 py-3">CATEGORY - FORUM</th>
             <th className="text-left px-6 py-3">UP - DOWN VOTE</th>
             <th className="text-left px-6 py-3">STATUS</th>
-            <th className="text-left px-6 py-3 text-right">ACTION</th>
+            <th className="text-left px-6 py-3">ACTION</th>
           </tr>
         </thead>
         <tbody>
