@@ -60,9 +60,7 @@ const AuthEffect = () => {
           if (session.user) {
             setAuthenticatedUser({ id: session?.user?.id, email: session.user.email!, token, refreshToken,role:'user' });
           }
-
-          navigate("/user/dashboard");
-
+          // navigate("/user/dashboard");
         }
       }
     );
