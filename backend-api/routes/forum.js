@@ -247,4 +247,78 @@ router.post('/react', checkAuth, async (req, res) => {
   }
 });
 
+// Example endpoint description using JSDoc for Swagger
+
+/**
+ * @swagger
+ * /forums-with-stats:
+ *   get:
+ *     summary: Get forums with statistics
+ *     description: Returns all forums along with topic count, user count, and latest topic info.
+ *     tags:
+ *       - Forums
+ *     responses:
+ *       200:
+ *         description: Forums with metadata
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/ForumWithStats'
+ */
+
+router.get('/forums-with-stats', async (req, res) => {
+  try {
+    // 1. Fetch all forums
+    const { data: forums, error: forumError } = await supabase
+      .from('forum')
+      .select('*');
+
+    if (forumError) throw forumError;
+
+    const results = await Promise.all(
+      forums.map(async (forum) => {
+        const forumId = forum.id;
+
+        // 2. Count topics for each forum
+        const { count: topicCount } = await supabase
+          .from('posts')
+          .select('id', { count: 'exact', head: true })
+          .eq('forum_id', forumId);
+
+        // 3. Get distinct users who posted
+        const { data: usersData } = await supabase
+          .from('posts')
+          .select('user_id')
+          .eq('forum_id', forumId);
+
+        const uniqueUsers = new Set(usersData?.map((u) => u.user_id));
+        const totalUsers = uniqueUsers.size;
+
+        // 4. Get latest topic
+        const { data: latestTopic } = await supabase
+          .from('posts')
+          .select('id, title, created_at')
+          .eq('forum_id', forumId)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        return {
+          ...forum,
+          total_topics: topicCount || 0,
+          total_users: totalUsers,
+          latest_topic: latestTopic || null,
+        };
+      })
+    );
+
+    res.json(results);
+  } catch (error) {
+    console.error('Error fetching forum stats:', error);
+    res.status(500).json({ error: 'Failed to fetch forum stats' });
+  }
+});
+
 module.exports = router;

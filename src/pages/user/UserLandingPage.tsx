@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { Suspense, lazy } from "react"
 import DashboardWrapper from "./DashboardWrapper";
+import AllTopics from "../allTopics/AllTopics";
 
 const Dashboard = lazy(() => import("@/pages/user/Dashboard"));
 const ProfilePage = lazy(() => import("@/pages/user/ProfilePage"));
@@ -18,6 +19,7 @@ export const UserLandingPage = () => {
               <Route path="mytopics" element={<MyTopicsPage></MyTopicsPage>} />
             </Route>
             <Route path="" element={<Navigate to="signup" replace />} />
+             <Route path="allTopics" element={<AllTopics></AllTopics>}></Route>
           </Routes>
         </Suspense>
       </main>

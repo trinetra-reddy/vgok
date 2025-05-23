@@ -5,6 +5,7 @@ import { Topics } from "@/types/index";
 import { useAuth } from "@/context/AuthContext";
 import { useTopicMutations } from "@/hooks/useTopics";
 import { Category } from "@/types/index";
+import { useMemo } from "react";
 interface TopicTableProps {
   data: Topics[];
   loading?: boolean;
@@ -13,6 +14,7 @@ interface TopicTableProps {
   pageSize?: number;
   totalCount?: number;
   onPageChange?: (newPage: number) => void;
+  onPageSizeChange?: (newSize: number) => void;
   isCategoryLoading?: boolean;
   onCreate?: (data: Topics) => Promise<any>;
   onUpdate?: (id: string, data: Topics) => Promise<any>;
@@ -29,6 +31,7 @@ const TopicTable = ({
   pageSize = 10,
   totalCount = 0,
   onPageChange,
+  onPageSizeChange,
   showActions = false,
   categories = []
 }: TopicTableProps) => {
@@ -39,11 +42,32 @@ const TopicTable = ({
   const { createTopic: create, updateTopic: update, deleteTopic: remove } = useTopicMutations();
 
   const totalPages = Math.ceil(totalCount / pageSize);
+  const pageSizeOptions = useMemo(() => {
+    const steps = [5, 10, 25, 50, 100];
+    return steps.filter((size) => size < totalCount).concat([totalCount]);
+  }, [totalCount]);
 
   return (
-    <div className="overflow-x-auto bg-white rounded-xl shadow">
+    <div className="bg-white rounded-xl shadow overflow-auto max-h-[90vh] scrollbar-thin">
+      <div className="flex justify-between items-center p-3">
+        <h2 className="text-sm font-semibold">Topics</h2>
+        <select
+          className="text-sm border rounded px-2 py-1"
+          value={pageSize}
+          onChange={(e) => onPageSizeChange?.(parseInt(e.target.value))}
+        >
+          {pageSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size} per page
+            </option>
+          ))}
+          <option key={totalCount} value={totalCount}>
+            Show All ({totalCount})
+          </option>
+        </select>
+      </div>
       <table className="w-full text-sm">
-        <thead className="bg-blue-950 text-white">
+        <thead className="bg-blue-950 text-white sticky top-0 z-10">
           <tr>
             <th className="text-left px-6 py-3">TITLE</th>
             <th className="text-left px-6 py-3">CATEGORY - FORUM</th>
@@ -70,7 +94,7 @@ const TopicTable = ({
               <tr key={topic.id} className="border-t">
                 <td className="px-6 py-4">{topic.title}</td>
                 <td className="px-6 py-4">
-                  <div>{topic.category_name}</div> 
+                  <div>{topic.category_name}</div>
                   <div><small> {topic.forum_name} </small></div>
                 </td>
                 <td className="px-6 py-4 flex items-center gap-2">
@@ -83,13 +107,12 @@ const TopicTable = ({
                 </td>
                 <td className="px-6 py-4">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      topic.status === "approved"
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${topic.status === "approved"
                         ? "bg-green-100 text-green-600"
                         : topic.status === "rejected"
-                        ? "bg-red-100 text-red-600"
-                        : "bg-orange-100 text-orange-600"
-                    }`}
+                          ? "bg-red-100 text-red-600"
+                          : "bg-orange-100 text-orange-600"
+                      }`}
                   >
                     {topic.status || "Pending"}
                   </span>
