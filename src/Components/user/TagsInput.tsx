@@ -25,14 +25,19 @@ const TagsInput = ({
         const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
           if ((e.key === "Enter" || e.key === ",") && input.trim()) {
             e.preventDefault();
-            const trimmed = input.trim();
-            if (!safeValue.includes(trimmed)) {
-              onChange([...safeValue, trimmed]);
-              setInput("");
-            }
+            createTags();
           }
         };
-
+        const handleBlur = () => {
+          createTags();
+        }
+        const createTags = () => {
+          const trimmed = input.trim();
+          if (!safeValue.includes(trimmed)) {
+            onChange([...safeValue, trimmed]);
+            setInput("");
+          }
+        }
         const removeTag = (index: number) => {
           const newTags = [...safeValue];
           newTags.splice(index, 1);
@@ -45,9 +50,8 @@ const TagsInput = ({
               Tags <span className="text-red-500">*</span>
             </label>
             <div
-              className={`flex flex-wrap items-center border rounded px-2 py-2 min-h-[42px] bg-white ${
-                errors[name] ? "border-red-500" : "border-gray-300"
-              } ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
+              className={`flex flex-wrap items-center border rounded px-2 py-2 min-h-[42px] bg-white ${errors[name] ? "border-red-500" : "border-gray-300"
+                } ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}`}
             >
               {safeValue.map((tag, index) => (
                 <div
@@ -73,6 +77,7 @@ const TagsInput = ({
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  onBlur={handleBlur}
                   className="flex-grow border-none outline-none p-1 text-sm"
                   placeholder="Add a tag"
                 />

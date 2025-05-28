@@ -6,7 +6,7 @@ export interface CategoryData {
   title: string;
   description?: string;
   forumId: string;
-  forum_name?:string
+  forum_name?: string
 }
 
 export const createCategory = async (data: CategoryData, token: string) => {
@@ -20,6 +20,13 @@ export const updateCategory = async (id: string, data: CategoryData, token: stri
 export const deleteCategory = async (id: string, token: string) => {
   return fetchWithAuth(`${BASE_URL}/categories/delete/${id}`, "DELETE", token);
 };
+
+export const getCategoryWithTopics = async (token: string,
+  limit: number = 10,
+  offset: number = 0
+) => {
+  return fetchWithAuth(`${BASE_URL}/categories/categories-with-topics?limit=${limit}&offset=${offset}`, "GET", token,);
+}
 
 export const getAllCategories = async (
   token: string,
