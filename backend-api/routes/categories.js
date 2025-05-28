@@ -137,7 +137,7 @@ router.post('/create', checkAuth, checkAdmin, async (req, res) => {
 router.put('/update/:id', checkAuth, checkAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, forumId, description = '', forum_name= '' } = req.body;
+    const { title, forumId, description = '', forum_name = '' } = req.body;
 
     if (!title || !forumId) {
       return res.status(400).json({ error: "Name and forumId are required for update" });
@@ -208,5 +208,121 @@ router.delete('/delete/:id', checkAuth, checkAdmin, async (req, res) => {
     res.status(500).json({ error: "Failed to delete category" });
   }
 });
+
+
+/**
+ * @swagger
+ * /api/categories-with-topics:
+ *   get:
+ *     tags:
+ *       - Categories
+ *     summary: Get categories with topics and related forum
+ *     description: |
+ *       Retrieves all categories with their related forum info and topics under each category.
+ *     responses:
+ *       200:
+ *         description: A list of categories with forum and topics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     example: "cat-123"
+ *                   title:
+ *                     type: string
+ *                     example: "Frontend"
+ *                   forum_id:
+ *                     type: string
+ *                     example: "forum-456"
+ *                   forum:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "forum-456"
+ *                       title:
+ *                         type: string
+ *                         example: "Web Dev Forum"
+ *                       description:
+ *                         type: string
+ *                         example: "All about web technologies"
+ *                   topics:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         id:
+ *                           type: string
+ *                           example: "topic-001"
+ *                         title:
+ *                           type: string
+ *                           example: "React vs Angular"
+ *                         description:
+ *                           type: string
+ *                           example: "Comparison between top frontend frameworks"
+ *                         created_at:
+ *                           type: string
+ *                           format: date-time
+ *                           example: "2025-05-27T10:00:00Z"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal server error"
+ */
+
+router.get('/categories-with-topics', async (req, res) => {
+  try {
+    // 1. Get all categories with forum details
+    const { data: categories, error: categoryError } = await supabase
+      .from('categories')
+      .select(`
+        id,
+        title,
+        description,
+        forum_id,
+        forum:forum_id (
+          id,
+          title,
+          description
+        )
+      `);
+
+    if (categoryError) throw categoryError;
+
+    // 2. For each category, fetch posts separately (could be optimized)
+    const result = await Promise.all(
+      categories.map(async (category) => {
+        const { data: topics, error: postError } = await supabase
+          .from('posts')
+          .select('id, title, description, created_at')
+          .eq('category_id', category.id)
+          .order('created_at', { ascending: false });
+
+        if (postError) throw postError;
+
+        return {
+          ...category,
+          topics: topics || [],
+        };
+      })
+    );
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Supabase error:', error);
+    res.status(500).json({ error: 'Failed to fetch categories with topics' });
+  }
+});
+
 
 module.exports = router;

@@ -2,12 +2,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "./App.css";
 import { Toaster } from "sonner";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 
 import Home from "@/pages/Home";
