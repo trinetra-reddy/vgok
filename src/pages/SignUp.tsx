@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { FaGoogle } from "react-icons/fa";
 import { Facebook, Instagram } from 'lucide-react';
 import { supabase } from "@/supabaseClient";
+import { signUp } from "@/services/authService";
+import { toast } from "sonner";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [activeTab] = useState<"email" | "mobile">("email");
   const [formData, setFormData] = useState({
     email: "",
@@ -24,10 +27,23 @@ const SignUp = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submitted Data:", formData);
     // API call logic here
+    try {
+     const res= await signUp(formData);
+     if(res.message=="Signup successful"){
+        toast.success('Signup successful');
+       navigate("/login");
+     }
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Something went wrong.");
+      }
+    }
   };
 
 

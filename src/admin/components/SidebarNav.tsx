@@ -37,7 +37,7 @@ export const SidebarNav = ({ collapsed, toggleCollapsed }: SidebarNavProps) => {
           }
         >
           <MessageSquare size={18} />
-          {!collapsed && "Forum"}
+          {!collapsed && "Announcement"}
         </NavLink>
 
         <NavLink

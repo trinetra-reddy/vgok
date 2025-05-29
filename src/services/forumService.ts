@@ -1,10 +1,8 @@
 // // services/forumService.ts
 
-import Token from "@/pages/Token";
 import { fetchWithAuth } from "./fetchWithAuth";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 
 export interface ForumData {
   title: string;

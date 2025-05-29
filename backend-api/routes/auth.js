@@ -5,25 +5,40 @@ const supabase = require('../config/supabaseClient');
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
 
-  // Sign up the user
-  const { data, error } = await supabase.auth.signUp({ email, password });
-  if (error) return res.status(400).json({ error });
-
-  const user = data.user;
-
-  // If user created successfully, update their metadata with default role
-  if (user) {
-    const { error: metaError } = await supabase.auth.updateUser({
-      data: { role: "user" }, // ✅ Assign default role here
-    });
-
-    if (metaError) {
-      console.error("Failed to assign default role:", metaError);
-      return res.status(500).json({ error: "User created, but failed to assign role." });
-    }
+  // Basic validation
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
   }
 
-  res.json(data);
+  try {
+    // Sign up with role in metadata
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { role: "user" }  // Adds custom metadata (optional)
+      }
+    });
+
+    if (error) {
+      console.error("Supabase signup error:", error);
+      return res.status(400).json({ error: error.message });
+    }
+
+    if (!data.user) {
+      return res.status(500).json({ error: "User not returned from Supabase." });
+    }
+
+    return res.status(200).json({
+      message: "Signup successful",
+      user: data.user,
+      session: data.session
+    });
+
+  } catch (err) {
+    console.error("Unexpected signup error:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.post('/signin', async (req, res) => {
